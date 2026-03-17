@@ -1,0 +1,8 @@
+2026-03-17 05:35:08,142 37132 INFO ? odoo: Odoo version 18.0 
+2026-03-17 05:35:08,143 37132 INFO ? odoo: Using configuration file at D:\Coding\odoo\odoo.conf 
+2026-03-17 05:35:08,143 37132 INFO ? odoo: addons paths: ['D:\\Coding\\odoo\\odoo\\addons', 'c:\\users\\admin\\appdata\\local\\openerp s.a\\odoo\\addons\\18.0', 'd:\\coding\\odoo\\addons', 'd:\\coding\\odoo\\odoo\\addons'] 
+2026-03-17 05:35:08,143 37132 INFO ? odoo: database: odoo@localhost:5432 
+2026-03-17 05:35:08,143 37132 WARNING ? odoo: Python 3.14 is not officially supported, please use Python 3.13 instead 
+2026-03-17 05:35:08,299 37132 INFO ? odoo.addons.base.models.ir_actions_report: You need Wkhtmltopdf to print a pdf version of the reports. 
+2026-03-17 05:35:08,312 37132 INFO ? odoo.addons.base.models.ir_actions_report: You need Wkhtmltoimage to generate images from html. 
+2026-03-17 06:01:42,876 37132 INFO ? odoo.service.server: HTTP service (werkzeug) running on DESKTOP-S1QBQUI.lan:8069 

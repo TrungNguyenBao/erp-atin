@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================================================================== -->
+    <!-- Sale Order Form View Enhancements                                  -->
+    <!-- ================================================================== -->
+    <record id="sale_order_form_view_enhance" model="ir.ui.view">
+        <field name="name">sale.order.form.ui.enhance</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+
+            <!-- Cancel button: append danger styling class -->
+            <xpath expr="//button[@name='action_cancel']" position="attributes">
+                <attribute name="class" add="ui-enhance-btn-cancel" separator=" "/>
+            </xpath>
+
+            <!-- Preview button: append styling class -->
+            <xpath expr="//button[@name='action_preview_sale_order']" position="attributes">
+                <attribute name="class" add="ui-enhance-btn-preview" separator=" "/>
+            </xpath>
+
+            <!-- Sale header group: append styling class -->
+            <xpath expr="//group[@name='sale_header']" position="attributes">
+                <attribute name="class" add="ui-enhance-sale-header" separator=" "/>
+            </xpath>
+
+            <!-- Partner details group: append accent border class -->
+            <xpath expr="//group[@name='partner_details']" position="attributes">
+                <attribute name="class" add="ui-enhance-partner-section" separator=" "/>
+            </xpath>
+
+            <!-- Sale total group: append enhanced totals class -->
+            <xpath expr="//group[@name='sale_total']" position="attributes">
+                <attribute name="class" add="ui-enhance-total-section" separator=" "/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Sale Order Kanban View Enhancements                                -->
+    <!-- ================================================================== -->
+    <record id="sale_order_kanban_view_enhance" model="ir.ui.view">
+        <field name="name">sale.order.kanban.ui.enhance</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sale_order_kanban"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+
+            <!-- Append enhanced class to kanban root (safe, no overwrite) -->
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="class" add="ui-enhance-kanban" separator=" "/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Sale Order List View Enhancements                                  -->
+    <!-- ================================================================== -->
+    <record id="sale_order_list_view_enhance" model="ir.ui.view">
+        <field name="name">sale.order.list.ui.enhance</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_tree"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+
+            <!-- Append enhanced class to list root (safe, no overwrite) -->
+            <xpath expr="//list" position="attributes">
+                <attribute name="class" add="ui-enhance-list" separator=" "/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

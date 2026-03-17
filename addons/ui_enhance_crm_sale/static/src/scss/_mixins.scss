@@ -1,0 +1,94 @@
+// =============================================================================
+// UI Enhance CRM Sale - Reusable Mixins
+// =============================================================================
+
+// Card with hover elevation effect
+@mixin ui-enhance-card-hover {
+    border-radius: $ui-enhance-radius-md;
+    box-shadow: $ui-enhance-shadow-sm;
+    transition: box-shadow $ui-enhance-transition-base,
+                transform $ui-enhance-transition-base;
+
+    &:hover {
+        box-shadow: $ui-enhance-shadow-hover;
+        transform: translateY(-2px);
+    }
+}
+
+// Styled section header with bottom accent
+@mixin ui-enhance-section-header {
+    font-weight: $ui-enhance-font-weight-semibold;
+    color: $ui-enhance-text-primary;
+    padding-bottom: $ui-enhance-space-sm;
+    margin-bottom: $ui-enhance-space-md;
+    border-bottom: 2px solid $ui-enhance-accent-lighter;
+}
+
+// Flex button group with consistent gaps
+@mixin ui-enhance-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $ui-enhance-space-sm;
+    align-items: center;
+}
+
+// Multi-line text truncation
+@mixin ui-enhance-truncate($lines: 2) {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// Consistent badge styling
+@mixin ui-enhance-badge($bg-color, $text-color: white) {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    border-radius: $ui-enhance-radius-pill;
+    font-size: 0.75rem;
+    font-weight: $ui-enhance-font-weight-medium;
+    background-color: $bg-color;
+    color: $text-color;
+    line-height: 1.5;
+}
+
+// Form section with subtle background
+@mixin ui-enhance-form-section {
+    background: $ui-enhance-bg-section;
+    border-radius: $ui-enhance-radius-md;
+    padding: $ui-enhance-space-md;
+    border: 1px solid $ui-enhance-border-light;
+}
+
+// Left accent border for content blocks
+@mixin ui-enhance-accent-border {
+    border-left: 3px solid $ui-enhance-accent;
+    padding-left: $ui-enhance-space-md;
+}
+
+// Smooth fade-in animation
+@mixin ui-enhance-fade-in($duration: 0.3s) {
+    animation: uiEnhanceFadeIn $duration ease-out;
+}
+
+@keyframes uiEnhanceFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Focus ring for interactive elements
+@mixin ui-enhance-focus-ring {
+    &:focus-within {
+        outline: none;
+        box-shadow: 0 0 0 2px $ui-enhance-accent-lighter,
+                    0 0 0 4px rgba($ui-enhance-accent, 0.2);
+    }
+}

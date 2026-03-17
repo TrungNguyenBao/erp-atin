@@ -1,0 +1,87 @@
+// =============================================================================
+// UI Enhance CRM Sale - Sale Kanban & List View Enhancements
+// =============================================================================
+
+// --- Sale Kanban View (scoped to ui-enhance-kanban class) ---
+.ui-enhance-kanban {
+    // Sale order kanban cards
+    .o_kanban_record {
+        // Partner name - prominent
+        .fw-bolder.fs-5 {
+            color: $ui-enhance-text-primary;
+            @include ui-enhance-truncate(1);
+        }
+
+        // Amount total - green badge style
+        .o_field_monetary.fw-bolder {
+            color: $ui-enhance-success;
+            font-variant-numeric: tabular-nums;
+        }
+
+        // Footer area
+        footer {
+            border-top: 1px solid $ui-enhance-border-light;
+            padding-top: $ui-enhance-space-sm;
+
+            // Order number and date
+            .text-muted {
+                font-size: 0.8rem;
+                color: $ui-enhance-text-muted;
+            }
+
+            // Status label
+            .o_field_widget[name="state"] {
+                .badge, .o_selection_badge {
+                    font-size: 0.7rem;
+                    font-weight: $ui-enhance-font-weight-semibold;
+                    border-radius: $ui-enhance-radius-pill;
+                    padding: 2px 10px;
+                }
+            }
+        }
+    }
+}
+
+// --- Sale List View Enhancements (scoped to ui-enhance-list) ---
+.ui-enhance-list.o_sale_order,
+.o_sale_order .ui-enhance-list {
+    .o_list_table {
+        // Order number column - bold
+        .o_data_cell .o_field_widget[name="name"] {
+            font-weight: $ui-enhance-font-weight-semibold;
+            color: $ui-enhance-accent;
+        }
+
+        // Amount columns - right aligned with tabular nums
+        .o_data_cell .o_field_monetary {
+            font-variant-numeric: tabular-nums;
+        }
+
+        // Amount total - emphasis
+        .o_data_cell .o_field_widget[name="amount_total"] {
+            font-weight: $ui-enhance-font-weight-semibold;
+        }
+    }
+}
+
+// --- CRM List View Enhancements (scoped to ui-enhance-list) ---
+.ui-enhance-list {
+    .o_list_table {
+        // Lead name column - bold
+        .o_data_cell .o_field_widget[name="name"] {
+            font-weight: $ui-enhance-font-weight-medium;
+        }
+
+        // Revenue column
+        .o_data_cell .o_field_widget[name="expected_revenue"] {
+            font-variant-numeric: tabular-nums;
+            font-weight: $ui-enhance-font-weight-medium;
+            color: $ui-enhance-success;
+        }
+
+        // Partner column - secondary
+        .o_data_cell .o_field_widget[name="partner_id"] {
+            color: $ui-enhance-text-secondary;
+        }
+    }
+}

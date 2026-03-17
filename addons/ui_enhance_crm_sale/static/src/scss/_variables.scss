@@ -1,0 +1,66 @@
+// =============================================================================
+// UI Enhance CRM Sale - Design Tokens
+// Modern neutral palette with slate/gray tones
+// =============================================================================
+
+// --- Color Palette ---
+$ui-enhance-accent: #4F6D7A;
+$ui-enhance-accent-light: #6B8A97;
+$ui-enhance-accent-lighter: #E8EFF2;
+
+$ui-enhance-bg-section: #F8FAFC;
+$ui-enhance-bg-card: #FFFFFF;
+$ui-enhance-bg-hover: #F1F5F9;
+$ui-enhance-bg-zebra: #FAFBFC;
+
+$ui-enhance-text-primary: #1E293B;
+$ui-enhance-text-secondary: #64748B;
+$ui-enhance-text-muted: #94A3B8;
+
+$ui-enhance-border: #E2E8F0;
+$ui-enhance-border-light: #F1F5F9;
+
+$ui-enhance-success: #10B981;
+$ui-enhance-success-light: #D1FAE5;
+$ui-enhance-danger: #EF4444;
+$ui-enhance-danger-light: #FEE2E2;
+$ui-enhance-warning: #F59E0B;
+$ui-enhance-warning-light: #FEF3C7;
+$ui-enhance-info: #3B82F6;
+$ui-enhance-info-light: #DBEAFE;
+
+// --- Spacing Scale ---
+$ui-enhance-space-xs: 4px;
+$ui-enhance-space-sm: 8px;
+$ui-enhance-space-md: 16px;
+$ui-enhance-space-lg: 24px;
+$ui-enhance-space-xl: 32px;
+
+// --- Border Radius ---
+$ui-enhance-radius-sm: 4px;
+$ui-enhance-radius-md: 8px;
+$ui-enhance-radius-lg: 12px;
+$ui-enhance-radius-pill: 50px;
+
+// --- Shadows ---
+$ui-enhance-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+$ui-enhance-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+$ui-enhance-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+$ui-enhance-shadow-hover: 0 8px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 10px -4px rgba(0, 0, 0, 0.06);
+
+// --- Typography ---
+$ui-enhance-font-weight-medium: 500;
+$ui-enhance-font-weight-semibold: 600;
+$ui-enhance-font-weight-bold: 700;
+
+// --- Transitions ---
+$ui-enhance-transition-fast: 0.15s ease;
+$ui-enhance-transition-base: 0.2s ease;
+$ui-enhance-transition-slow: 0.3s ease-in-out;
+
+// --- Kanban ---
+$ui-enhance-kanban-card-padding: $ui-enhance-space-md;
+$ui-enhance-kanban-card-gap: $ui-enhance-space-sm;
+
+// --- List ---
+$ui-enhance-list-row-height: 44px;

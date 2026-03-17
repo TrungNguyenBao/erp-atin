@@ -1,0 +1,117 @@
+// =============================================================================
+// UI Enhance CRM Sale - CRM Kanban View Enhancements
+// =============================================================================
+
+.o_opportunity_kanban {
+    // Card styling
+    .o_kanban_record {
+        padding: $ui-enhance-kanban-card-padding;
+        @include ui-enhance-fade-in(0.25s);
+
+        // Lead/opportunity name - prominent
+        .fw-bold.fs-5 {
+            color: $ui-enhance-text-primary;
+            @include ui-enhance-truncate(2);
+            margin-bottom: $ui-enhance-space-xs;
+        }
+
+        // Revenue display - badge style
+        > div:nth-child(2) {
+            margin-bottom: $ui-enhance-space-sm;
+
+            .o_field_monetary {
+                font-weight: $ui-enhance-font-weight-bold;
+                color: $ui-enhance-success;
+                font-size: 0.95rem;
+            }
+        }
+
+        // Partner name - secondary text
+        .o_field_many2one_avatar,
+        .o_m2o_avatar {
+            .o_field_widget {
+                color: $ui-enhance-text-secondary;
+            }
+        }
+
+        .text-truncate {
+            color: $ui-enhance-text-secondary;
+            font-size: 0.875rem;
+        }
+
+        // Tags - compact
+        .o_field_many2many_tags {
+            margin-top: $ui-enhance-space-xs;
+            margin-bottom: $ui-enhance-space-xs;
+
+            .badge {
+                font-size: 0.7rem;
+                padding: 1px 8px;
+                border-radius: $ui-enhance-radius-pill;
+            }
+        }
+
+        // Footer separator
+        footer, .oe_kanban_bottom {
+            border-top: 1px solid $ui-enhance-border-light;
+            padding-top: $ui-enhance-space-sm;
+            margin-top: $ui-enhance-space-sm;
+
+            // Priority stars
+            .o_priority .o_priority_star {
+                font-size: 0.9rem;
+            }
+
+            // User avatar
+            .o_m2o_avatar > img,
+            .o_field_many2one_avatar img {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                border: 2px solid $ui-enhance-border;
+            }
+        }
+
+        // Lost ribbon on kanban card
+        .o_web_ribbon {
+            font-size: 0.7rem;
+        }
+    }
+
+    // Column styling
+    .o_kanban_group {
+        background-color: transparent;
+
+        .o_kanban_header {
+            padding-bottom: $ui-enhance-space-sm;
+            border-bottom: 2px solid $ui-enhance-border;
+            margin-bottom: $ui-enhance-space-sm;
+
+            .o_column_title {
+                font-weight: $ui-enhance-font-weight-bold;
+                font-size: 0.875rem;
+                color: $ui-enhance-text-primary;
+            }
+        }
+    }
+
+    // Drag-and-drop visual feedback
+    .o_kanban_record.o_dragged {
+        opacity: 0.7;
+        box-shadow: $ui-enhance-shadow-lg;
+        transform: rotate(2deg);
+    }
+
+    // Column progress bar
+    .o_kanban_counter {
+        .o_kanban_counter_progress .progress {
+            height: 5px;
+        }
+
+        .o_kanban_counter_side {
+            font-weight: $ui-enhance-font-weight-semibold;
+            color: $ui-enhance-text-primary;
+            font-size: 0.85rem;
+        }
+    }
+}

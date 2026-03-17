@@ -1,0 +1,50 @@
+2026-03-17 05:37:51,934 34132 INFO ? odoo: Odoo version 18.0 
+2026-03-17 05:37:51,934 34132 INFO ? odoo: Using configuration file at D:\Coding\odoo\odoo.conf 
+2026-03-17 05:37:51,934 34132 INFO ? odoo: addons paths: ['D:\\Coding\\odoo\\odoo\\addons', 'c:\\users\\admin\\appdata\\local\\openerp s.a\\odoo\\addons\\18.0', 'd:\\coding\\odoo\\addons', 'd:\\coding\\odoo\\odoo\\addons'] 
+2026-03-17 05:37:51,935 34132 INFO ? odoo: database: odoo@localhost:5432 
+2026-03-17 05:37:51,935 34132 WARNING ? odoo: Python 3.14 is not officially supported, please use Python 3.13 instead 
+2026-03-17 05:37:52,117 34132 INFO ? odoo.addons.base.models.ir_actions_report: You need Wkhtmltopdf to print a pdf version of the reports. 
+2026-03-17 05:37:52,121 34132 INFO ? odoo.addons.base.models.ir_actions_report: You need Wkhtmltoimage to generate images from html. 
+2026-03-17 06:01:42,830 34132 INFO ? odoo.service.server: HTTP service (werkzeug) running on DESKTOP-S1QBQUI.lan:8069 
+Exception in thread Exception in thread odoo.service.cron.cron0:
+odoo.service.cron.cron1:
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "C:\Users\admin\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\admin\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Coding\odoo\odoo\service\server.py", line 541, in target
+    self.cron_thread(i)
+    ~~~~~~~~~~~~~~~~^^^
+  File "D:\Coding\odoo\odoo\service\server.py", line 523, in cron_thread
+    _run_cron(cr)
+    ~~~~~~~~~^^^^
+  File "D:\Coding\odoo\odoo\service\server.py", line 507, in _run_cron
+    pg_conn.poll()
+    ~~~~~~~~~~~~^^
+psycopg2.OperationalError: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+  File "C:\Users\admin\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Coding\odoo\odoo\service\server.py", line 541, in target
+    self.cron_thread(i)
+    ~~~~~~~~~~~~~~~~^^^
+  File "D:\Coding\odoo\odoo\service\server.py", line 523, in cron_thread
+    _run_cron(cr)
+    ~~~~~~~~~^^^^
+  File "D:\Coding\odoo\odoo\service\server.py", line 507, in _run_cron
+    pg_conn.poll()
+    ~~~~~~~~~~~~^^
+psycopg2.OperationalError: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+

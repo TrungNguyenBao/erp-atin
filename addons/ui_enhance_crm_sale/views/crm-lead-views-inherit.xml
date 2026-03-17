@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================================================================== -->
+    <!-- CRM Lead/Opportunity Form View Enhancements                        -->
+    <!-- ================================================================== -->
+    <record id="crm_lead_view_form_enhance" model="ir.ui.view">
+        <field name="name">crm.lead.form.ui.enhance</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+
+            <!-- Won button: add success styling class -->
+            <xpath expr="//button[@name='action_set_won_rainbowman']" position="attributes">
+                <attribute name="class" add="ui-enhance-btn-won" separator=" "/>
+            </xpath>
+
+            <!-- Opportunity partner group: add styling class -->
+            <xpath expr="//group[@name='opportunity_partner']" position="attributes">
+                <attribute name="class" add="ui-enhance-partner-section" separator=" "/>
+            </xpath>
+
+            <!-- Lead partner group: add styling class -->
+            <xpath expr="//group[@name='lead_partner']" position="attributes">
+                <attribute name="class" add="ui-enhance-partner-section" separator=" "/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- CRM Opportunity Kanban View Enhancements                           -->
+    <!-- ================================================================== -->
+    <record id="crm_kanban_view_enhance" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.ui.enhance</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+
+            <!-- Append enhanced class to kanban root (safe, no overwrite) -->
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="class" add="ui-enhance-kanban" separator=" "/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- CRM Lead List View Enhancements                                    -->
+    <!-- ================================================================== -->
+    <record id="crm_lead_list_view_enhance" model="ir.ui.view">
+        <field name="name">crm.lead.list.ui.enhance</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+
+            <!-- Append enhanced class to list root -->
+            <xpath expr="//list" position="attributes">
+                <attribute name="class" add="ui-enhance-list" separator=" "/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
