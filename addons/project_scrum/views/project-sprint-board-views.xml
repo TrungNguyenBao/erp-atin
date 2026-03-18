@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sprint Board: tasks kanban filtered by active sprint -->
+    <record id="action_sprint_board" model="ir.actions.act_window">
+        <field name="name">Sprint Board</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[
+            ('sprint_id.state', '=', 'active'),
+            ('display_in_project', '=', True),
+        ]</field>
+        <field name="context">{
+            'project_kanban': True,
+        }</field>
+        <field name="search_view_id" ref="project.view_task_search_form"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No active sprint found
+            </p>
+            <p>
+                Start a sprint from the Sprints menu to see tasks here.
+            </p>
+        </field>
+    </record>
+
+</odoo>

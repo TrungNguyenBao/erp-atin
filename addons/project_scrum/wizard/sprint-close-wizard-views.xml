@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sprint Close Wizard Form -->
+    <record id="sprint_close_wizard_form" model="ir.ui.view">
+        <field name="name">project.sprint.close.wizard.form</field>
+        <field name="model">project.sprint.close.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Close Sprint">
+                <group>
+                    <group>
+                        <field name="sprint_id" readonly="1"/>
+                        <field name="project_id"/>
+                    </group>
+                    <group>
+                        <field name="committed_points"/>
+                        <field name="completed_points"/>
+                    </group>
+                </group>
+                <group invisible="incomplete_count == 0">
+                    <separator string="Incomplete Tasks"/>
+                    <p class="text-muted">
+                        These tasks were not completed during the sprint.
+                        Choose where to move them:
+                    </p>
+                    <field name="move_to_sprint_id"
+                           placeholder="Leave empty to return to backlog"/>
+                </group>
+                <field name="incomplete_task_ids" readonly="1"
+                       invisible="incomplete_count == 0">
+                    <list>
+                        <field name="name"/>
+                        <field name="story_points"/>
+                        <field name="user_ids"
+                               widget="many2many_avatar_user"/>
+                        <field name="state"
+                               widget="project_task_state_selection"/>
+                    </list>
+                </field>
+                <field name="incomplete_count" invisible="1"/>
+                <div class="alert alert-success" role="alert"
+                     invisible="incomplete_count != 0">
+                    All tasks completed! Great sprint.
+                </div>
+                <footer>
+                    <button name="action_close" type="object"
+                            string="Close Sprint" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

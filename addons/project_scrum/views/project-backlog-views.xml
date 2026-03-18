@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Product Backlog: tasks with no sprint assigned -->
+    <record id="action_product_backlog" model="ir.actions.act_window">
+        <field name="name">Product Backlog</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[
+            ('is_in_backlog', '=', True),
+            ('project_id.enable_scrum', '=', True),
+            ('display_in_project', '=', True),
+        ]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No backlog items
+            </p>
+            <p>
+                Create tasks in Scrum-enabled projects. Tasks without
+                a sprint assignment appear here.
+            </p>
+        </field>
+    </record>
+
+    <!-- Backlog-specific list view: prioritize story points and ordering -->
+    <record id="project_backlog_view_list" model="ir.ui.view">
+        <field name="name">project.task.backlog.list</field>
+        <field name="model">project.task</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <list string="Product Backlog" default_order="priority desc, sequence asc">
+                <field name="sequence" widget="handle"/>
+                <field name="priority" widget="priority"/>
+                <field name="name" string="Story"/>
+                <field name="story_points"/>
+                <field name="project_id" optional="show"
+                       options="{'no_open': 1}"/>
+                <field name="user_ids" widget="many2many_avatar_user"
+                       optional="show"/>
+                <field name="tag_ids" widget="many2many_tags"
+                       options="{'color_field': 'color'}" optional="hide"/>
+                <field name="stage_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Backlog search with unestimated filter -->
+    <record id="project_backlog_view_search" model="ir.ui.view">
+        <field name="name">project.task.backlog.search</field>
+        <field name="model">project.task</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <search string="Search Backlog">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="user_ids"/>
+                <field name="tag_ids"/>
+                <filter string="Unestimated" name="unestimated"
+                        domain="[('story_points', '=', 0)]"/>
+                <filter string="High Priority" name="high_priority"
+                        domain="[('priority', '=', '1')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Project" name="group_project"
+                            context="{'group_by': 'project_id'}"/>
+                    <filter string="Priority" name="group_priority"
+                            context="{'group_by': 'priority'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Wire backlog action to use backlog-specific views -->
+    <record id="action_product_backlog" model="ir.actions.act_window">
+        <field name="search_view_id" ref="project_backlog_view_search"/>
+    </record>
+
+    <record id="action_product_backlog_view_list" model="ir.actions.act_window.view">
+        <field name="sequence">1</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="project_backlog_view_list"/>
+        <field name="act_window_id" ref="action_product_backlog"/>
+    </record>
+
+</odoo>

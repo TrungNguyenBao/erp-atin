@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Hidden feature group: toggled by enable_scrum on project -->
+    <record id="group_project_scrum" model="res.groups">
+        <field name="name">Use Scrum</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+<data noupdate="1">
+
+    <!-- Sprint: multi-company isolation -->
+    <record model="ir.rule" id="sprint_comp_rule">
+        <field name="name">Sprint: multi-company</field>
+        <field name="model_id" ref="model_project_sprint"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
+
+    <!-- Sprint: employees must follow project for follower-only projects -->
+    <record model="ir.rule" id="sprint_visibility_rule">
+        <field name="name">Sprint: follow project privacy</field>
+        <field name="model_id" ref="model_project_sprint"/>
+        <field name="domain_force">['|',
+            ('project_id.privacy_visibility', '!=', 'followers'),
+            ('project_id.message_partner_ids', 'in', [user.partner_id.id])
+        ]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Sprint: managers see all -->
+    <record model="ir.rule" id="sprint_manager_rule">
+        <field name="name">Sprint: project manager: see all</field>
+        <field name="model_id" ref="model_project_sprint"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('project.group_project_manager'))]"/>
+    </record>
+
+</data>
+
+</odoo>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Scrum top-level menu under Project app -->
+    <menuitem
+        name="Scrum"
+        id="menu_project_scrum"
+        parent="project.menu_main_pm"
+        groups="project_scrum.group_project_scrum"
+        sequence="15"
+    />
+
+    <!-- Sprint Board -->
+    <menuitem
+        name="Sprint Board"
+        id="menu_sprint_board"
+        parent="menu_project_scrum"
+        action="action_sprint_board"
+        sequence="1"
+    />
+
+    <!-- Product Backlog -->
+    <menuitem
+        name="Product Backlog"
+        id="menu_product_backlog"
+        parent="menu_project_scrum"
+        action="action_product_backlog"
+        sequence="2"
+    />
+
+    <!-- All Sprints -->
+    <menuitem
+        name="Sprints"
+        id="menu_all_sprints"
+        parent="menu_project_scrum"
+        action="action_view_all_sprints"
+        sequence="3"
+    />
+
+</odoo>
