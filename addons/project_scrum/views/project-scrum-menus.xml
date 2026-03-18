@@ -10,13 +10,22 @@
         sequence="15"
     />
 
+    <!-- Daily Standup -->
+    <menuitem
+        name="Daily Standup"
+        id="menu_daily_standup"
+        parent="menu_project_scrum"
+        action="action_daily_standup"
+        sequence="1"
+    />
+
     <!-- Sprint Board -->
     <menuitem
         name="Sprint Board"
         id="menu_sprint_board"
         parent="menu_project_scrum"
         action="action_sprint_board"
-        sequence="1"
+        sequence="2"
     />
 
     <!-- Product Backlog -->
@@ -25,7 +34,7 @@
         id="menu_product_backlog"
         parent="menu_project_scrum"
         action="action_product_backlog"
-        sequence="2"
+        sequence="3"
     />
 
     <!-- All Sprints -->
@@ -34,7 +43,31 @@
         id="menu_all_sprints"
         parent="menu_project_scrum"
         action="action_view_all_sprints"
-        sequence="3"
+        sequence="4"
+    />
+
+    <!-- Reporting submenu -->
+    <menuitem
+        name="Reporting"
+        id="menu_scrum_reporting"
+        parent="menu_project_scrum"
+        sequence="10"
+    />
+
+    <menuitem
+        name="Sprint Burndown"
+        id="menu_sprint_burndown"
+        parent="menu_scrum_reporting"
+        action="action_sprint_burndown_report"
+        sequence="1"
+    />
+
+    <menuitem
+        name="Sprint Velocity"
+        id="menu_sprint_velocity"
+        parent="menu_scrum_reporting"
+        action="action_sprint_velocity_report"
+        sequence="2"
     />
 
 </odoo>

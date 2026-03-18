@@ -69,6 +69,34 @@
                                 </list>
                             </field>
                         </page>
+                        <page string="Review" name="review"
+                              invisible="state == 'draft'">
+                            <group>
+                                <field name="review_date"/>
+                            </group>
+                            <group string="Sprint Review Notes">
+                                <field name="review_notes" nolabel="1"
+                                       placeholder="Summarize completed work and stakeholder feedback..."/>
+                            </group>
+                        </page>
+                        <page string="Retrospective" name="retrospective"
+                              invisible="state != 'closed'">
+                            <group>
+                                <field name="retro_date"/>
+                            </group>
+                            <group string="What Went Well">
+                                <field name="retro_went_well" nolabel="1"
+                                       placeholder="List things that worked well..."/>
+                            </group>
+                            <group string="What Could Improve">
+                                <field name="retro_went_wrong" nolabel="1"
+                                       placeholder="List things that need improvement..."/>
+                            </group>
+                            <group string="Action Items">
+                                <field name="retro_action_items" nolabel="1"
+                                       placeholder="List concrete actions for next sprint..."/>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
                 <chatter/>

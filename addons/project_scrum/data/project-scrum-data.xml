@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <!-- Default data for project_scrum module -->
+<odoo noupdate="1">
+
+    <!-- Daily burndown snapshot cron -->
+    <record id="ir_cron_sprint_daily_snapshot" model="ir.cron">
+        <field name="name">Sprint: Daily Burndown Snapshot</field>
+        <field name="model_id" ref="model_project_sprint_daily_log"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_create_daily_snapshots()</field>
+        <field name="interval_type">days</field>
+    </record>
+
 </odoo>

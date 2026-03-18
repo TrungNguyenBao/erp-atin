@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Burndown Search -->
+    <record id="sprint_burndown_report_view_search" model="ir.ui.view">
+        <field name="name">project.sprint.burndown.report.search</field>
+        <field name="model">project.sprint.burndown.report</field>
+        <field name="arch" type="xml">
+            <search string="Sprint Burndown">
+                <field name="sprint_id"/>
+                <field name="project_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Sprint" name="group_sprint"
+                            context="{'group_by': 'sprint_id'}"/>
+                    <filter string="Project" name="group_project"
+                            context="{'group_by': 'project_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Burndown Graph View -->
+    <record id="sprint_burndown_report_view_graph" model="ir.ui.view">
+        <field name="name">project.sprint.burndown.report.graph</field>
+        <field name="model">project.sprint.burndown.report</field>
+        <field name="arch" type="xml">
+            <graph string="Sprint Burndown" type="line" sample="1">
+                <field name="date" interval="day"/>
+                <field name="remaining_points" type="measure"/>
+                <field name="ideal_points" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Burndown Pivot View -->
+    <record id="sprint_burndown_report_view_pivot" model="ir.ui.view">
+        <field name="name">project.sprint.burndown.report.pivot</field>
+        <field name="model">project.sprint.burndown.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Sprint Burndown">
+                <field name="date" type="row" interval="day"/>
+                <field name="remaining_points" type="measure"/>
+                <field name="completed_points" type="measure"/>
+                <field name="ideal_points" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Burndown Action -->
+    <record id="action_sprint_burndown_report" model="ir.actions.act_window">
+        <field name="name">Sprint Burndown</field>
+        <field name="res_model">project.sprint.burndown.report</field>
+        <field name="view_mode">graph,pivot</field>
+        <field name="search_view_id" ref="sprint_burndown_report_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No burndown data yet
+            </p>
+            <p>Start a sprint and let the daily cron capture snapshots.</p>
+        </field>
+    </record>
+
+</odoo>

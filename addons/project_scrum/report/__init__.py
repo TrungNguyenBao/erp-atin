@@ -1,5 +1,4 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from . import models
-from . import report
-from . import wizard
+from . import sprint_burndown_report
+from . import sprint_velocity_report

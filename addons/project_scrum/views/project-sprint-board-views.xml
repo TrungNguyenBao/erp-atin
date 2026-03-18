@@ -24,4 +24,24 @@
         </field>
     </record>
 
+    <!-- Daily Standup: active sprint tasks grouped by assignee -->
+    <record id="action_daily_standup" model="ir.actions.act_window">
+        <field name="name">Daily Standup</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[
+            ('sprint_id.state', '=', 'active'),
+            ('is_closed', '=', False),
+        ]</field>
+        <field name="context">{
+            'search_default_group_by_user': 1,
+        }</field>
+        <field name="search_view_id" ref="project.view_task_search_form"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No active tasks in current sprint
+            </p>
+        </field>
+    </record>
+
 </odoo>

@@ -58,6 +58,22 @@ class ProjectSprint(models.Model):
         string='Velocity (Closed Points)', readonly=True,
         help='Snapshot of completed story points at sprint closure')
 
+    # Daily log for burndown chart
+    daily_log_ids = fields.One2many(
+        'project.sprint.daily.log', 'sprint_id', string='Daily Logs')
+
+    # Sprint Review fields
+    review_notes = fields.Html(
+        string='Sprint Review Notes',
+        help='Summary of completed items and stakeholder feedback')
+    review_date = fields.Datetime(string='Review Date')
+
+    # Sprint Retrospective fields
+    retro_went_well = fields.Html(string='What Went Well')
+    retro_went_wrong = fields.Html(string='What Could Improve')
+    retro_action_items = fields.Html(string='Action Items')
+    retro_date = fields.Datetime(string='Retrospective Date')
+
     _sql_constraints = [
         ('date_check', 'CHECK(end_date >= start_date)',
          'End date must be after start date.'),

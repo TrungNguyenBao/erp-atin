@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Velocity Search -->
+    <record id="sprint_velocity_report_view_search" model="ir.ui.view">
+        <field name="name">project.sprint.velocity.report.search</field>
+        <field name="model">project.sprint.velocity.report</field>
+        <field name="arch" type="xml">
+            <search string="Sprint Velocity">
+                <field name="sprint_id"/>
+                <field name="project_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Project" name="group_project"
+                            context="{'group_by': 'project_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Velocity Graph View (bar chart) -->
+    <record id="sprint_velocity_report_view_graph" model="ir.ui.view">
+        <field name="name">project.sprint.velocity.report.graph</field>
+        <field name="model">project.sprint.velocity.report</field>
+        <field name="arch" type="xml">
+            <graph string="Sprint Velocity" type="bar" sample="1">
+                <field name="sprint_name"/>
+                <field name="velocity" type="measure"/>
+                <field name="committed_points" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Velocity List View -->
+    <record id="sprint_velocity_report_view_list" model="ir.ui.view">
+        <field name="name">project.sprint.velocity.report.list</field>
+        <field name="model">project.sprint.velocity.report</field>
+        <field name="arch" type="xml">
+            <list string="Sprint Velocity" create="0" edit="0">
+                <field name="sprint_name"/>
+                <field name="project_id"/>
+                <field name="end_date"/>
+                <field name="committed_points"/>
+                <field name="velocity"/>
+                <field name="rolling_avg_3" widget="float"
+                       options="{'digits': [4, 1]}"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Velocity Action -->
+    <record id="action_sprint_velocity_report" model="ir.actions.act_window">
+        <field name="name">Sprint Velocity</field>
+        <field name="res_model">project.sprint.velocity.report</field>
+        <field name="view_mode">graph,list</field>
+        <field name="search_view_id" ref="sprint_velocity_report_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No velocity data yet
+            </p>
+            <p>Close sprints to see velocity trends here.</p>
+        </field>
+    </record>
+
+</odoo>
