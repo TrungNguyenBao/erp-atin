@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Epic Form -->
+    <record id="project_epic_view_form" model="ir.ui.view">
+        <field name="name">project.epic.form</field>
+        <field name="model">project.epic</field>
+        <field name="arch" type="xml">
+            <form string="Epic">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. User Authentication"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id" options="{'no_create': True}"/>
+                            <field name="tag_ids" widget="many2many_tags"
+                                   options="{'color_field': 'color'}"/>
+                            <field name="color" widget="color_picker"/>
+                        </group>
+                        <group>
+                            <field name="task_count"/>
+                            <field name="done_task_count"/>
+                            <field name="total_points"/>
+                            <field name="completed_points"/>
+                            <field name="progress_percentage" widget="progressbar"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Stories" name="stories">
+                            <field name="task_ids">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="story_points"/>
+                                    <field name="sprint_id"/>
+                                    <field name="user_ids" widget="many2many_avatar_user"/>
+                                    <field name="state" widget="project_task_state_selection"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Epic List -->
+    <record id="project_epic_view_list" model="ir.ui.view">
+        <field name="name">project.epic.list</field>
+        <field name="model">project.epic</field>
+        <field name="arch" type="xml">
+            <list string="Epics">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="task_count"/>
+                <field name="total_points"/>
+                <field name="completed_points"/>
+                <field name="progress_percentage" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Epic Kanban -->
+    <record id="project_epic_view_kanban" model="ir.ui.view">
+        <field name="name">project.epic.kanban</field>
+        <field name="model">project.epic</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="color"/>
+                <field name="task_count"/>
+                <field name="total_points"/>
+                <field name="progress_percentage"/>
+                <templates>
+                    <t t-name="card">
+                        <field name="color" widget="color_picker"/>
+                        <strong><field name="name"/></strong>
+                        <div class="text-muted small">
+                            <field name="task_count"/> stories |
+                            <field name="total_points"/> pts
+                        </div>
+                        <field name="progress_percentage" widget="progressbar"/>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Epic Search -->
+    <record id="project_epic_view_search" model="ir.ui.view">
+        <field name="name">project.epic.search</field>
+        <field name="model">project.epic</field>
+        <field name="arch" type="xml">
+            <search string="Search Epics">
+                <field name="name"/>
+                <field name="project_id"/>
+                <group expand="0" string="Group By">
+                    <filter string="Project" name="group_project"
+                            context="{'group_by': 'project_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Epic Action -->
+    <record id="action_view_all_epics" model="ir.actions.act_window">
+        <field name="name">Epics</field>
+        <field name="res_model">project.epic</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="project_epic_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first epic
+            </p>
+            <p>Epics group related user stories across multiple sprints.</p>
+        </field>
+    </record>
+
+</odoo>

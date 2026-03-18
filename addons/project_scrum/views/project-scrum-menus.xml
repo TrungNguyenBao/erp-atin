@@ -46,6 +46,24 @@
         sequence="4"
     />
 
+    <!-- Epics -->
+    <menuitem
+        name="Epics"
+        id="menu_all_epics"
+        parent="menu_project_scrum"
+        action="action_view_all_epics"
+        sequence="5"
+    />
+
+    <!-- Releases -->
+    <menuitem
+        name="Releases"
+        id="menu_all_releases"
+        parent="menu_project_scrum"
+        action="action_view_all_releases"
+        sequence="6"
+    />
+
     <!-- Reporting submenu -->
     <menuitem
         name="Reporting"

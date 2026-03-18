@@ -35,6 +35,47 @@
         <field name="groups" eval="[(4, ref('project.group_project_manager'))]"/>
     </record>
 
+    <!-- Epic: multi-company -->
+    <record model="ir.rule" id="epic_comp_rule">
+        <field name="name">Epic: multi-company</field>
+        <field name="model_id" ref="model_project_epic"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
+
+    <!-- Epic: follow project privacy -->
+    <record model="ir.rule" id="epic_visibility_rule">
+        <field name="name">Epic: follow project privacy</field>
+        <field name="model_id" ref="model_project_epic"/>
+        <field name="domain_force">['|',
+            ('project_id.privacy_visibility', '!=', 'followers'),
+            ('project_id.message_partner_ids', 'in', [user.partner_id.id])
+        ]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Epic: managers see all -->
+    <record model="ir.rule" id="epic_manager_rule">
+        <field name="name">Epic: project manager: see all</field>
+        <field name="model_id" ref="model_project_epic"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('project.group_project_manager'))]"/>
+    </record>
+
+    <!-- Release: multi-company -->
+    <record model="ir.rule" id="release_comp_rule">
+        <field name="name">Release: multi-company</field>
+        <field name="model_id" ref="model_project_release"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
+
+    <!-- Release: managers see all -->
+    <record model="ir.rule" id="release_manager_rule">
+        <field name="name">Release: project manager: see all</field>
+        <field name="model_id" ref="model_project_release"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('project.group_project_manager'))]"/>
+    </record>
+
 </data>
 
 </odoo>

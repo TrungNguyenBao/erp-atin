@@ -2,7 +2,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '18.0.2.0.0',
+    'version': '18.0.3.0.0',
     'category': 'Services/Project',
     'summary': 'Scrum/Agile workflow: sprints, story points, velocity tracking',
     'description': """
@@ -32,6 +32,8 @@
         'views/project-sprint-views.xml',
         'views/project-sprint-board-views.xml',
         'views/project-backlog-views.xml',
+        'views/project-epic-views.xml',
+        'views/project-release-views.xml',
         'views/project-task-views-inherit.xml',
         'views/project-project-views-inherit.xml',
         # Wizards

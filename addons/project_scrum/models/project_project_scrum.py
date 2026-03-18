@@ -20,6 +20,18 @@ class ProjectProjectScrum(models.Model):
         compute='_compute_sprint_count',
         groups='project_scrum.group_project_scrum')
 
+    # Phase 3: velocity forecast
+    velocity_forecast = fields.Float(
+        string='Forecasted Velocity',
+        compute='_compute_velocity_forecast',
+        groups='project_scrum.group_project_scrum',
+        help='Predicted next sprint capacity based on 3-sprint rolling average')
+
+    # Phase 3: standup digest toggle
+    enable_standup_digest = fields.Boolean(
+        string='Daily Standup Digest',
+        help='Send daily email summary of active sprint status to followers')
+
     # H2 fix: batch search instead of N+1 loop
     @api.depends('sprint_ids.state')
     def _compute_active_sprint_id(self):
@@ -41,6 +53,19 @@ class ProjectProjectScrum(models.Model):
         count_map = {p.id: c for p, c in sprint_data}
         for project in self:
             project.sprint_count = count_map.get(project.id, 0)
+
+    def _compute_velocity_forecast(self):
+        for project in self:
+            closed_sprints = self.env['project.sprint'].search([
+                ('project_id', '=', project.id),
+                ('state', '=', 'closed'),
+                ('velocity', '>', 0),
+            ], order='end_date desc', limit=3)
+            if closed_sprints:
+                project.velocity_forecast = round(
+                    sum(closed_sprints.mapped('velocity')) / len(closed_sprints), 1)
+            else:
+                project.velocity_forecast = 0
 
     # M4 fix: action method filtering sprints by current project
     def action_view_project_sprints(self):

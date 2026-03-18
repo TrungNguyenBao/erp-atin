@@ -18,9 +18,28 @@ class ProjectTaskScrum(models.Model):
     is_in_backlog = fields.Boolean(
         compute='_compute_is_in_backlog', store=True, index=True,
         help='True if task has no sprint assigned')
-    # H1 fix: related field so task form can check scrum without parent context
+    # Related field so task form can check scrum without parent context
     enable_scrum = fields.Boolean(
         related='project_id.enable_scrum', readonly=True)
+
+    # Epic assignment (Phase 3)
+    epic_id = fields.Many2one(
+        'project.epic', string='Epic',
+        domain="[('project_id', '=', project_id)]",
+        tracking=True, index=True,
+        groups='project_scrum.group_project_scrum')
+
+    # Impediment tracking (Phase 3)
+    is_blocked = fields.Boolean(
+        string='Blocked', tracking=True,
+        groups='project_scrum.group_project_scrum')
+    blocker_description = fields.Text(
+        string='Blocker Description',
+        groups='project_scrum.group_project_scrum')
+    blocker_owner_id = fields.Many2one(
+        'res.users', string='Blocker Owner',
+        groups='project_scrum.group_project_scrum',
+        help='Person responsible for resolving this impediment')
 
     @api.depends('sprint_id')
     def _compute_is_in_backlog(self):

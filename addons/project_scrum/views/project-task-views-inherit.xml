@@ -14,12 +14,34 @@
                        invisible="not project_id or not enable_scrum"
                        groups="project_scrum.group_project_scrum"/>
             </xpath>
-            <!-- Add sprint_id after milestone_id -->
+            <!-- Add sprint_id and epic_id after milestone_id -->
             <xpath expr="//field[@name='milestone_id']" position="after">
                 <field name="sprint_id"
                        invisible="not project_id or not enable_scrum"
                        groups="project_scrum.group_project_scrum"
                        options="{'no_create': True}"/>
+                <field name="epic_id"
+                       invisible="not project_id or not enable_scrum"
+                       groups="project_scrum.group_project_scrum"
+                       options="{'no_create': True}"/>
+            </xpath>
+            <!-- Blocker section before description/properties -->
+            <xpath expr="//field[@name='task_properties']" position="before">
+                <group string="Impediment" name="blocker_group"
+                       invisible="not enable_scrum or not is_blocked"
+                       groups="project_scrum.group_project_scrum">
+                    <field name="is_blocked"/>
+                    <field name="blocker_description"
+                           invisible="not is_blocked"/>
+                    <field name="blocker_owner_id"
+                           invisible="not is_blocked"/>
+                </group>
+            </xpath>
+            <!-- Add is_blocked checkbox near priority -->
+            <xpath expr="//field[@name='story_points']" position="after">
+                <field name="is_blocked"
+                       invisible="not enable_scrum"
+                       groups="project_scrum.group_project_scrum"/>
             </xpath>
         </field>
     </record>
@@ -37,6 +59,16 @@
             <xpath expr="//filter[@name='milestone']" position="after">
                 <filter string="Sprint" name="sprint"
                         context="{'group_by': 'sprint_id'}"
+                        groups="project_scrum.group_project_scrum"/>
+                <filter string="Epic" name="epic"
+                        context="{'group_by': 'epic_id'}"
+                        groups="project_scrum.group_project_scrum"/>
+            </xpath>
+            <xpath expr="//field[@name='sprint_id']" position="after">
+                <field name="epic_id"
+                       groups="project_scrum.group_project_scrum"/>
+                <filter string="Blocked" name="blocked"
+                        domain="[('is_blocked', '=', True)]"
                         groups="project_scrum.group_project_scrum"/>
             </xpath>
         </field>
@@ -64,6 +96,11 @@
         <field name="inherit_id" ref="project.view_task_kanban"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='tag_ids']" position="before">
+                <span t-if="record.is_blocked.raw_value"
+                      class="badge text-bg-danger me-1"
+                      groups="project_scrum.group_project_scrum">
+                    Blocked
+                </span>
                 <span t-if="record.story_points.raw_value"
                       class="badge text-bg-info me-1"
                       groups="project_scrum.group_project_scrum">
