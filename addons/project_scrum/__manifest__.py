@@ -42,6 +42,9 @@
         # Menus (load last)
         'views/project-scrum-menus.xml',
     ],
+    'demo': [
+        'data/project-scrum-demo.xml',
+    ],
     'application': False,
     'installable': True,
     'auto_install': False,

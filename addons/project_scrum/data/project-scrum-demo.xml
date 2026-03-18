@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+
+    <!-- ================================================================== -->
+    <!-- Scrum Manager User                                                  -->
+    <!-- ================================================================== -->
+    <record id="res_partner_scrum_manager" model="res.partner">
+        <field name="name">Scrum Manager</field>
+        <field name="email">tsdom.nbt@gmail.com</field>
+    </record>
+
+    <record id="user_scrum_manager" model="res.users">
+        <field name="name">Scrum Manager</field>
+        <field name="login">tsdom.nbt@gmail.com</field>
+        <field name="email">tsdom.nbt@gmail.com</field>
+        <field name="partner_id" ref="res_partner_scrum_manager"/>
+        <field name="groups_id" eval="[
+            Command.link(ref('base.group_user')),
+            Command.link(ref('project.group_project_manager')),
+            Command.link(ref('project_scrum.group_project_scrum')),
+        ]"/>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Enable Scrum feature group for all internal users                   -->
+    <!-- ================================================================== -->
+    <record id="base.group_user" model="res.groups">
+        <field name="implied_ids" eval="[Command.link(ref('project_scrum.group_project_scrum'))]"/>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Tags for Scrum                                                      -->
+    <!-- ================================================================== -->
+    <record id="tag_user_story" model="project.tags">
+        <field name="name">User Story</field>
+        <field name="color">4</field>
+    </record>
+    <record id="tag_tech_debt" model="project.tags">
+        <field name="name">Tech Debt</field>
+        <field name="color">1</field>
+    </record>
+    <record id="tag_spike" model="project.tags">
+        <field name="name">Spike</field>
+        <field name="color">5</field>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Scrum Project: E-Commerce Platform                                  -->
+    <!-- ================================================================== -->
+    <record id="project_ecommerce" model="project.project">
+        <field name="name">E-Commerce Platform</field>
+        <field name="enable_scrum" eval="True"/>
+        <field name="allow_milestones" eval="True"/>
+        <field name="allow_task_dependencies" eval="True"/>
+        <field name="user_id" ref="user_scrum_manager"/>
+        <field name="privacy_visibility">employees</field>
+        <field name="color">2</field>
+        <field name="type_ids" eval="[
+            Command.link(ref('project.project_stage_0')),
+            Command.link(ref('project.project_stage_1')),
+            Command.link(ref('project.project_stage_2')),
+            Command.link(ref('project.project_stage_3')),
+        ]"/>
+        <field name="description">Agile e-commerce platform built with Scrum methodology</field>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Epics                                                               -->
+    <!-- ================================================================== -->
+    <record id="epic_auth" model="project.epic">
+        <field name="name">User Authentication</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="description">&lt;p&gt;Complete user authentication system: login, registration, password reset, OAuth integration.&lt;/p&gt;</field>
+        <field name="color">2</field>
+        <field name="sequence">1</field>
+    </record>
+    <record id="epic_catalog" model="project.epic">
+        <field name="name">Product Catalog</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="description">&lt;p&gt;Product listing, search, filtering, categories, and detail pages.&lt;/p&gt;</field>
+        <field name="color">4</field>
+        <field name="sequence">2</field>
+    </record>
+    <record id="epic_checkout" model="project.epic">
+        <field name="name">Checkout &amp; Payment</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="description">&lt;p&gt;Shopping cart, checkout flow, payment gateway integration.&lt;/p&gt;</field>
+        <field name="color">10</field>
+        <field name="sequence">3</field>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Sprint 1 (Closed - has velocity data)                               -->
+    <!-- ================================================================== -->
+    <record id="sprint_1" model="project.sprint">
+        <field name="name">Sprint 1 - Foundation</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="goal">Set up project infrastructure and implement core authentication</field>
+        <field name="start_date" eval="(DateTime.now() - relativedelta(weeks=4)).strftime('%Y-%m-%d')"/>
+        <field name="end_date" eval="(DateTime.now() - relativedelta(weeks=2)).strftime('%Y-%m-%d')"/>
+        <field name="state">closed</field>
+        <field name="capacity_points">21</field>
+        <field name="velocity">18</field>
+        <field name="review_notes">&lt;p&gt;Completed core auth features. OAuth deferred to Sprint 3. Stakeholders happy with login/registration flow.&lt;/p&gt;</field>
+        <field name="review_date" eval="(DateTime.now() - relativedelta(weeks=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        <field name="retro_went_well">&lt;p&gt;- Good team collaboration on auth module&lt;br/&gt;- CI/CD pipeline set up early&lt;br/&gt;- Daily standups kept blockers visible&lt;/p&gt;</field>
+        <field name="retro_went_wrong">&lt;p&gt;- Underestimated OAuth complexity (13 pts → deferred)&lt;br/&gt;- Missing test environment on day 1&lt;/p&gt;</field>
+        <field name="retro_action_items">&lt;p&gt;- Set up staging environment before Sprint 2 starts&lt;br/&gt;- Break down large stories (&gt;8 pts) before committing&lt;/p&gt;</field>
+        <field name="retro_date" eval="(DateTime.now() - relativedelta(weeks=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Sprint 2 (Active - current sprint)                                  -->
+    <!-- ================================================================== -->
+    <record id="sprint_2" model="project.sprint">
+        <field name="name">Sprint 2 - Catalog</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="goal">Implement product catalog with search and filtering</field>
+        <field name="start_date" eval="(DateTime.now() - relativedelta(weeks=1)).strftime('%Y-%m-%d')"/>
+        <field name="end_date" eval="(DateTime.now() + relativedelta(weeks=1)).strftime('%Y-%m-%d')"/>
+        <field name="state">active</field>
+        <field name="capacity_points">21</field>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Sprint 3 (Draft - next sprint)                                      -->
+    <!-- ================================================================== -->
+    <record id="sprint_3" model="project.sprint">
+        <field name="name">Sprint 3 - Checkout</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="goal">Build checkout flow and payment integration</field>
+        <field name="start_date" eval="(DateTime.now() + relativedelta(weeks=1)).strftime('%Y-%m-%d')"/>
+        <field name="end_date" eval="(DateTime.now() + relativedelta(weeks=3)).strftime('%Y-%m-%d')"/>
+        <field name="state">draft</field>
+        <field name="capacity_points">21</field>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Release                                                             -->
+    <!-- ================================================================== -->
+    <record id="release_v1" model="project.release">
+        <field name="name">v1.0 - MVP Launch</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="target_date" eval="(DateTime.now() + relativedelta(weeks=4)).strftime('%Y-%m-%d')"/>
+        <field name="state">in_progress</field>
+        <field name="description">&lt;p&gt;Minimum viable product: auth + catalog + checkout&lt;/p&gt;</field>
+        <field name="sprint_ids" eval="[
+            Command.link(ref('sprint_1')),
+            Command.link(ref('sprint_2')),
+            Command.link(ref('sprint_3')),
+        ]"/>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Sprint 1 Tasks (Closed sprint - all done/canceled)                  -->
+    <!-- ================================================================== -->
+    <record id="task_s1_01" model="project.task">
+        <field name="name">Set up project repository and CI/CD</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="sprint_id" ref="sprint_1"/>
+        <field name="epic_id" ref="epic_auth"/>
+        <field name="story_points">3</field>
+        <field name="state">1_done</field>
+        <field name="user_ids" eval="[Command.link(ref('user_scrum_manager'))]"/>
+        <field name="stage_id" ref="project.project_stage_3"/>
+        <field name="tag_ids" eval="[Command.link(ref('tag_tech_debt'))]"/>
+        <field name="priority">1</field>
+    </record>
+    <record id="task_s1_02" model="project.task">
+        <field name="name">Implement user registration with email verification</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="sprint_id" ref="sprint_1"/>
+        <field name="epic_id" ref="epic_auth"/>
+        <field name="story_points">5</field>
+        <field name="state">1_done</field>
+        <field name="user_ids" eval="[Command.link(ref('base.user_admin'))]"/>
+        <field name="stage_id" ref="project.project_stage_3"/>
+        <field name="tag_ids" eval="[Command.link(ref('tag_user_story'))]"/>
+    </record>
+    <record id="task_s1_03" model="project.task">
+        <field name="name">Implement login with JWT tokens</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="sprint_id" ref="sprint_1"/>
+        <field name="epic_id" ref="epic_auth"/>
+        <field name="story_points">5</field>
+        <field name="state">1_done</field>
+        <field name="user_ids" eval="[Command.link(ref('base.user_admin'))]"/>
+        <field name="stage_id" ref="project.project_stage_3"/>
+        <field name="tag_ids" eval="[Command.link(ref('tag_user_story'))]"/>
+    </record>
+    <record id="task_s1_04" model="project.task">
+        <field name="name">Password reset flow</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="sprint_id" ref="sprint_1"/>
+        <field name="epic_id" ref="epic_auth"/>
+        <field name="story_points">5</field>
+        <field name="state">1_done</field>
+        <field name="user_ids" eval="[Command.link(ref('user_scrum_manager'))]"/>
+        <field name="stage_id" ref="project.project_stage_3"/>
+        <field name="tag_ids" eval="[Command.link(ref('tag_user_story'))]"/>
+    </record>
+    <record id="task_s1_05" model="project.task">
+        <field name="name">OAuth2 integration (Google, GitHub)</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="sprint_id" ref="sprint_1"/>
+        <field name="epic_id" ref="epic_auth"/>
+        <field name="story_points">13</field>
+        <field name="state">1_canceled</field>
+        <field name="stage_id" ref="project.project_stage_0"/>
+        <field name="tag_ids" eval="[Command.link(ref('tag_user_story'))]"/>
+        <field name="description">&lt;p&gt;Deferred to Sprint 3 — too complex for Sprint 1&lt;/p&gt;</field>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Sprint 2 Tasks (Active sprint - mixed states)                       -->
+    <!-- ================================================================== -->
+    <record id="task_s2_01" model="project.task">
+        <field name="name">Product listing page with pagination</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="sprint_id" ref="sprint_2"/>
+        <field name="epic_id" ref="epic_catalog"/>
+        <field name="story_points">5</field>
+        <field name="state">1_done</field>
+        <field name="user_ids" eval="[Command.link(ref('base.user_admin'))]"/>
+        <field name="stage_id" ref="project.project_stage_3"/>
+        <field name="tag_ids" eval="[Command.link(ref('tag_user_story'))]"/>
+    </record>
+    <record id="task_s2_02" model="project.task">
+        <field name="name">Product search with full-text indexing</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="sprint_id" ref="sprint_2"/>
+        <field name="epic_id" ref="epic_catalog"/>
+        <field name="story_points">5</field>
+        <field name="state">03_approved</field>
+        <field name="user_ids" eval="[Command.link(ref('base.user_admin'))]"/>
+        <field name="stage_id" ref="project.project_stage_2"/>
+        <field name="tag_ids" eval="[Command.link(ref('tag_user_story'))]"/>
+    </record>
+    <record id="task_s2_03" model="project.task">
+        <field name="name">Category filtering and faceted navigation</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="sprint_id" ref="sprint_2"/>
+        <field name="epic_id" ref="epic_catalog"/>
+        <field name="story_points">5</field>
+        <field name="state">01_in_progress</field>
+        <field name="user_ids" eval="[Command.link(ref('user_scrum_manager'))]"/>
+        <field name="stage_id" ref="project.project_stage_1"/>
+        <field name="tag_ids" eval="[Command.link(ref('tag_user_story'))]"/>
+    </record>
+    <record id="task_s2_04" model="project.task">
+        <field name="name">Product detail page with image gallery</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="sprint_id" ref="sprint_2"/>
+        <field name="epic_id" ref="epic_catalog"/>
+        <field name="story_points">3</field>
+        <field name="state">01_in_progress</field>
+        <field name="user_ids" eval="[Command.link(ref('user_scrum_manager'))]"/>
+        <field name="stage_id" ref="project.project_stage_1"/>
+        <field name="tag_ids" eval="[Command.link(ref('tag_user_story'))]"/>
+        <field name="is_blocked" eval="True"/>
+        <field name="blocker_description">Waiting for product image assets from design team</field>
+        <field name="blocker_owner_id" ref="base.user_admin"/>
+    </record>
+    <record id="task_s2_05" model="project.task">
+        <field name="name">Investigate caching strategy for catalog</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="sprint_id" ref="sprint_2"/>
+        <field name="epic_id" ref="epic_catalog"/>
+        <field name="story_points">3</field>
+        <field name="state">01_in_progress</field>
+        <field name="stage_id" ref="project.project_stage_0"/>
+        <field name="tag_ids" eval="[Command.link(ref('tag_spike'))]"/>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Backlog Tasks (no sprint assigned)                                  -->
+    <!-- ================================================================== -->
+    <record id="task_backlog_01" model="project.task">
+        <field name="name">Shopping cart with quantity management</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="epic_id" ref="epic_checkout"/>
+        <field name="story_points">5</field>
+        <field name="priority">1</field>
+        <field name="tag_ids" eval="[Command.link(ref('tag_user_story'))]"/>
+        <field name="stage_id" ref="project.project_stage_0"/>
+    </record>
+    <record id="task_backlog_02" model="project.task">
+        <field name="name">Stripe payment gateway integration</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="epic_id" ref="epic_checkout"/>
+        <field name="story_points">8</field>
+        <field name="tag_ids" eval="[Command.link(ref('tag_user_story'))]"/>
+        <field name="stage_id" ref="project.project_stage_0"/>
+    </record>
+    <record id="task_backlog_03" model="project.task">
+        <field name="name">Order confirmation and email receipt</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="epic_id" ref="epic_checkout"/>
+        <field name="story_points">3</field>
+        <field name="tag_ids" eval="[Command.link(ref('tag_user_story'))]"/>
+        <field name="stage_id" ref="project.project_stage_0"/>
+    </record>
+    <record id="task_backlog_04" model="project.task">
+        <field name="name">Address autocomplete in checkout</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="epic_id" ref="epic_checkout"/>
+        <field name="story_points">3</field>
+        <field name="tag_ids" eval="[Command.link(ref('tag_user_story'))]"/>
+        <field name="stage_id" ref="project.project_stage_0"/>
+    </record>
+    <record id="task_backlog_05" model="project.task">
+        <field name="name">Refactor database connection pooling</field>
+        <field name="project_id" ref="project_ecommerce"/>
+        <field name="story_points">2</field>
+        <field name="tag_ids" eval="[Command.link(ref('tag_tech_debt'))]"/>
+        <field name="stage_id" ref="project.project_stage_0"/>
+    </record>
+
+    <!-- ================================================================== -->
+    <!-- Sprint 1 Daily Logs (burndown data for closed sprint)               -->
+    <!-- ================================================================== -->
+    <record id="daily_log_s1_d01" model="project.sprint.daily.log">
+        <field name="sprint_id" ref="sprint_1"/>
+        <field name="date" eval="(DateTime.now() - relativedelta(weeks=4)).strftime('%Y-%m-%d')"/>
+        <field name="remaining_points">31</field>
+        <field name="completed_points">0</field>
+        <field name="total_tasks">5</field>
+        <field name="closed_tasks">0</field>
+    </record>
+    <record id="daily_log_s1_d03" model="project.sprint.daily.log">
+        <field name="sprint_id" ref="sprint_1"/>
+        <field name="date" eval="(DateTime.now() - relativedelta(weeks=4, days=-2)).strftime('%Y-%m-%d')"/>
+        <field name="remaining_points">28</field>
+        <field name="completed_points">3</field>
+        <field name="total_tasks">5</field>
+        <field name="closed_tasks">1</field>
+    </record>
+    <record id="daily_log_s1_d05" model="project.sprint.daily.log">
+        <field name="sprint_id" ref="sprint_1"/>
+        <field name="date" eval="(DateTime.now() - relativedelta(weeks=4, days=-4)).strftime('%Y-%m-%d')"/>
+        <field name="remaining_points">23</field>
+        <field name="completed_points">8</field>
+        <field name="total_tasks">5</field>
+        <field name="closed_tasks">2</field>
+    </record>
+    <record id="daily_log_s1_d08" model="project.sprint.daily.log">
+        <field name="sprint_id" ref="sprint_1"/>
+        <field name="date" eval="(DateTime.now() - relativedelta(weeks=3)).strftime('%Y-%m-%d')"/>
+        <field name="remaining_points">18</field>
+        <field name="completed_points">13</field>
+        <field name="total_tasks">5</field>
+        <field name="closed_tasks">3</field>
+    </record>
+    <record id="daily_log_s1_d12" model="project.sprint.daily.log">
+        <field name="sprint_id" ref="sprint_1"/>
+        <field name="date" eval="(DateTime.now() - relativedelta(weeks=2, days=2)).strftime('%Y-%m-%d')"/>
+        <field name="remaining_points">13</field>
+        <field name="completed_points">18</field>
+        <field name="total_tasks">5</field>
+        <field name="closed_tasks">4</field>
+    </record>
+    <record id="daily_log_s1_d14" model="project.sprint.daily.log">
+        <field name="sprint_id" ref="sprint_1"/>
+        <field name="date" eval="(DateTime.now() - relativedelta(weeks=2)).strftime('%Y-%m-%d')"/>
+        <field name="remaining_points">13</field>
+        <field name="completed_points">18</field>
+        <field name="total_tasks">5</field>
+        <field name="closed_tasks">4</field>
+    </record>
+
+</data>
+</odoo>
