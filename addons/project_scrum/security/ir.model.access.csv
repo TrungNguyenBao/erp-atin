@@ -11,3 +11,4 @@ access_project_epic_user,project.epic.user,model_project_epic,project.group_proj
 access_project_epic_manager,project.epic.manager,model_project_epic,project.group_project_manager,1,1,1,1
 access_project_release_user,project.release.user,model_project_release,project.group_project_user,1,0,0,0
 access_project_release_manager,project.release.manager,model_project_release,project.group_project_manager,1,1,1,1
+access_project_create_wizard,project.create.wizard,model_project_create_wizard,project.group_project_user,1,1,1,1

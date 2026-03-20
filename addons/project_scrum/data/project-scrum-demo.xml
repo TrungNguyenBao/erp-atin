@@ -3,20 +3,11 @@
 <data noupdate="1">
 
     <!-- ================================================================== -->
-    <!-- Scrum Manager User                                                  -->
+    <!-- Scrum Manager: use existing admin user, add scrum group             -->
     <!-- ================================================================== -->
-    <record id="res_partner_scrum_manager" model="res.partner">
-        <field name="name">Scrum Manager</field>
-        <field name="email">tsdom.nbt@gmail.com</field>
-    </record>
-
-    <record id="user_scrum_manager" model="res.users">
-        <field name="name">Scrum Manager</field>
+    <record id="user_scrum_manager" model="res.users" forcecreate="0">
         <field name="login">tsdom.nbt@gmail.com</field>
-        <field name="email">tsdom.nbt@gmail.com</field>
-        <field name="partner_id" ref="res_partner_scrum_manager"/>
         <field name="groups_id" eval="[
-            Command.link(ref('base.group_user')),
             Command.link(ref('project.group_project_manager')),
             Command.link(ref('project_scrum.group_project_scrum')),
         ]"/>

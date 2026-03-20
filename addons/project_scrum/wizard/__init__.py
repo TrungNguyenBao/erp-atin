@@ -2,3 +2,4 @@
 
 from . import sprint_planning_wizard
 from . import sprint_close_wizard
+from . import project_create_wizard

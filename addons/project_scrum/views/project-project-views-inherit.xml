@@ -7,18 +7,18 @@
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.edit_project"/>
         <field name="arch" type="xml">
-            <!-- Add enable_scrum setting after allow_milestones -->
+            <!-- Add methodology selector + standup digest after allow_milestones -->
             <xpath expr="//setting[@id='project_milestone_setting']" position="after">
-                <setting class="col-lg-12" id="project_scrum_setting"
-                         help="Enable sprints, story points, and velocity tracking"
+                <setting class="col-lg-12" id="project_methodology_setting"
+                         help="Choose project management methodology"
                          groups="project_scrum.group_project_scrum">
-                    <field name="enable_scrum"/>
+                    <field name="methodology" widget="radio"/>
                 </setting>
                 <setting class="col-lg-12" id="project_standup_digest_setting"
                          help="Send daily sprint status email to project followers"
                          groups="project_scrum.group_project_scrum">
                     <field name="enable_standup_digest"
-                           invisible="not enable_scrum"/>
+                           invisible="methodology != 'scrum'"/>
                 </setting>
             </xpath>
             <!-- Add sprint count stat button in button_box -->
@@ -26,7 +26,7 @@
                 <button class="oe_stat_button" type="object"
                         name="action_view_project_sprints"
                         icon="fa-refresh"
-                        invisible="not enable_scrum"
+                        invisible="methodology != 'scrum'"
                         groups="project_scrum.group_project_scrum">
                     <field name="sprint_count" string="Sprints"
                            widget="statinfo"/>

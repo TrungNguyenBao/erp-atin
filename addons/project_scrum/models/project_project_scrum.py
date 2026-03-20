@@ -3,13 +3,25 @@
 from odoo import api, fields, models, _
 
 
+METHODOLOGY_SELECTION = [
+    ('default', 'Default'),
+    ('scrum', 'Scrum'),
+    ('kanban', 'Kanban'),
+]
+
+
 class ProjectProjectScrum(models.Model):
     _inherit = 'project.project'
 
+    methodology = fields.Selection(
+        METHODOLOGY_SELECTION, default='default', required=True,
+        tracking=True,
+        help='Project management methodology: Default, Scrum, or Kanban')
     enable_scrum = fields.Boolean(
         string='Scrum',
-        default=lambda self: self.env.user.has_group(
-            'project_scrum.group_project_scrum'),
+        compute='_compute_enable_scrum',
+        inverse='_inverse_enable_scrum',
+        store=True,
         help='Enable Scrum features: sprints, story points, velocity tracking')
     sprint_ids = fields.One2many(
         'project.sprint', 'project_id', string='Sprints')
@@ -31,6 +43,18 @@ class ProjectProjectScrum(models.Model):
     enable_standup_digest = fields.Boolean(
         string='Daily Standup Digest',
         help='Send daily email summary of active sprint status to followers')
+
+    @api.depends('methodology')
+    def _compute_enable_scrum(self):
+        for project in self:
+            project.enable_scrum = project.methodology == 'scrum'
+
+    def _inverse_enable_scrum(self):
+        for project in self:
+            if project.enable_scrum and project.methodology != 'scrum':
+                project.methodology = 'scrum'
+            elif not project.enable_scrum and project.methodology == 'scrum':
+                project.methodology = 'default'
 
     # H2 fix: batch search instead of N+1 loop
     @api.depends('sprint_ids.state')

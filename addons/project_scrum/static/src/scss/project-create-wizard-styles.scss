@@ -1,0 +1,68 @@
+// =============================================================================
+// Project Create Wizard — Methodology Card Styling
+// =============================================================================
+
+.o_project_create_wizard {
+    padding: 4px 0;
+}
+
+// --- Methodology radio cards ---
+.o_project_methodology_cards {
+    .o_radio_item {
+        display: inline-flex;
+        margin-right: 8px;
+        margin-bottom: 8px;
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 20px;
+            border: 2px solid #E2E8F0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: border-color 0.15s ease, background-color 0.15s ease,
+                        box-shadow 0.15s ease;
+            background: #FFFFFF;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            min-width: 130px;
+
+            &:hover {
+                border-color: #94A3B8;
+                background: #F8FAFC;
+            }
+        }
+
+        // Selected state
+        input:checked + label,
+        input[type="radio"]:checked + label {
+            border-color: #2563EB;
+            background: #EFF6FF;
+            box-shadow: 0 0 0 1px #2563EB;
+            color: #1E40AF;
+            font-weight: 600;
+        }
+
+        // Hide default radio dot
+        input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+    }
+}
+
+// --- Methodology hint alerts ---
+.o_methodology_hint {
+    margin: 8px 0 16px;
+    padding: 10px 14px;
+    font-size: 0.8125rem;
+    border-radius: 8px;
+    line-height: 1.5;
+
+    strong {
+        font-weight: 700;
+    }
+}

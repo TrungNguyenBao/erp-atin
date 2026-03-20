@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Override project kanban on_create to open methodology wizard -->
+    <record id="view_project_kanban_inherit_scrum" model="ir.ui.view">
+        <field name="name">project.project.kanban.inherit.scrum</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="on_create">project_scrum.action_project_create_wizard</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

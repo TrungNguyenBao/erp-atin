@@ -89,13 +89,19 @@
         </field>
     </record>
 
-    <!-- Inherit Task Kanban: add story points badge -->
+    <!-- Inherit Task Kanban: declare fields + add badges -->
     <record id="view_task_kanban_inherit_scrum" model="ir.ui.view">
         <field name="name">project.task.kanban.inherit.scrum</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_kanban"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='tag_ids']" position="before">
+            <!-- Declare fields so they are loaded for kanban records -->
+            <xpath expr="//field[@name='state']" position="after">
+                <field name="story_points"/>
+                <field name="is_blocked"/>
+            </xpath>
+            <!-- Add badges in card template -->
+            <xpath expr="//t[@t-name='card']//field[@name='tag_ids']" position="before">
                 <span t-if="record.is_blocked.raw_value"
                       class="badge text-bg-danger me-1"
                       groups="project_scrum.group_project_scrum">

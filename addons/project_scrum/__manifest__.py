@@ -2,11 +2,12 @@
 
 {
     'name': 'Project Scrum',
-    'version': '18.0.3.0.0',
+    'version': '18.0.4.0.0',
     'category': 'Services/Project',
     'summary': 'Scrum/Agile workflow: sprints, story points, velocity tracking',
     'description': """
         Adds Scrum/Agile project management to Odoo Project:
+        - Project creation wizard with methodology selection (Default/Scrum/Kanban)
         - Per-project sprints with goal, capacity, and velocity tracking
         - Story points estimation on tasks (Fibonacci scale)
         - Sprint board (kanban filtered by active sprint)
@@ -16,7 +17,6 @@
         - Sprint burndown chart and velocity tracking
         - Sprint review and retrospective forms
         - Daily standup view
-        - Feature flag: enable/disable Scrum per project
     """,
     'depends': ['project', 'mail'],
     'data': [
@@ -36,15 +36,22 @@
         'views/project-release-views.xml',
         'views/project-task-views-inherit.xml',
         'views/project-project-views-inherit.xml',
+        'views/project-kanban-views-inherit.xml',
         # Wizards
         'wizard/sprint-planning-wizard-views.xml',
         'wizard/sprint-close-wizard-views.xml',
+        'wizard/project-create-wizard-views.xml',
         # Menus (load last)
         'views/project-scrum-menus.xml',
     ],
     'demo': [
         'data/project-scrum-demo.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'project_scrum/static/src/scss/project-create-wizard-styles.scss',
+        ],
+    },
     'application': False,
     'installable': True,
     'auto_install': False,

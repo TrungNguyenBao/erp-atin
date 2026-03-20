@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Project Create Wizard Form -->
+    <record id="project_create_wizard_view_form" model="ir.ui.view">
+        <field name="name">project.create.wizard.form</field>
+        <field name="model">project.create.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create a Project">
+                <div class="o_project_create_wizard">
+                    <!-- Methodology selection as radio cards -->
+                    <group string="Choose Methodology">
+                        <field name="methodology" widget="radio"
+                               class="o_project_methodology_cards"/>
+                    </group>
+
+                    <!-- Methodology description hints -->
+                    <div class="alert alert-info o_methodology_hint" role="alert"
+                         invisible="methodology != 'default'">
+                        <strong>Default</strong> — Standard Odoo project management
+                        with tasks, stages, and milestones. Best for simple workflows.
+                    </div>
+                    <div class="alert alert-info o_methodology_hint" role="alert"
+                         invisible="methodology != 'scrum'">
+                        <strong>Scrum</strong> — Agile sprints with story points,
+                        backlog, burndown charts, and velocity tracking. Best for
+                        iterative development teams.
+                    </div>
+                    <div class="alert alert-info o_methodology_hint" role="alert"
+                         invisible="methodology != 'kanban'">
+                        <strong>Kanban</strong> — Continuous flow with visual board,
+                        optimized stages, and work-in-progress focus. Best for
+                        ongoing operational work.
+                    </div>
+
+                    <!-- Project details -->
+                    <group>
+                        <field name="name" placeholder="e.g. Mobile App Development"/>
+                        <field name="user_id"/>
+                    </group>
+                </div>
+                <footer>
+                    <button string="Create Project" name="action_create_project"
+                            type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary"
+                            special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open the wizard dialog -->
+    <record id="action_project_create_wizard" model="ir.actions.act_window">
+        <field name="name">Create a Project</field>
+        <field name="res_model">project.create.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="project_create_wizard_view_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
