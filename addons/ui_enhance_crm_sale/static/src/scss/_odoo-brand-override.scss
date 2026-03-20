@@ -1,0 +1,10 @@
+// =============================================================================
+// Override Odoo core brand colors to #2563EB
+// Loaded BEFORE primary_variables.scss so all !default vars inherit this color.
+// Affects: buttons, links, forms, navbar, badges, checkboxes, focus rings, etc.
+// =============================================================================
+
+// Set BEFORE primary_variables.scss runs.
+// Since primary_variables uses !default, these values take precedence.
+$o-community-color: #2563EB;
+$o-enterprise-color: #2563EB;

@@ -1,0 +1,273 @@
+// =============================================================================
+// UI Enhance - Vertical Sidebar
+// Logo + Toolbar (4 icons) + Module list | Collapsible
+// =============================================================================
+
+// --- Sidebar Variables ---
+$sidebar-width: 210px;
+$sidebar-width-collapsed: 56px;
+$sidebar-bg: #2563EB;
+$sidebar-bg-hover: #1D4ED8;
+$sidebar-bg-active: rgba(255, 255, 255, 0.15);
+$sidebar-text: rgba(255, 255, 255, 0.85);
+$sidebar-text-muted: rgba(255, 255, 255, 0.5);
+$sidebar-text-active: #FFFFFF;
+$sidebar-border: rgba(255, 255, 255, 0.1);
+$sidebar-icon-size: 26px;
+$sidebar-transition: width 0.2s ease, padding 0.2s ease;
+
+// --- Layout: CSS Grid ---
+html:not(.o_fullscreen) {
+    .o_web_client {
+        display: grid !important;
+        grid-template-columns: $sidebar-width 1fr;
+        grid-template-rows: auto 1fr;
+        height: 100%;
+        overflow: hidden;
+        transition: grid-template-columns 0.2s ease;
+
+        // Collapsed sidebar grid
+        &:has(.ui-enhance-sidebar.collapsed) {
+            grid-template-columns: $sidebar-width-collapsed 1fr;
+        }
+
+        > .ui-enhance-sidebar { grid-column: 1; grid-row: 1 / -1; }
+        > .o_navbar { grid-column: 2; grid-row: 1; }
+        > .o_action_manager { grid-column: 2; grid-row: 2; }
+        > .o_main_components_container { grid-column: 2; grid-row: 1 / -1; }
+    }
+}
+
+// --- Sidebar Container ---
+.ui-enhance-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: $sidebar-width;
+    height: 100%;
+    background-color: $sidebar-bg;
+    color: $sidebar-text;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1050;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    transition: $sidebar-transition;
+
+    &::-webkit-scrollbar { width: 3px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 2px;
+    }
+
+    // --- Collapsed state ---
+    &.collapsed {
+        width: $sidebar-width-collapsed;
+
+        .ui-enhance-sidebar__brand { padding: 10px 0; justify-content: center; }
+        .ui-enhance-sidebar__logo-img { max-width: 32px; }
+        .ui-enhance-sidebar__toolbar { flex-wrap: wrap; padding: 6px 4px; gap: 2px; }
+        .ui-enhance-sidebar__nav { padding: 0 4px; }
+        .ui-enhance-sidebar__item { justify-content: center; padding: 8px; }
+        .ui-enhance-sidebar__section-label { display: none; }
+    }
+}
+
+// --- 1. Logo ---
+.ui-enhance-sidebar__brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid $sidebar-border;
+    min-height: 48px;
+    flex-shrink: 0;
+}
+
+.ui-enhance-sidebar__logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.ui-enhance-sidebar__logo-img {
+    max-height: 30px;
+    max-width: 140px;
+    object-fit: contain;
+    // Invert logo to white if original is dark
+    filter: brightness(0) invert(1);
+    transition: max-width 0.2s ease;
+}
+
+// --- 2. Toolbar (4 icon buttons) ---
+.ui-enhance-sidebar__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 12px;
+    border-bottom: 1px solid $sidebar-border;
+    flex-shrink: 0;
+}
+
+.ui-enhance-sidebar__tool-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: $sidebar-text;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+        background-color: $sidebar-bg-hover;
+        color: $sidebar-text-active;
+    }
+
+    &:active {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}
+
+// --- 3. Section Labels ---
+.ui-enhance-sidebar__section-label {
+    padding: 14px 16px 6px;
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: $sidebar-text-muted;
+    flex-shrink: 0;
+}
+
+// --- 4. App Navigation ---
+.ui-enhance-sidebar__nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 8px;
+    overflow-y: auto;
+}
+
+.ui-enhance-sidebar__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    color: $sidebar-text;
+    text-decoration: none;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    flex-shrink: 0;
+
+    &:hover {
+        background-color: $sidebar-bg-hover;
+        color: $sidebar-text-active;
+        text-decoration: none;
+    }
+
+    &.active {
+        background-color: $sidebar-bg-active;
+        color: $sidebar-text-active;
+        font-weight: 600;
+    }
+}
+
+// --- Item Icons ---
+.ui-enhance-sidebar__item-icon {
+    width: $sidebar-icon-size;
+    height: $sidebar-icon-size;
+    border-radius: 5px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.ui-enhance-sidebar__item-icon-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $sidebar-icon-size;
+    height: $sidebar-icon-size;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.12);
+    font-size: 0.7rem;
+    color: $sidebar-text;
+    flex-shrink: 0;
+}
+
+.ui-enhance-sidebar__item-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// --- Top Navbar: White background ---
+html:not(.o_fullscreen) {
+    .o_main_navbar {
+        background: #FFFFFF !important;
+        border-bottom: 1px solid #E5E7EB !important;
+
+        .o_menu_brand,
+        .o_navbar_breadcrumbs,
+        .o_navbar_breadcrumbs .btn {
+            color: #1E293B !important;
+        }
+
+        .o_menu_sections {
+            .o_nav_entry, .dropdown-toggle {
+                color: #475569;
+                background: transparent;
+                &:hover { color: #1E293B; background: #F1F5F9; }
+            }
+        }
+
+        .o_menu_systray {
+            .o_nav_entry, .dropdown-toggle,
+            > div > button, > div > a {
+                color: #475569 !important;
+                &:hover { color: #1E293B !important; }
+            }
+            .badge {
+                background-color: #EF4444 !important;
+                color: white !important;
+            }
+        }
+
+        .o_navbar_apps_menu { display: none !important; }
+        .o_menu_brand { font-weight: 600; }
+    }
+}
+
+// --- Mobile: Hide sidebar ---
+@media (max-width: 767.98px) {
+    .ui-enhance-sidebar { display: none !important; }
+
+    html:not(.o_fullscreen) .o_web_client {
+        display: flex !important;
+        flex-flow: column nowrap !important;
+    }
+
+    html:not(.o_fullscreen) .o_main_navbar {
+        background: $sidebar-bg !important;
+        border-bottom: none !important;
+        .o_menu_brand, .o_navbar_breadcrumbs .btn {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+        .o_navbar_apps_menu { display: flex !important; }
+        .o_menu_systray {
+            .o_nav_entry, .dropdown-toggle,
+            > div > button, > div > a {
+                color: rgba(255, 255, 255, 0.9) !important;
+            }
+        }
+    }
+}

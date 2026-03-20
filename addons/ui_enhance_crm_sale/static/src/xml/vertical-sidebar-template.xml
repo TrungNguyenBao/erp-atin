@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <!--
+        Extend WebClient template to inject vertical sidebar.
+        Layout: Logo > Toolbar (4 icons) > App list
+    -->
+    <t t-inherit="web.WebClient" t-inherit-mode="extension">
+        <xpath expr="//NavBar" position="before">
+            <aside t-att-class="'ui-enhance-sidebar' + (sidebarCollapsed ? ' collapsed' : '')"
+                   t-if="!state.fullscreen">
+
+                <!-- 1. Logo -->
+                <div class="ui-enhance-sidebar__brand">
+                    <a href="/odoo" class="ui-enhance-sidebar__logo">
+                        <img src="/web/binary/company_logo"
+                             class="ui-enhance-sidebar__logo-img"
+                             alt="Logo"/>
+                    </a>
+                </div>
+
+                <!-- 2. Toolbar: 4 icon buttons -->
+                <div class="ui-enhance-sidebar__toolbar">
+                    <button class="ui-enhance-sidebar__tool-btn"
+                            t-on-click="onToggleSidebar"
+                            title="Toggle sidebar">
+                        <i t-att-class="sidebarCollapsed ? 'fa fa-indent' : 'fa fa-dedent'"/>
+                    </button>
+                    <button class="ui-enhance-sidebar__tool-btn"
+                            t-on-click="onOpenActivities"
+                            title="Activity Center">
+                        <i class="fa fa-clock-o"/>
+                    </button>
+                    <button class="ui-enhance-sidebar__tool-btn"
+                            t-on-click="onOpenShortcuts"
+                            title="Keyboard Shortcuts">
+                        <i class="fa fa-keyboard-o"/>
+                    </button>
+                    <button class="ui-enhance-sidebar__tool-btn"
+                            t-on-click="onOpenWorkArea"
+                            title="Work Area">
+                        <i class="fa fa-th-large"/>
+                    </button>
+                </div>
+
+                <!-- 3. App list -->
+                <div class="ui-enhance-sidebar__section-label"
+                     t-if="!sidebarCollapsed">
+                    Modules
+                </div>
+                <nav class="ui-enhance-sidebar__nav">
+                    <t t-foreach="sidebarApps" t-as="app" t-key="app.id">
+                        <a t-att-href="getAppHref(app)"
+                           class="ui-enhance-sidebar__item"
+                           t-att-class="{'active': currentApp and currentApp.id === app.id}"
+                           t-on-click.prevent="() => this.onSidebarAppClick(app)"
+                           t-att-title="app.name"
+                           t-att-data-menu-xmlid="app.xmlid">
+                            <img t-if="app.webIconData"
+                                 t-att-src="app.webIconData"
+                                 class="ui-enhance-sidebar__item-icon"
+                                 t-att-alt="app.name"/>
+                            <span t-else="" class="ui-enhance-sidebar__item-icon-fallback">
+                                <i class="fa fa-cube"/>
+                            </span>
+                            <span class="ui-enhance-sidebar__item-label"
+                                  t-if="!sidebarCollapsed"
+                                  t-esc="app.name"/>
+                        </a>
+                    </t>
+                </nav>
+            </aside>
+        </xpath>
+    </t>
+
+</templates>
