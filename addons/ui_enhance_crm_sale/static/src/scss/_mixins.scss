@@ -1,27 +1,30 @@
 // =============================================================================
-// UI Enhance CRM Sale - Reusable Mixins
+// UI Enhance CRM Sale - Reusable Mixins v2
+// Vibrant & Block-based style
 // =============================================================================
 
-// Card with hover elevation effect
+// Card with bold hover elevation (blue-tinted shadow)
 @mixin ui-enhance-card-hover {
     border-radius: $ui-enhance-radius-md;
-    box-shadow: $ui-enhance-shadow-sm;
+    box-shadow: $ui-enhance-shadow-card;
     transition: box-shadow $ui-enhance-transition-base,
-                transform $ui-enhance-transition-base;
+                transform $ui-enhance-transition-base,
+                border-color $ui-enhance-transition-base;
 
     &:hover {
         box-shadow: $ui-enhance-shadow-hover;
         transform: translateY(-2px);
+        border-color: $ui-enhance-secondary-light;
     }
 }
 
-// Styled section header with bottom accent
+// Styled section header with primary accent
 @mixin ui-enhance-section-header {
-    font-weight: $ui-enhance-font-weight-semibold;
+    font-weight: $ui-enhance-font-weight-bold;
     color: $ui-enhance-text-primary;
     padding-bottom: $ui-enhance-space-sm;
     margin-bottom: $ui-enhance-space-md;
-    border-bottom: 2px solid $ui-enhance-accent-lighter;
+    border-bottom: 2px solid $ui-enhance-primary-light;
 }
 
 // Flex button group with consistent gaps
@@ -45,26 +48,27 @@
 @mixin ui-enhance-badge($bg-color, $text-color: white) {
     display: inline-flex;
     align-items: center;
-    padding: 2px 10px;
+    padding: 3px 12px;
     border-radius: $ui-enhance-radius-pill;
     font-size: 0.75rem;
-    font-weight: $ui-enhance-font-weight-medium;
+    font-weight: $ui-enhance-font-weight-semibold;
     background-color: $bg-color;
     color: $text-color;
     line-height: 1.5;
+    letter-spacing: 0.01em;
 }
 
-// Form section with subtle background
+// Form section with subtle background (block style)
 @mixin ui-enhance-form-section {
     background: $ui-enhance-bg-section;
     border-radius: $ui-enhance-radius-md;
-    padding: $ui-enhance-space-md;
-    border: 1px solid $ui-enhance-border-light;
+    padding: $ui-enhance-space-md $ui-enhance-space-lg;
+    border: 1px solid $ui-enhance-border;
 }
 
-// Left accent border for content blocks
+// Left accent border with primary color
 @mixin ui-enhance-accent-border {
-    border-left: 3px solid $ui-enhance-accent;
+    border-left: 3px solid $ui-enhance-primary;
     padding-left: $ui-enhance-space-md;
 }
 
@@ -84,11 +88,19 @@
     }
 }
 
-// Focus ring for interactive elements
+// Focus ring with primary blue
 @mixin ui-enhance-focus-ring {
     &:focus-within {
         outline: none;
-        box-shadow: 0 0 0 2px $ui-enhance-accent-lighter,
-                    0 0 0 4px rgba($ui-enhance-accent, 0.2);
+        box-shadow: 0 0 0 2px $ui-enhance-primary-light,
+                    0 0 0 4px rgba($ui-enhance-primary, 0.2);
     }
+}
+
+// Block-style container
+@mixin ui-enhance-block {
+    background: $ui-enhance-bg-card;
+    border: 1px solid $ui-enhance-border;
+    border-radius: $ui-enhance-radius-md;
+    padding: $ui-enhance-space-md;
 }

@@ -1,13 +1,15 @@
 // =============================================================================
-// UI Enhance CRM Sale - Sale Order Form View Enhancements
+// UI Enhance CRM Sale - Sale Order Form View Enhancements v2
+// Vibrant blue primary | Block-based sections
 // =============================================================================
 
 .o_sale_order {
-    // Title area
+    // Title area - bold typography
     .oe_title h1 {
         .o_field_widget {
-            font-size: 1.5rem;
-            letter-spacing: -0.01em;
+            font-size: 1.6rem;
+            font-weight: $ui-enhance-font-weight-bold;
+            letter-spacing: -0.02em;
         }
     }
 
@@ -22,15 +24,17 @@
             border-radius: $ui-enhance-radius-sm;
         }
 
-        // Cancel button - danger style
+        // Cancel button - danger with bold hover
         button[name="action_cancel"] {
             color: $ui-enhance-danger;
             border-color: $ui-enhance-danger;
             border-radius: $ui-enhance-radius-sm;
+            font-weight: $ui-enhance-font-weight-medium;
 
             &:hover {
                 background-color: $ui-enhance-danger;
                 color: white;
+                box-shadow: 0 2px 8px rgba($ui-enhance-danger, 0.3);
             }
         }
 
@@ -39,19 +43,21 @@
             border-radius: $ui-enhance-radius-sm;
         }
 
-        // Confirm button (non-primary variant)
+        // Confirm button (non-primary) - primary blue
         button[name="action_confirm"]:not(.btn-primary) {
-            border-color: $ui-enhance-accent;
-            color: $ui-enhance-accent;
+            border-color: $ui-enhance-primary;
+            color: $ui-enhance-primary;
+            font-weight: $ui-enhance-font-weight-medium;
 
             &:hover {
-                background-color: $ui-enhance-accent;
+                background-color: $ui-enhance-primary;
                 color: white;
+                box-shadow: 0 2px 8px rgba($ui-enhance-primary, 0.3);
             }
         }
     }
 
-    // Sale header group - section styling
+    // Sale header - blue accent border
     .o_group[name="sale_header"] {
         > .o_inner_group {
             &[name="partner_details"] {
@@ -60,13 +66,13 @@
         }
     }
 
-    // Order lines table enhancements
+    // Order lines table
     .o_field_widget[name="order_line"] {
         .o_list_table {
-            // Product column - emphasis
+            // Product column
             .o_data_cell .o_field_widget[name="product_template_id"],
             .o_data_cell .o_field_widget[name="product_id"] {
-                font-weight: $ui-enhance-font-weight-medium;
+                font-weight: $ui-enhance-font-weight-semibold;
             }
 
             // Quantity column
@@ -74,7 +80,7 @@
                 text-align: center;
             }
 
-            // Price columns - right align + tabular nums
+            // Price columns - tabular nums
             .o_data_cell .o_field_widget[name="price_unit"],
             .o_data_cell .o_field_widget[name="price_subtotal"],
             .o_data_cell .o_field_widget[name="price_total"],
@@ -82,71 +88,70 @@
                 font-variant-numeric: tabular-nums;
             }
 
-            // Section rows - accent background
+            // Section rows - blue-tinted background
             .o_is_line_section {
-                background-color: $ui-enhance-bg-section;
+                background-color: $ui-enhance-primary-lighter;
 
                 td {
-                    font-weight: $ui-enhance-font-weight-semibold;
-                    color: $ui-enhance-text-primary;
+                    font-weight: $ui-enhance-font-weight-bold;
+                    color: $ui-enhance-primary;
                     font-size: 0.9rem;
-                    border-bottom: 1px solid $ui-enhance-border;
+                    border-bottom: 1px solid $ui-enhance-primary-light;
                 }
             }
 
-            // Note rows - italic style
+            // Note rows
             .o_is_line_note td {
                 font-style: italic;
                 color: $ui-enhance-text-secondary;
                 font-size: 0.85rem;
             }
 
-            // Row hover highlight for editing
+            // Row hover with blue tint
             tbody tr:not(.o_is_line_section):not(.o_is_line_note) {
                 &:hover {
-                    background-color: $ui-enhance-bg-hover;
+                    background-color: $ui-enhance-primary-lighter;
                 }
             }
 
-            // Active row focus ring
+            // Selected row - primary blue focus
             tbody tr.o_selected_row {
-                background-color: $ui-enhance-accent-lighter;
-                box-shadow: inset 3px 0 0 $ui-enhance-accent;
+                background-color: $ui-enhance-primary-light;
+                box-shadow: inset 3px 0 0 $ui-enhance-primary;
             }
         }
 
-        // Add product / Catalog buttons
+        // Add product / Catalog buttons - primary blue
         .o_field_x2many_list_row_add,
         .o_list_button_add {
             a, button {
-                color: $ui-enhance-accent;
-                font-weight: $ui-enhance-font-weight-medium;
+                color: $ui-enhance-primary;
+                font-weight: $ui-enhance-font-weight-semibold;
 
                 &:hover {
-                    color: darken($ui-enhance-accent, 10%);
+                    color: $ui-enhance-primary-hover;
                 }
             }
         }
     }
 
-    // Totals section enhancement
+    // Totals section with primary accent
     .oe_subtotal_footer,
     .o_group[name="sale_total"] {
-        border-top: 2px solid $ui-enhance-border;
+        border-top: 2px solid $ui-enhance-primary-light;
         padding-top: $ui-enhance-space-md;
         margin-top: $ui-enhance-space-sm;
 
-        // Total amount emphasis
         .oe_subtotal_footer_separator {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: $ui-enhance-font-weight-bold;
             color: $ui-enhance-text-primary;
-            border-top: 2px solid $ui-enhance-text-primary;
+            border-top: 2px solid $ui-enhance-primary;
             padding-top: $ui-enhance-space-sm;
         }
     }
 
-    // Discount wizard button
+    // Discount button
     div[name="so_button_below_order_lines"] {
         .btn-secondary {
             border-radius: $ui-enhance-radius-sm;
@@ -154,14 +159,14 @@
         }
     }
 
-    // Terms and conditions field
+    // Terms field
     .o_field_widget[name="note"] {
         .o_field_html {
             min-height: 80px;
         }
     }
 
-    // Other Info tab improvements
+    // Other Info tab labels
     .o_notebook .tab-pane {
         .o_group {
             > .o_inner_group {
@@ -175,6 +180,6 @@
 
     // Locked badge
     .badge.rounded-pill {
-        font-weight: $ui-enhance-font-weight-medium;
+        font-weight: $ui-enhance-font-weight-semibold;
     }
 }

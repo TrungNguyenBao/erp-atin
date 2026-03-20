@@ -7,6 +7,7 @@ set -euo pipefail
 # --- VPS Configuration ---
 VPS_IP="192.168.1.198"
 VPS_USER="btrung"
+VPS_PASS="btrung123"
 REMOTE_DIR="/home/btrung/odoo-deploy"
 
 echo "=== Odoo Docker Deployment ==="

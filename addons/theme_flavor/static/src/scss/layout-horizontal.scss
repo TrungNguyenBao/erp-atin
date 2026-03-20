@@ -1,0 +1,36 @@
+// =============================================================================
+// Theme Flavor - Horizontal Layout
+// Apply theme colors to default Odoo top navbar
+// Activated by: data-tf-layout="horizontal" on <body>
+// =============================================================================
+
+html:has(body[data-tf-layout="horizontal"]) {
+  .o_main_navbar {
+    background: var(--tf-nav-bg) !important;
+
+    .o_menu_brand {
+      color: var(--tf-nav-text-active) !important;
+    }
+
+    .o_menu_sections {
+      .o_nav_entry, .dropdown-toggle {
+        color: var(--tf-nav-text);
+        &:hover {
+          color: var(--tf-nav-text-active);
+        }
+      }
+    }
+
+    .o_menu_systray {
+      .o_nav_entry, .dropdown-toggle,
+      > div > button, > div > a {
+        color: var(--tf-nav-text) !important;
+        &:hover { color: var(--tf-nav-text-active) !important; }
+      }
+      .badge {
+        background-color: var(--tf-btn-danger) !important;
+        color: white !important;
+      }
+    }
+  }
+}

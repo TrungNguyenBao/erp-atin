@@ -1,21 +1,29 @@
 // =============================================================================
-// UI Enhance CRM Sale - CRM Kanban View Enhancements
+// UI Enhance CRM Sale - CRM Kanban View Enhancements v2
+// Vibrant block-based cards with blue hover accent
 // =============================================================================
 
 .o_opportunity_kanban {
-    // Card styling
+    // Card styling - block-based with fade-in
     .o_kanban_record {
         padding: $ui-enhance-kanban-card-padding;
         @include ui-enhance-fade-in(0.25s);
+        border-left: 3px solid transparent;
 
-        // Lead/opportunity name - prominent
+        // Blue left accent on hover
+        &:hover {
+            border-left-color: $ui-enhance-primary;
+        }
+
+        // Lead/opportunity name - bold and prominent
         .fw-bold.fs-5 {
             color: $ui-enhance-text-primary;
+            font-weight: $ui-enhance-font-weight-bold;
             @include ui-enhance-truncate(2);
             margin-bottom: $ui-enhance-space-xs;
         }
 
-        // Revenue display - badge style
+        // Revenue display - vibrant green badge
         > div:nth-child(2) {
             margin-bottom: $ui-enhance-space-sm;
 
@@ -23,6 +31,7 @@
                 font-weight: $ui-enhance-font-weight-bold;
                 color: $ui-enhance-success;
                 font-size: 0.95rem;
+                font-variant-numeric: tabular-nums;
             }
         }
 
@@ -39,67 +48,68 @@
             font-size: 0.875rem;
         }
 
-        // Tags - compact
+        // Tags - compact vibrant pills
         .o_field_many2many_tags {
             margin-top: $ui-enhance-space-xs;
             margin-bottom: $ui-enhance-space-xs;
 
             .badge {
                 font-size: 0.7rem;
-                padding: 1px 8px;
+                font-weight: $ui-enhance-font-weight-semibold;
+                padding: 2px 8px;
                 border-radius: $ui-enhance-radius-pill;
             }
         }
 
-        // Footer separator
+        // Footer with separator
         footer, .oe_kanban_bottom {
-            border-top: 1px solid $ui-enhance-border-light;
+            border-top: 1px solid $ui-enhance-border;
             padding-top: $ui-enhance-space-sm;
             margin-top: $ui-enhance-space-sm;
 
-            // Priority stars
             .o_priority .o_priority_star {
                 font-size: 0.9rem;
             }
 
-            // User avatar
             .o_m2o_avatar > img,
             .o_field_many2one_avatar img {
                 width: 28px;
                 height: 28px;
                 border-radius: 50%;
-                border: 2px solid $ui-enhance-border;
+                border: 2px solid $ui-enhance-primary-light;
             }
         }
 
-        // Lost ribbon on kanban card
         .o_web_ribbon {
             font-size: 0.7rem;
+            font-weight: $ui-enhance-font-weight-bold;
         }
     }
 
-    // Column styling
+    // Column styling with primary blue header accent
     .o_kanban_group {
         background-color: transparent;
 
         .o_kanban_header {
             padding-bottom: $ui-enhance-space-sm;
-            border-bottom: 2px solid $ui-enhance-border;
+            border-bottom: 3px solid $ui-enhance-primary-light;
             margin-bottom: $ui-enhance-space-sm;
 
             .o_column_title {
                 font-weight: $ui-enhance-font-weight-bold;
                 font-size: 0.875rem;
                 color: $ui-enhance-text-primary;
+                letter-spacing: 0.01em;
             }
         }
     }
 
-    // Drag-and-drop visual feedback
+    // Drag-and-drop with blue shadow
     .o_kanban_record.o_dragged {
-        opacity: 0.7;
+        opacity: 0.75;
         box-shadow: $ui-enhance-shadow-lg;
         transform: rotate(2deg);
+        border-left-color: $ui-enhance-primary;
     }
 
     // Column progress bar
@@ -109,8 +119,8 @@
         }
 
         .o_kanban_counter_side {
-            font-weight: $ui-enhance-font-weight-semibold;
-            color: $ui-enhance-text-primary;
+            font-weight: $ui-enhance-font-weight-bold;
+            color: $ui-enhance-primary;
             font-size: 0.85rem;
         }
     }

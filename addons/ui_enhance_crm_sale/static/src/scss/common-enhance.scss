@@ -1,17 +1,18 @@
 // =============================================================================
-// UI Enhance CRM Sale - Common Enhancements
-// Shared styles for form, list, kanban across CRM & Sale modules
+// UI Enhance CRM Sale - Common Enhancements v2
+// Vibrant & Block-based style | Primary: #2563EB | Plus Jakarta Sans
 // =============================================================================
 
 // --- Form Sheet Improvements ---
 .o_form_view {
-    // Better sheet padding and max-width
+    // Block-style sheet container
     .o_form_sheet {
         border-radius: $ui-enhance-radius-lg;
         box-shadow: $ui-enhance-shadow-sm;
+        border: 1px solid $ui-enhance-border;
     }
 
-    // Improved notebook tabs
+    // Notebook tabs with primary blue active state
     .o_notebook {
         .nav-tabs {
             border-bottom: 2px solid $ui-enhance-border;
@@ -19,32 +20,33 @@
 
             .nav-item .nav-link {
                 border: none;
-                border-bottom: 2px solid transparent;
-                padding: $ui-enhance-space-sm $ui-enhance-space-md;
+                border-bottom: 3px solid transparent;
+                padding: $ui-enhance-space-sm $ui-enhance-space-lg;
                 margin-bottom: -2px;
                 font-weight: $ui-enhance-font-weight-medium;
                 color: $ui-enhance-text-secondary;
                 transition: color $ui-enhance-transition-fast,
-                            border-color $ui-enhance-transition-fast;
+                            border-color $ui-enhance-transition-fast,
+                            background-color $ui-enhance-transition-fast;
                 border-radius: $ui-enhance-radius-sm $ui-enhance-radius-sm 0 0;
 
                 &:hover {
-                    color: $ui-enhance-accent;
-                    border-bottom-color: $ui-enhance-accent-light;
-                    background: transparent;
+                    color: $ui-enhance-primary;
+                    border-bottom-color: $ui-enhance-secondary-light;
+                    background: $ui-enhance-primary-lighter;
                 }
 
                 &.active {
-                    color: $ui-enhance-accent;
-                    border-bottom-color: $ui-enhance-accent;
+                    color: $ui-enhance-primary;
+                    border-bottom-color: $ui-enhance-primary;
                     font-weight: $ui-enhance-font-weight-semibold;
-                    background: transparent;
+                    background: $ui-enhance-primary-lighter;
                 }
             }
         }
     }
 
-    // Stat button refinements
+    // Stat buttons with blue hover
     .oe_button_box {
         gap: $ui-enhance-space-xs;
 
@@ -52,17 +54,19 @@
             border-radius: $ui-enhance-radius-sm;
             border-color: $ui-enhance-border;
             transition: background-color $ui-enhance-transition-fast,
-                        box-shadow $ui-enhance-transition-fast;
+                        box-shadow $ui-enhance-transition-fast,
+                        border-color $ui-enhance-transition-fast;
 
             &:hover {
-                background-color: $ui-enhance-bg-hover;
+                background-color: $ui-enhance-primary-lighter;
+                border-color: $ui-enhance-secondary-light;
                 box-shadow: $ui-enhance-shadow-sm;
             }
 
             .o_stat_info {
                 .o_stat_value {
                     font-weight: $ui-enhance-font-weight-bold;
-                    color: $ui-enhance-text-primary;
+                    color: $ui-enhance-primary;
                 }
 
                 .o_stat_text {
@@ -73,11 +77,12 @@
         }
     }
 
-    // Alert message consistency
+    // Alert messages
     .alert {
         border-radius: $ui-enhance-radius-md;
         border: none;
         font-size: 0.875rem;
+        font-weight: $ui-enhance-font-weight-medium;
 
         &.alert-warning {
             background-color: $ui-enhance-warning-light;
@@ -85,8 +90,8 @@
         }
 
         &.alert-info {
-            background-color: $ui-enhance-info-light;
-            color: darken($ui-enhance-info, 25%);
+            background-color: $ui-enhance-primary-light;
+            color: darken($ui-enhance-primary, 15%);
         }
 
         &.alert-danger {
@@ -100,13 +105,25 @@
         }
     }
 
-    // Header button area spacing
+    // Header buttons with vibrant primary
     header {
         .o_statusbar_buttons {
             gap: $ui-enhance-space-sm;
 
             > .btn {
                 border-radius: $ui-enhance-radius-sm;
+                font-weight: $ui-enhance-font-weight-medium;
+            }
+
+            > .btn-primary,
+            > .oe_highlight {
+                background-color: $ui-enhance-primary;
+                border-color: $ui-enhance-primary;
+
+                &:hover {
+                    background-color: $ui-enhance-primary-hover;
+                    border-color: $ui-enhance-primary-hover;
+                }
             }
         }
     }
@@ -119,33 +136,34 @@
         }
     }
 
-    // Chatter section spacing
+    // Chatter section
     .o_FormRenderer_chatterContainer {
-        border-top: 1px solid $ui-enhance-border-light;
-        margin-top: $ui-enhance-space-lg;
+        border-top: 1px solid $ui-enhance-border;
+        margin-top: $ui-enhance-space-xl;
+        padding-top: $ui-enhance-space-md;
     }
 }
 
 // --- JS-triggered Animation Classes ---
 
-// Save flash - brief green border pulse on successful save
+// Save flash - blue border pulse on save
 .ui-enhance-saved-flash {
     animation: uiEnhanceSavedFlash 0.6s ease-out;
 }
 
 @keyframes uiEnhanceSavedFlash {
     0% {
-        box-shadow: 0 0 0 0 rgba($ui-enhance-success, 0.3);
+        box-shadow: 0 0 0 0 rgba($ui-enhance-primary, 0.3);
     }
     50% {
-        box-shadow: 0 0 0 4px rgba($ui-enhance-success, 0.15);
+        box-shadow: 0 0 0 4px rgba($ui-enhance-primary, 0.15);
     }
     100% {
-        box-shadow: 0 0 0 0 rgba($ui-enhance-success, 0);
+        box-shadow: 0 0 0 0 rgba($ui-enhance-primary, 0);
     }
 }
 
-// Highlight pulse - totals section emphasis after amount change
+// Highlight pulse - totals emphasis
 .ui-enhance-highlight-pulse {
     animation: uiEnhanceHighlightPulse 0.8s ease-out;
 }
@@ -155,17 +173,17 @@
         background-color: transparent;
     }
     30% {
-        background-color: rgba($ui-enhance-accent, 0.08);
+        background-color: rgba($ui-enhance-primary, 0.08);
     }
     100% {
         background-color: transparent;
     }
 }
 
-// --- List View Improvements (scoped to enhanced views only) ---
+// --- List View Improvements (scoped) ---
 .ui-enhance-list {
     .o_list_table {
-        // Sticky header
+        // Sticky header with blue accent bottom
         thead th {
             position: sticky;
             top: 0;
@@ -175,25 +193,23 @@
             color: $ui-enhance-text-primary;
             font-size: 0.8125rem;
             text-transform: uppercase;
-            letter-spacing: 0.025em;
-            border-bottom: 2px solid $ui-enhance-border;
+            letter-spacing: 0.03em;
+            border-bottom: 2px solid $ui-enhance-primary-light;
             padding-top: $ui-enhance-space-sm;
             padding-bottom: $ui-enhance-space-sm;
         }
 
-        // Row styling
+        // Row styling with blue hover tint
         tbody tr {
             transition: background-color $ui-enhance-transition-fast;
             min-height: $ui-enhance-list-row-height;
 
-            // Zebra striping
             &:nth-child(even) {
                 background-color: $ui-enhance-bg-zebra;
             }
 
-            // Hover highlight
             &:hover {
-                background-color: $ui-enhance-bg-hover;
+                background-color: $ui-enhance-primary-lighter;
             }
 
             td {
@@ -204,54 +220,58 @@
         }
     }
 
-    // Badge sizing consistency
+    // Badge styling
     .o_field_badge .badge {
         font-size: 0.75rem;
-        font-weight: $ui-enhance-font-weight-medium;
-        padding: 3px 10px;
+        font-weight: $ui-enhance-font-weight-semibold;
+        padding: 3px 12px;
         border-radius: $ui-enhance-radius-pill;
     }
 }
 
-// --- Kanban View Shared Improvements (scoped to enhanced views only) ---
+// --- Kanban View Shared Improvements (scoped) ---
 .ui-enhance-kanban {
-    // Column headers
+    // Column headers - bolder
     .o_kanban_header {
         .o_column_title {
-            font-weight: $ui-enhance-font-weight-semibold;
+            font-weight: $ui-enhance-font-weight-bold;
             color: $ui-enhance-text-primary;
             font-size: 0.9rem;
+            letter-spacing: 0.01em;
         }
     }
 
-    // Kanban card base
+    // Kanban card - block-style with blue hover
     .o_kanban_record {
         border-radius: $ui-enhance-radius-md;
         border: 1px solid $ui-enhance-border;
-        box-shadow: $ui-enhance-shadow-sm;
+        box-shadow: $ui-enhance-shadow-card;
         transition: box-shadow $ui-enhance-transition-base,
-                    transform $ui-enhance-transition-base;
+                    transform $ui-enhance-transition-base,
+                    border-color $ui-enhance-transition-base;
         background: $ui-enhance-bg-card;
 
         &:hover {
             box-shadow: $ui-enhance-shadow-hover;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            border-color: $ui-enhance-secondary-light;
         }
     }
 
-    // Quick create form
+    // Quick create with primary focus ring
     .o_kanban_quick_create {
         border-radius: $ui-enhance-radius-md;
         box-shadow: $ui-enhance-shadow-md;
-        border-color: $ui-enhance-accent-lighter;
+        border-color: $ui-enhance-primary-light;
         background: $ui-enhance-bg-card;
 
         &:focus-within {
-            border-color: $ui-enhance-accent;
+            border-color: $ui-enhance-primary;
+            box-shadow: 0 0 0 3px rgba($ui-enhance-primary, 0.1);
         }
     }
 
-    // Progress bar enhancements
+    // Progress bar with primary blue
     .o_kanban_counter_progress {
         .progress {
             height: 6px;
@@ -260,6 +280,7 @@
 
             .progress-bar {
                 border-radius: $ui-enhance-radius-pill;
+                background-color: $ui-enhance-primary;
             }
         }
     }

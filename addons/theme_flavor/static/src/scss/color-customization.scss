@@ -1,0 +1,83 @@
+// =============================================================================
+// Theme Flavor - Color Customization Bridge
+// Maps --tf-* CSS vars to Odoo component selectors
+// =============================================================================
+
+// -- Buttons --
+.btn-primary {
+  background-color: var(--tf-btn-primary) !important;
+  border-color: var(--tf-btn-primary) !important;
+  &:hover, &:focus {
+    background-color: color-mix(in srgb, var(--tf-btn-primary) 85%, black) !important;
+    border-color: color-mix(in srgb, var(--tf-btn-primary) 85%, black) !important;
+  }
+}
+
+.btn-secondary {
+  background-color: var(--tf-btn-secondary) !important;
+  border-color: var(--tf-btn-secondary) !important;
+  &:hover, &:focus {
+    background-color: color-mix(in srgb, var(--tf-btn-secondary) 85%, black) !important;
+    border-color: color-mix(in srgb, var(--tf-btn-secondary) 85%, black) !important;
+  }
+}
+
+.btn-success {
+  background-color: var(--tf-btn-success) !important;
+  border-color: var(--tf-btn-success) !important;
+  &:hover, &:focus {
+    background-color: color-mix(in srgb, var(--tf-btn-success) 85%, black) !important;
+    border-color: color-mix(in srgb, var(--tf-btn-success) 85%, black) !important;
+  }
+}
+
+.btn-danger {
+  background-color: var(--tf-btn-danger) !important;
+  border-color: var(--tf-btn-danger) !important;
+  &:hover, &:focus {
+    background-color: color-mix(in srgb, var(--tf-btn-danger) 85%, black) !important;
+    border-color: color-mix(in srgb, var(--tf-btn-danger) 85%, black) !important;
+  }
+}
+
+// -- Form Focus States --
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--tf-brand) !important;
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--tf-brand) 25%, transparent) !important;
+}
+
+// -- Links --
+a:not(.btn):not(.nav-link):not(.dropdown-item) {
+  color: var(--tf-brand);
+  &:hover {
+    color: color-mix(in srgb, var(--tf-brand) 80%, black);
+  }
+}
+
+// -- Kanban Highlights --
+.o_kanban_header .o_kanban_count {
+  color: var(--tf-brand);
+}
+
+// -- Badges / Pills --
+.badge.text-bg-primary,
+.badge.bg-primary {
+  background-color: var(--tf-brand) !important;
+}
+
+// -- Progress Bars --
+.progress-bar {
+  background-color: var(--tf-brand) !important;
+}
+
+// -- Checkbox / Radio --
+.form-check-input:checked {
+  background-color: var(--tf-brand);
+  border-color: var(--tf-brand);
+}
+
+// -- Notebook tab active state --
+.o_notebook .nav-tabs .nav-link.active {
+  color: var(--tf-brand);
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record model="ir.config_parameter" id="default_theme_style">
+        <field name="key">theme_flavor.theme_style</field>
+        <field name="value">flat</field>
+    </record>
+    <record model="ir.config_parameter" id="default_menu_layout">
+        <field name="key">theme_flavor.menu_layout</field>
+        <field name="value">horizontal</field>
+    </record>
+    <record model="ir.config_parameter" id="default_color_preset">
+        <field name="key">theme_flavor.color_preset</field>
+        <field name="value">default</field>
+    </record>
+    <record model="ir.config_parameter" id="default_brand_color">
+        <field name="key">theme_flavor.brand_color</field>
+        <field name="value">#714B67</field>
+    </record>
+    <record model="ir.config_parameter" id="default_nav_color">
+        <field name="key">theme_flavor.nav_color</field>
+        <field name="value">#714B67</field>
+    </record>
+    <record model="ir.config_parameter" id="default_accent_color">
+        <field name="key">theme_flavor.accent_color</field>
+        <field name="value">#714B67</field>
+    </record>
+    <record model="ir.config_parameter" id="default_btn_primary_color">
+        <field name="key">theme_flavor.btn_primary_color</field>
+        <field name="value">#714B67</field>
+    </record>
+    <record model="ir.config_parameter" id="default_btn_secondary_color">
+        <field name="key">theme_flavor.btn_secondary_color</field>
+        <field name="value">#6C757D</field>
+    </record>
+    <record model="ir.config_parameter" id="default_btn_success_color">
+        <field name="key">theme_flavor.btn_success_color</field>
+        <field name="value">#28A745</field>
+    </record>
+    <record model="ir.config_parameter" id="default_btn_danger_color">
+        <field name="key">theme_flavor.btn_danger_color</field>
+        <field name="value">#DC3545</field>
+    </record>
+</odoo>

@@ -1,0 +1,150 @@
+// =============================================================================
+// Theme Flavor - Aurora UI
+// Gradients, glassmorphism, blur effects, soft shadows
+// Activated by: data-tf-theme="aurora" on <body>
+// =============================================================================
+
+// Mixins available via asset bundle load order (_mixins.scss loads first)
+
+[data-tf-theme="aurora"] {
+  // Enhanced shadows for depth
+  --tf-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --tf-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --tf-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
+
+  // Larger radius for soft look
+  --tf-radius-sm: 8px;
+  --tf-radius-md: 12px;
+  --tf-radius-lg: 16px;
+
+  // -- Form Views: Glassmorphism --
+  .o_form_view .o_form_sheet {
+    @include tf-glassmorphism(0.75, 12px);
+    @include tf-glassmorphism-fallback;
+    box-shadow: var(--tf-shadow-md);
+    border-radius: var(--tf-radius-lg);
+  }
+
+  // -- Kanban Cards: Glass with hover lift --
+  .o_kanban_record {
+    @include tf-glassmorphism(0.8, 8px);
+    @include tf-glassmorphism-fallback;
+    box-shadow: var(--tf-shadow-sm);
+    border-radius: var(--tf-radius-md);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--tf-shadow-lg);
+    }
+  }
+
+  // -- Kanban Column Headers --
+  .o_kanban_group .o_kanban_header {
+    border-bottom: none;
+    padding-bottom: var(--tf-space-sm);
+  }
+
+  // -- Navbar: Gradient + blur --
+  .o_main_navbar {
+    background: linear-gradient(
+      135deg,
+      var(--tf-nav-bg),
+      color-mix(in srgb, var(--tf-nav-bg) 70%, white)
+    ) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: var(--tf-shadow-sm);
+  }
+
+  // -- Buttons: Gradient + soft shadow --
+  .btn-primary {
+    background: linear-gradient(
+      135deg,
+      var(--tf-btn-primary),
+      color-mix(in srgb, var(--tf-btn-primary) 75%, white)
+    ) !important;
+    border-color: var(--tf-btn-primary) !important;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--tf-btn-primary) 30%, transparent);
+    border-radius: var(--tf-radius-sm);
+
+    &:hover {
+      box-shadow: 0 6px 16px color-mix(in srgb, var(--tf-btn-primary) 40%, transparent);
+    }
+  }
+
+  .btn-success {
+    background: linear-gradient(
+      135deg,
+      var(--tf-btn-success),
+      color-mix(in srgb, var(--tf-btn-success) 75%, white)
+    ) !important;
+    border-color: var(--tf-btn-success) !important;
+    border-radius: var(--tf-radius-sm);
+  }
+
+  .btn-danger {
+    background: linear-gradient(
+      135deg,
+      var(--tf-btn-danger),
+      color-mix(in srgb, var(--tf-btn-danger) 75%, white)
+    ) !important;
+    border-color: var(--tf-btn-danger) !important;
+    border-radius: var(--tf-radius-sm);
+  }
+
+  // -- Action Manager: Subtle gradient background --
+  .o_action_manager {
+    background: linear-gradient(
+      180deg,
+      var(--tf-surface) 0%,
+      var(--tf-surface-alt) 100%
+    );
+  }
+
+  // -- List Views --
+  .o_list_view .o_list_table {
+    th {
+      @include tf-glassmorphism(0.9, 4px);
+      @include tf-glassmorphism-fallback;
+    }
+    tr:hover td {
+      background-color: color-mix(in srgb, var(--tf-brand) 5%, white);
+    }
+  }
+
+  // -- Control Panel --
+  .o_control_panel {
+    box-shadow: var(--tf-shadow-sm);
+    border-bottom: none;
+  }
+
+  // -- Notebook Tabs --
+  .o_notebook .nav-tabs .nav-link {
+    border-radius: var(--tf-radius-sm) var(--tf-radius-sm) 0 0;
+    transition: all var(--tf-transition-fast);
+
+    &.active {
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--tf-brand) 8%, white),
+        var(--tf-surface)
+      );
+      border-bottom: 2px solid var(--tf-brand);
+    }
+  }
+
+  // -- Dialogs --
+  .modal-content {
+    @include tf-glassmorphism(0.85, 16px);
+    @include tf-glassmorphism-fallback;
+    box-shadow: var(--tf-shadow-lg);
+    border-radius: var(--tf-radius-lg);
+  }
+
+  // -- Statusbar --
+  .o_statusbar_status button {
+    border-radius: var(--tf-radius-sm);
+    transition: all var(--tf-transition-fast);
+  }
+}

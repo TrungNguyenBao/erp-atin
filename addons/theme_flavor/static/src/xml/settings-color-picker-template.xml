@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="theme_flavor.ColorPicker">
+        <div class="d-flex align-items-center gap-2">
+            <input type="color"
+                   t-att-value="state.color"
+                   t-on-input="onColorChange"
+                   style="width: 36px; height: 36px; padding: 2px; border: 1px solid #dee2e6; border-radius: 4px; cursor: pointer;"/>
+            <input type="text"
+                   t-att-value="state.color"
+                   t-on-change="onTextChange"
+                   class="form-control"
+                   maxlength="7"
+                   placeholder="#000000"
+                   style="width: 100px; font-family: monospace;"/>
+            <span class="rounded-circle border"
+                  t-attf-style="background: #{state.color}; width: 24px; height: 24px; display: inline-block;"/>
+        </div>
+    </t>
+
+</templates>

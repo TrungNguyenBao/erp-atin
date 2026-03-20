@@ -1,0 +1,56 @@
+// =============================================================================
+// Theme Flavor - Shared Mixins
+// =============================================================================
+
+// Glassmorphism effect (for Aurora theme)
+@mixin tf-glassmorphism($opacity: 0.75, $blur: 12px) {
+  background: rgba(255, 255, 255, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+// Glassmorphism fallback for unsupported browsers
+@mixin tf-glassmorphism-fallback {
+  @supports not (backdrop-filter: blur(1px)) {
+    background: rgba(255, 255, 255, 0.95);
+  }
+}
+
+// Card hover effect with elevation
+@mixin tf-card-hover {
+  transition: transform var(--tf-transition-base),
+              box-shadow var(--tf-transition-base);
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--tf-shadow-lg);
+  }
+}
+
+// Focus ring with brand color
+@mixin tf-focus-ring {
+  &:focus-within {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--tf-brand-light),
+                0 0 0 4px var(--tf-brand-lighter);
+  }
+}
+
+// Fade-in animation
+@mixin tf-fade-in($duration: 0.3s) {
+  animation: tfFadeIn $duration ease-out;
+}
+
+@keyframes tfFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// Truncate text to N lines
+@mixin tf-truncate($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

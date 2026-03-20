@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="theme_flavor_icon_tree" model="ir.ui.view">
+        <field name="name">theme.flavor.icon.tree</field>
+        <field name="model">theme.flavor.icon</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="menu_id"/>
+                <field name="icon_type"/>
+                <field name="fa_icon" invisible="icon_type != 'fa'"/>
+                <field name="fa_color" widget="color" invisible="icon_type != 'fa'"/>
+                <field name="fa_bg_color" widget="color" invisible="icon_type != 'fa'"/>
+                <field name="custom_icon" widget="image" invisible="icon_type != 'custom'"
+                       options="{'size': [64, 64]}"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="theme_flavor_icon_form" model="ir.ui.view">
+        <field name="name">theme.flavor.icon.form</field>
+        <field name="model">theme.flavor.icon</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="menu_id"/>
+                            <field name="icon_type"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="fa_icon" invisible="icon_type != 'fa'"
+                                   placeholder="fa-shopping-cart"/>
+                            <field name="fa_color" widget="color" invisible="icon_type != 'fa'"/>
+                            <field name="fa_bg_color" widget="color" invisible="icon_type != 'fa'"/>
+                            <field name="custom_icon" widget="image"
+                                   invisible="icon_type != 'custom'"
+                                   options="{'size': [128, 128]}"/>
+                            <field name="custom_icon_filename" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_theme_flavor_icon" model="ir.actions.act_window">
+        <field name="name">Module Icon Overrides</field>
+        <field name="res_model">theme.flavor.icon</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No icon overrides yet
+            </p>
+            <p>
+                Override module icons with FontAwesome icons or custom images.
+            </p>
+        </field>
+    </record>
+</odoo>

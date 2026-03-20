@@ -1,0 +1,92 @@
+// =============================================================================
+// Theme Flavor - Flat Design
+// Clean, minimal, solid colors, no shadows
+// Activated by: data-tf-theme="flat" on <body>
+// =============================================================================
+
+[data-tf-theme="flat"] {
+  // Override shadow tokens to none
+  --tf-shadow-sm: none;
+  --tf-shadow-md: none;
+  --tf-shadow-lg: none;
+
+  // Tighter radius for flat look
+  --tf-radius-sm: 4px;
+  --tf-radius-md: 6px;
+  --tf-radius-lg: 8px;
+
+  // -- Form Views --
+  .o_form_view .o_form_sheet {
+    box-shadow: none;
+    border: 1px solid var(--tf-border);
+    border-radius: var(--tf-radius-md);
+  }
+
+  // -- Kanban Cards --
+  .o_kanban_record {
+    box-shadow: none;
+    border: 1px solid var(--tf-border);
+    border-radius: var(--tf-radius-sm);
+    transition: border-color var(--tf-transition-fast);
+
+    &:hover {
+      border-color: var(--tf-brand);
+    }
+  }
+
+  // -- Kanban Column Headers --
+  .o_kanban_group .o_kanban_header {
+    border-bottom: 2px solid var(--tf-border);
+  }
+
+  // -- Buttons: solid, no shadow --
+  .btn-primary, .btn-secondary, .btn-success, .btn-danger {
+    box-shadow: none !important;
+    border-radius: var(--tf-radius-sm);
+  }
+
+  // -- Navbar: flat with border --
+  .o_main_navbar {
+    box-shadow: none;
+    border-bottom: 2px solid var(--tf-border);
+  }
+
+  // -- List Views --
+  .o_list_view .o_list_table {
+    th {
+      border-bottom: 2px solid var(--tf-border);
+      background: var(--tf-surface-alt);
+    }
+    tr:hover td {
+      background-color: var(--tf-surface-hover);
+    }
+  }
+
+  // -- Control Panel --
+  .o_control_panel {
+    box-shadow: none;
+    border-bottom: 1px solid var(--tf-border);
+  }
+
+  // -- Notebook Tabs --
+  .o_notebook .nav-tabs .nav-link {
+    border-radius: var(--tf-radius-sm) var(--tf-radius-sm) 0 0;
+    &.active {
+      border-bottom: 2px solid var(--tf-brand);
+    }
+  }
+
+  // -- Dialogs --
+  .modal-content {
+    box-shadow: none;
+    border: 1px solid var(--tf-border);
+    border-radius: var(--tf-radius-md);
+  }
+
+  // -- Statusbar --
+  .o_statusbar_status {
+    button {
+      border-radius: var(--tf-radius-sm);
+    }
+  }
+}

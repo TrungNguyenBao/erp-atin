@@ -1,0 +1,46 @@
+// =============================================================================
+// Theme Flavor - Icon Customizer Styles
+// Styling for FontAwesome icon overrides in sidebar and navbar
+// =============================================================================
+
+// -- FA Icon in Sidebar --
+.tf-sidebar__item-icon-fa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  transition: all var(--tf-transition-fast);
+}
+
+// -- Custom Image Icon --
+.tf-sidebar__item-icon-custom {
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+// -- FA Icon in Horizontal Navbar App Switcher --
+.tf-navbar-app-icon-fa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.tf-navbar-app-icon-custom {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}

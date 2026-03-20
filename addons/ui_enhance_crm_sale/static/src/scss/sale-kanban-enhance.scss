@@ -1,85 +1,85 @@
 // =============================================================================
-// UI Enhance CRM Sale - Sale Kanban & List View Enhancements
+// UI Enhance CRM Sale - Sale Kanban & List View Enhancements v2
+// Vibrant blue primary | Block-based cards
 // =============================================================================
 
-// --- Sale Kanban View (scoped to ui-enhance-kanban class) ---
+// --- Sale Kanban View (scoped) ---
 .ui-enhance-kanban {
-    // Sale order kanban cards
     .o_kanban_record {
-        // Partner name - prominent
+        // Partner name - bold primary
         .fw-bolder.fs-5 {
             color: $ui-enhance-text-primary;
+            font-weight: $ui-enhance-font-weight-bold;
             @include ui-enhance-truncate(1);
         }
 
-        // Amount total - green badge style
+        // Amount total - vibrant green
         .o_field_monetary.fw-bolder {
             color: $ui-enhance-success;
+            font-weight: $ui-enhance-font-weight-bold;
             font-variant-numeric: tabular-nums;
         }
 
         // Footer area
         footer {
-            border-top: 1px solid $ui-enhance-border-light;
+            border-top: 1px solid $ui-enhance-border;
             padding-top: $ui-enhance-space-sm;
 
-            // Order number and date
             .text-muted {
                 font-size: 0.8rem;
                 color: $ui-enhance-text-muted;
             }
 
-            // Status label
             .o_field_widget[name="state"] {
                 .badge, .o_selection_badge {
                     font-size: 0.7rem;
-                    font-weight: $ui-enhance-font-weight-semibold;
+                    font-weight: $ui-enhance-font-weight-bold;
                     border-radius: $ui-enhance-radius-pill;
-                    padding: 2px 10px;
+                    padding: 3px 10px;
                 }
             }
         }
     }
 }
 
-// --- Sale List View Enhancements (scoped to ui-enhance-list) ---
+// --- Sale List View (scoped) ---
 .ui-enhance-list.o_sale_order,
 .o_sale_order .ui-enhance-list {
     .o_list_table {
-        // Order number column - bold
+        // Order number - primary blue link style
         .o_data_cell .o_field_widget[name="name"] {
-            font-weight: $ui-enhance-font-weight-semibold;
-            color: $ui-enhance-accent;
+            font-weight: $ui-enhance-font-weight-bold;
+            color: $ui-enhance-primary;
         }
 
-        // Amount columns - right aligned with tabular nums
         .o_data_cell .o_field_monetary {
             font-variant-numeric: tabular-nums;
         }
 
-        // Amount total - emphasis
         .o_data_cell .o_field_widget[name="amount_total"] {
-            font-weight: $ui-enhance-font-weight-semibold;
+            font-weight: $ui-enhance-font-weight-bold;
+            color: $ui-enhance-success;
         }
     }
 }
 
-// --- CRM List View Enhancements (scoped to ui-enhance-list) ---
+// --- CRM List View (scoped) ---
 .ui-enhance-list {
     .o_list_table {
-        // Lead name column - bold
+        // Lead name - primary blue
         .o_data_cell .o_field_widget[name="name"] {
-            font-weight: $ui-enhance-font-weight-medium;
+            font-weight: $ui-enhance-font-weight-semibold;
+            color: $ui-enhance-primary;
         }
 
-        // Revenue column
+        // Revenue column - green emphasis
         .o_data_cell .o_field_widget[name="expected_revenue"] {
             font-variant-numeric: tabular-nums;
-            font-weight: $ui-enhance-font-weight-medium;
+            font-weight: $ui-enhance-font-weight-semibold;
             color: $ui-enhance-success;
         }
 
-        // Partner column - secondary
+        // Partner column
         .o_data_cell .o_field_widget[name="partner_id"] {
             color: $ui-enhance-text-secondary;
         }

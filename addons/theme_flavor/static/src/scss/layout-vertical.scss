@@ -1,0 +1,282 @@
+// =============================================================================
+// Theme Flavor - Vertical Sidebar Layout
+// Activated by: data-tf-layout="vertical" on <body>
+// Adapted from ui_enhance_crm_sale, uses --tf-* CSS vars
+// =============================================================================
+
+// --- Sidebar Variables (SCSS for static dimensions) ---
+$tf-sidebar-width: 210px;
+$tf-sidebar-width-collapsed: 56px;
+$tf-sidebar-transition: width 0.2s ease, padding 0.2s ease;
+
+// --- Layout: CSS Grid (body carries the attribute) ---
+// Odoo 18: .o_web_client is mounted under <html>, not <body>
+// body data attributes set by theme-flavor-service.js
+// Use [data-tf-layout] on body as context via :has() on html
+html:not(.o_fullscreen):has(body[data-tf-layout="vertical"]) {
+  > .o_web_client {
+    display: grid !important;
+    grid-template-columns: $tf-sidebar-width 1fr !important;
+    grid-template-rows: auto 1fr !important;
+    flex-flow: unset !important;
+    height: 100%;
+    overflow: hidden;
+    transition: grid-template-columns 0.2s ease;
+
+    &:has(.tf-sidebar.collapsed) {
+      grid-template-columns: $tf-sidebar-width-collapsed 1fr !important;
+    }
+
+    > .tf-sidebar { grid-column: 1; grid-row: 1 / -1; }
+    > .o_navbar, > header.o_navbar { grid-column: 2; grid-row: 1; }
+    > .o_action_manager { grid-column: 2; grid-row: 2; overflow: auto; }
+    > .o_main_components_container, > .o-main-components-container { grid-column: 2; grid-row: 1 / -1; pointer-events: none; z-index: 1060; }
+    > .o-main-components-container > * { pointer-events: auto; }
+  }
+}
+
+// --- Hide sidebar when horizontal layout ---
+body:not([data-tf-layout="vertical"]) .tf-sidebar {
+  display: none !important;
+}
+
+// --- Sidebar Container ---
+.tf-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: $tf-sidebar-width;
+  height: 100%;
+  background-color: var(--tf-nav-bg);
+  color: var(--tf-nav-text);
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1050;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  transition: $tf-sidebar-transition;
+
+  &::-webkit-scrollbar { width: 3px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+  }
+
+  // --- Collapsed state ---
+  &.collapsed {
+    width: $tf-sidebar-width-collapsed;
+
+    .tf-sidebar__brand { padding: 10px 0; justify-content: center; }
+    .tf-sidebar__logo-img { max-width: 32px; }
+    .tf-sidebar__toolbar { flex-wrap: wrap; padding: 6px 4px; gap: 2px; }
+    .tf-sidebar__nav { padding: 0 4px; }
+    .tf-sidebar__item { justify-content: center; padding: 8px; }
+    .tf-sidebar__section-label { display: none; }
+  }
+}
+
+// --- 1. Logo ---
+.tf-sidebar__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  min-height: 48px;
+  flex-shrink: 0;
+}
+
+.tf-sidebar__logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.tf-sidebar__logo-img {
+  max-height: 30px;
+  max-width: 140px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  transition: max-width 0.2s ease;
+}
+
+// --- 2. Toolbar (icon buttons row) ---
+.tf-sidebar__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.tf-sidebar__tool-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--tf-nav-text);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: var(--tf-nav-hover);
+    color: var(--tf-nav-text-active);
+  }
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+// --- 3. Section Labels ---
+.tf-sidebar__section-label {
+  padding: 14px 16px 6px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}
+
+// --- 4. App Navigation ---
+.tf-sidebar__nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 8px;
+  overflow-y: auto;
+}
+
+.tf-sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  color: var(--tf-nav-text);
+  text-decoration: none;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  &:hover {
+    background-color: var(--tf-nav-hover);
+    color: var(--tf-nav-text-active);
+    text-decoration: none;
+  }
+
+  &.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--tf-nav-text-active);
+    font-weight: 600;
+  }
+}
+
+// --- Item Icons ---
+.tf-sidebar__item-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.tf-sidebar__item-icon-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 0.7rem;
+  color: var(--tf-nav-text);
+  flex-shrink: 0;
+}
+
+.tf-sidebar__item-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// --- Top Navbar: White background when vertical layout active ---
+// body[data-tf-layout] is sibling of .o_web_client under html, use :has()
+html:has(body[data-tf-layout="vertical"]) {
+  .o_main_navbar {
+    background: var(--tf-surface) !important;
+    border-bottom: 1px solid var(--tf-border) !important;
+
+    .o_menu_brand,
+    .o_navbar_breadcrumbs,
+    .o_navbar_breadcrumbs .btn {
+      color: var(--tf-text) !important;
+    }
+
+    .o_menu_sections {
+      .o_nav_entry, .dropdown-toggle {
+        color: var(--tf-text-secondary);
+        background: transparent;
+        &:hover {
+          color: var(--tf-text);
+          background: var(--tf-surface-hover);
+        }
+      }
+    }
+
+    .o_menu_systray {
+      .o_nav_entry, .dropdown-toggle,
+      > div > button, > div > a {
+        color: var(--tf-text-secondary) !important;
+        &:hover { color: var(--tf-text) !important; }
+      }
+      .badge {
+        background-color: var(--tf-btn-danger) !important;
+        color: white !important;
+      }
+    }
+
+    // Hide apps menu in navbar when sidebar handles navigation
+    .o_navbar_apps_menu { display: none !important; }
+    .o_menu_brand { font-weight: 600; }
+  }
+}
+
+// --- Mobile: Hide sidebar, restore default navbar ---
+@media (max-width: 767.98px) {
+  .tf-sidebar { display: none !important; }
+
+  html:has(body[data-tf-layout="vertical"]) {
+    .o_web_client {
+      display: flex !important;
+      flex-flow: column nowrap !important;
+    }
+
+    .o_main_navbar {
+      background: var(--tf-nav-bg) !important;
+      border-bottom: none !important;
+
+      .o_menu_brand, .o_navbar_breadcrumbs .btn {
+        color: var(--tf-nav-text) !important;
+      }
+      .o_navbar_apps_menu { display: flex !important; }
+      .o_menu_systray {
+        .o_nav_entry, .dropdown-toggle,
+        > div > button, > div > a {
+          color: var(--tf-nav-text) !important;
+        }
+      }
+    }
+  }
+}

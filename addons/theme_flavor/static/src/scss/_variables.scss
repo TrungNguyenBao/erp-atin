@@ -1,0 +1,62 @@
+// =============================================================================
+// Theme Flavor - CSS Custom Properties (Design Tokens)
+// Runtime-switchable via JS service
+// =============================================================================
+
+:root {
+  // -- Brand --
+  --tf-brand: #714B67;
+  --tf-brand-hover: color-mix(in srgb, var(--tf-brand) 85%, black);
+  --tf-brand-light: color-mix(in srgb, var(--tf-brand) 15%, white);
+  --tf-brand-lighter: color-mix(in srgb, var(--tf-brand) 8%, white);
+
+  // -- Navigation --
+  --tf-nav-bg: #714B67;
+  --tf-nav-text: rgba(255, 255, 255, 0.85);
+  --tf-nav-text-active: #FFFFFF;
+  --tf-nav-hover: color-mix(in srgb, var(--tf-nav-bg) 85%, black);
+
+  // -- Surface --
+  --tf-surface: #FFFFFF;
+  --tf-surface-alt: #F8FAFC;
+  --tf-surface-hover: #F1F5F9;
+
+  // -- Text --
+  --tf-text: #1E293B;
+  --tf-text-secondary: #475569;
+  --tf-text-muted: #94A3B8;
+
+  // -- Borders --
+  --tf-border: #E2E8F0;
+  --tf-border-light: #F1F5F9;
+  --tf-border-focus: var(--tf-brand);
+
+  // -- Shadows --
+  --tf-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --tf-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --tf-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  // -- Radius --
+  --tf-radius-sm: 6px;
+  --tf-radius-md: 10px;
+  --tf-radius-lg: 14px;
+  --tf-radius-pill: 50px;
+
+  // -- Buttons --
+  --tf-btn-primary: var(--tf-brand);
+  --tf-btn-secondary: #6C757D;
+  --tf-btn-success: #28A745;
+  --tf-btn-danger: #DC3545;
+
+  // -- Spacing --
+  --tf-space-xs: 4px;
+  --tf-space-sm: 8px;
+  --tf-space-md: 16px;
+  --tf-space-lg: 24px;
+  --tf-space-xl: 32px;
+
+  // -- Transitions --
+  --tf-transition-fast: 0.15s ease;
+  --tf-transition-base: 0.2s ease;
+  --tf-transition-slow: 0.3s ease-in-out;
+}

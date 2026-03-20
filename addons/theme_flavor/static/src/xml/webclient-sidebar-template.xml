@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <!-- Extend WebClient template to inject vertical sidebar -->
+    <t t-inherit="web.WebClient" t-inherit-mode="extension">
+        <xpath expr="//NavBar" position="before">
+            <aside t-if="!state.fullscreen"
+                   t-att-class="'tf-sidebar' + (this._tfSidebarState and this._tfSidebarState.collapsed ? ' collapsed' : '')">
+
+                <!-- 1. Logo -->
+                <div class="tf-sidebar__brand">
+                    <a href="/odoo" class="tf-sidebar__logo">
+                        <img src="/web/binary/company_logo"
+                             class="tf-sidebar__logo-img"
+                             alt="Logo"/>
+                    </a>
+                </div>
+
+                <!-- 2. Toolbar: 4 icon buttons -->
+                <div class="tf-sidebar__toolbar">
+                    <button class="tf-sidebar__tool-btn"
+                            t-on-click="tfOnToggleSidebar"
+                            title="Toggle sidebar">
+                        <i t-att-class="this._tfSidebarState and this._tfSidebarState.collapsed ? 'fa fa-indent' : 'fa fa-dedent'"/>
+                    </button>
+                    <button class="tf-sidebar__tool-btn"
+                            t-on-click="tfOnOpenActivities"
+                            title="Activity Center">
+                        <i class="fa fa-clock-o"/>
+                    </button>
+                    <button class="tf-sidebar__tool-btn"
+                            t-on-click="tfOnOpenShortcuts"
+                            title="Keyboard Shortcuts">
+                        <i class="fa fa-keyboard-o"/>
+                    </button>
+                    <button class="tf-sidebar__tool-btn"
+                            t-on-click="tfOnOpenWorkArea"
+                            title="Work Area">
+                        <i class="fa fa-th-large"/>
+                    </button>
+                </div>
+
+                <!-- 3. Section Label -->
+                <div class="tf-sidebar__section-label"
+                     t-if="!(this._tfSidebarState and this._tfSidebarState.collapsed)">
+                    Modules
+                </div>
+
+                <!-- 4. App list -->
+                <nav class="tf-sidebar__nav">
+                    <t t-foreach="this.tfSidebarApps" t-as="app" t-key="app.id">
+                        <a t-att-href="this.tfGetAppHref(app)"
+                           class="tf-sidebar__item"
+                           t-att-class="{'active': this.tfCurrentApp and this.tfCurrentApp.id === app.id}"
+                           t-on-click.prevent="() => this.tfOnSidebarAppClick(app)"
+                           t-att-title="app.name"
+                           t-att-data-menu-xmlid="app.xmlid">
+
+                            <!-- Icon: check for override first -->
+                            <t t-set="iconOv" t-value="this.tfGetAppIconOverride(app)"/>
+
+                            <!-- FontAwesome override -->
+                            <t t-if="iconOv and iconOv.type === 'fa'">
+                                <span class="tf-sidebar__item-icon-fa"
+                                      t-attf-style="background: #{iconOv.faBgColor || '#714B67'}; color: #{iconOv.faColor || '#FFFFFF'};">
+                                    <i t-attf-class="fa #{iconOv.faIcon || 'fa-cube'}"/>
+                                </span>
+                            </t>
+                            <!-- Custom image override -->
+                            <t t-elif="iconOv and iconOv.type === 'custom'">
+                                <img t-att-src="iconOv.imageUrl"
+                                     class="tf-sidebar__item-icon-custom"
+                                     t-att-alt="app.name"/>
+                            </t>
+                            <!-- Default Odoo icon -->
+                            <t t-elif="app.webIconData">
+                                <img t-att-src="app.webIconData"
+                                     class="tf-sidebar__item-icon"
+                                     t-att-alt="app.name"/>
+                            </t>
+                            <!-- Fallback icon -->
+                            <t t-else="">
+                                <span class="tf-sidebar__item-icon-fallback">
+                                    <i class="fa fa-cube"/>
+                                </span>
+                            </t>
+
+                            <span class="tf-sidebar__item-label"
+                                  t-if="!(this._tfSidebarState and this._tfSidebarState.collapsed)"
+                                  t-esc="app.name"/>
+                        </a>
+                    </t>
+                </nav>
+            </aside>
+        </xpath>
+    </t>
+
+</templates>
