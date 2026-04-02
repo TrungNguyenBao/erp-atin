@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<!-- ── Type Icon SVG sub-template ────────────────────────────────────────── -->
+<t t-name="project_scrum.TypeIcon">
+    <!-- Story: bookmark -->
+    <t t-if="type === 'story'">
+        <svg class="o-sprint-board__type-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+    </t>
+    <!-- Task: check-square -->
+    <t t-elif="type === 'task'">
+        <svg class="o-sprint-board__type-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    </t>
+    <!-- Bug: circle-x -->
+    <t t-elif="type === 'bug'">
+        <svg class="o-sprint-board__type-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+    </t>
+    <!-- Improvement: trending-up -->
+    <t t-elif="type === 'improvement'">
+        <svg class="o-sprint-board__type-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+    </t>
+    <!-- Epic: lightning-bolt -->
+    <t t-elif="type === 'epic'">
+        <svg class="o-sprint-board__type-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    </t>
+    <!-- Fallback: circle -->
+    <t t-else="">
+        <svg class="o-sprint-board__type-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+    </t>
+</t>
+
+<!-- ── Sprint Board root template ─────────────────────────────────────────── -->
+<t t-name="project_scrum.SprintBoard">
+    <div class="o-sprint-board">
+
+        <!-- Loading skeleton -->
+        <t t-if="state.loading">
+            <div class="o-sprint-board__skeleton">
+                <div class="o-sprint-board__skeleton-header"/>
+                <div class="o-sprint-board__skeleton-columns">
+                    <t t-foreach="[1,2,3,4]" t-as="n" t-key="n">
+                        <div class="o-sprint-board__skeleton-col">
+                            <div class="o-sprint-board__skeleton-col-header"/>
+                            <div class="o-sprint-board__skeleton-card"/>
+                            <div class="o-sprint-board__skeleton-card"/>
+                            <div class="o-sprint-board__skeleton-card o-sprint-board__skeleton-card--short"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+
+        <!-- Empty state: no sprints found -->
+        <t t-elif="state.sprints.length === 0">
+            <div class="o-sprint-board__empty">
+                <div class="o-sprint-board__empty-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="o-sprint-board__empty-title">No active sprint</div>
+                <div class="o-sprint-board__empty-msg">
+                    Start a sprint from the Sprints menu to see tasks here.
+                </div>
+            </div>
+        </t>
+
+        <!-- Board -->
+        <t t-else="">
+
+            <!-- Board header: sprint selector + filter chips + actions -->
+            <div class="o-sprint-board__header">
+                <div class="o-sprint-board__header-left">
+                    <select
+                        class="o-sprint-board__sprint-selector"
+                        t-on-change="onSprintChange"
+                    >
+                        <t t-foreach="state.sprints" t-as="sprint" t-key="sprint.id">
+                            <option
+                                t-att-value="sprint.id"
+                                t-att-selected="sprint.id === state.sprintId"
+                            >
+                                <t t-esc="sprint.name"/>
+                            </option>
+                        </t>
+                    </select>
+                    <t t-if="activeSprint">
+                        <span class="o-sprint-board__dates">
+                            <t t-esc="activeSprint.start_date"/> –
+                            <t t-esc="activeSprint.end_date"/>
+                        </span>
+                    </t>
+                </div>
+
+                <!-- Filter chips (visual-only — no handlers, wire in follow-up) -->
+                <div class="o-sprint-board__filter-chips">
+                    <button class="o-sprint-board__chip o-sprint-board__chip--active">All</button>
+                    <button class="o-sprint-board__chip">My Issues</button>
+                    <button class="o-sprint-board__chip">Blocked</button>
+                </div>
+
+                <div class="o-sprint-board__header-right">
+                    <button
+                        class="btn btn-sm o-sprint-board__backlog-toggle"
+                        t-on-click="toggleBacklog"
+                        t-att-title="state.showBacklog ? 'Hide Backlog' : 'Show Backlog'"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                        Backlog
+                    </button>
+                    <button class="btn btn-primary btn-sm o-sprint-board__create-btn"
+                            t-on-click="onCreateTask">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Create Issue
+                    </button>
+                </div>
+            </div>
+
+            <!-- Board body: columns + optional backlog sidebar -->
+            <div class="o-sprint-board__body">
+
+                <!-- Kanban columns -->
+                <div class="o-sprint-board__columns">
+                    <t t-foreach="state.columns" t-as="col" t-key="col.stage_id">
+                        <div
+                            t-att-class="'o-sprint-board__column' + (col.is_closed ? ' o-sprint-board__column--closed' : '')"
+                        >
+                            <!-- Column header -->
+                            <div class="o-sprint-board__col-header">
+                                <span class="o-sprint-board__col-name" t-esc="col.stage_name"/>
+                                <span class="o-sprint-board__col-meta">
+                                    <span class="o-sprint-board__col-count" t-esc="col.task_count"/>
+                                    <span class="o-sprint-board__col-sp">
+                                        <t t-esc="col.total_sp"/> SP
+                                    </span>
+                                </span>
+                            </div>
+
+                            <!-- Drop zone / task list -->
+                            <div
+                                class="o-sprint-board__column-body"
+                                t-on-dragover="(ev) => onDragOver(ev)"
+                                t-on-dragleave="(ev) => onDragLeave(ev)"
+                                t-on-drop="(ev) => onDrop(ev, col.stage_id)"
+                            >
+                                <!-- Task cards -->
+                                <t t-foreach="col.tasks" t-as="task" t-key="task.id">
+                                    <t t-call="project_scrum.TaskCard">
+                                        <t t-set="task" t-value="task"/>
+                                        <t t-set="stageId" t-value="col.stage_id"/>
+                                    </t>
+                                </t>
+
+                                <!-- Empty column placeholder -->
+                                <t t-if="col.tasks.length === 0">
+                                    <div class="o-sprint-board__col-empty">
+                                        <span>No tasks</span>
+                                    </div>
+                                </t>
+                            </div>
+
+                            <!-- Column footer: add task -->
+                            <div class="o-sprint-board__col-footer">
+                                <button class="o-sprint-board__col-add-btn"
+                                        t-on-click="onCreateTask">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                    Create Issue
+                                </button>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Backlog sidebar -->
+                <t t-if="state.showBacklog">
+                    <div class="o-sprint-board__backlog">
+                        <div class="o-sprint-board__backlog-header">
+                            <span class="o-sprint-board__backlog-title">Backlog</span>
+                            <span class="o-sprint-board__backlog-count">
+                                <t t-esc="state.backlogTasks.length"/>
+                            </span>
+                        </div>
+                        <div class="o-sprint-board__backlog-body">
+                            <t t-if="state.backlogTasks.length === 0">
+                                <div class="o-sprint-board__backlog-empty">
+                                    Backlog is empty
+                                </div>
+                            </t>
+                            <t t-foreach="state.backlogTasks" t-as="task" t-key="task.id">
+                                <div class="o-sprint-board__backlog-item">
+                                    <div class="o-sprint-board__backlog-item-title">
+                                        <t t-call="project_scrum.TypeIcon">
+                                            <t t-set="type" t-value="task.task_type"/>
+                                        </t>
+                                        <span t-esc="task.name"/>
+                                    </div>
+                                    <div class="o-sprint-board__backlog-item-footer">
+                                        <span
+                                            class="o-sprint-board__sp-badge"
+                                            t-att-data-sp="task.story_points"
+                                        >
+                                            <t t-esc="task.story_points || '?'"/>
+                                        </span>
+                                        <button
+                                            class="o-sprint-board__add-btn"
+                                            t-on-click="() => onAddToSprint(task.id)"
+                                            title="Add to sprint"
+                                        >+ Sprint</button>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+
+            </div><!-- /.o-sprint-board__body -->
+        </t>
+    </div>
+</t>
+
+<!-- ── Task Card sub-template ──────────────────────────────────────────────── -->
+<t t-name="project_scrum.TaskCard">
+    <div
+        t-att-class="'o-sprint-board__card' +
+            (task.is_blocked ? ' o-sprint-board__card--blocked' : '')"
+        draggable="true"
+        t-on-dragstart="(ev) => onDragStart(ev, task.id, stageId)"
+        t-on-dragend="(ev) => onDragEnd(ev)"
+        t-on-click="(ev) => onTaskClick(ev, task.id)"
+    >
+        <!-- Card top row: priority dot + type icon + task key -->
+        <div class="o-sprint-board__card-top">
+            <span class="o-sprint-board__priority-dot"
+                  t-att-data-priority="task.priority || '0'"/>
+            <t t-call="project_scrum.TypeIcon">
+                <t t-set="type" t-value="task.task_type"/>
+            </t>
+            <span class="o-sprint-board__task-key">
+                #<t t-esc="task.id"/>
+            </span>
+        </div>
+
+        <!-- Card title -->
+        <div class="o-sprint-board__card-title" t-esc="task.name"/>
+
+        <!-- Blocked badge -->
+        <t t-if="task.is_blocked">
+            <span class="o-sprint-board__blocked-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="10" height="10"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                Blocked
+            </span>
+        </t>
+
+        <!-- Card footer: assignee + SP badge -->
+        <div class="o-sprint-board__card-footer">
+            <t t-if="task.user_id">
+                <img
+                    class="o-sprint-board__avatar"
+                    t-att-src="task.user_avatar"
+                    t-att-title="task.user_name"
+                    loading="lazy"
+                />
+                <span class="o-sprint-board__assignee" t-esc="task.user_name"/>
+            </t>
+            <t t-else="">
+                <span class="o-sprint-board__unassigned">Unassigned</span>
+            </t>
+            <span
+                class="o-sprint-board__sp-badge"
+                t-att-data-sp="task.story_points"
+            >
+                <t t-esc="task.story_points || '?'"/>
+            </span>
+        </div>
+    </div>
+</t>
+
+</templates>

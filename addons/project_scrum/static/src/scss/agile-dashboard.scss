@@ -1,0 +1,466 @@
+// Agile Dashboard SCSS — Wireframe Alignment
+// Reference: assets/designs/wireframe-agile-full.html Screen 1
+@import "scrum-design-tokens";
+
+// ── Root ──────────────────────────────────────────────────────────────────────
+.o-agile-dashboard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: $bg;
+    font-family: $font-family;
+    font-size: $font-size-base;
+    color: $text-primary;
+    overflow-y: auto;
+}
+
+// ── Top bar ───────────────────────────────────────────────────────────────────
+.o-agile-dashboard__topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $gap-sm $gap-md;
+    background: $surface;
+    border-bottom: 1px solid $border-color;
+    flex-shrink: 0;
+    gap: $gap-md;
+}
+
+.o-agile-dashboard__breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: $font-size-base;
+}
+
+.o-agile-dashboard__breadcrumb-parent {
+    color: $text-secondary;
+}
+
+.o-agile-dashboard__breadcrumb-sep {
+    color: $text-subtle;
+}
+
+.o-agile-dashboard__breadcrumb-current {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 700;
+    color: $text-primary;
+}
+
+.o-agile-dashboard__topbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.o-agile-dashboard__topbar-right {
+    display: flex;
+    align-items: center;
+    gap: $gap-sm;
+}
+
+.o-agile-dashboard__project-selector {
+    padding: 4px 10px;
+    border: 1px solid $border-color;
+    border-radius: $input-radius;
+    font-size: $font-size-base;
+    background: $surface;
+    color: $text-primary;
+    cursor: pointer;
+    min-width: 200px;
+
+    &:focus {
+        outline: 2px solid $scrum-primary;
+        outline-offset: 1px;
+    }
+}
+
+.o-agile-dashboard__loading-text,
+.o-agile-dashboard__no-projects {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+}
+
+// ── Grid layout ───────────────────────────────────────────────────────────────
+.o-agile-dashboard__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $gap-md;
+    padding: $gap-md;
+
+    // Sprint hero = full-width row 1
+    .o-agile-dashboard__card--sprint { grid-column: 1 / -1; }
+    // Velocity = full-width
+    .o-agile-dashboard__card--velocity { grid-column: 1 / -1; }
+}
+
+// ── Base card ─────────────────────────────────────────────────────────────────
+.o-agile-dashboard__card {
+    background: $surface;
+    border: 1px solid $border-color;
+    border-radius: $card-radius;
+    padding: $gap-md;
+    display: flex;
+    flex-direction: column;
+    gap: $gap-sm;
+    min-height: 160px;
+    box-shadow: $card-shadow;
+}
+
+.o-agile-dashboard__card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $gap-sm;
+}
+
+.o-agile-dashboard__card-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: $font-size-sm;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: $text-secondary;
+}
+
+.o-agile-dashboard__card-subtitle {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+}
+
+// ── Widget 1: Sprint Hero (gradient) ──────────────────────────────────────────
+.o-agile-dashboard__card--sprint {
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+    min-height: auto;
+}
+
+.o-agile-dashboard__sprint-hero {
+    background: linear-gradient(135deg, #2563EB, #1D4ED8);
+    border-radius: $card-radius;
+    padding: $gap-lg $gap-lg $gap-md;
+    color: #fff;
+}
+
+.o-agile-dashboard__sprint-hero-label {
+    font-size: $font-size-sm;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: $gap-xs;
+}
+
+.o-agile-dashboard__sprint-hero-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: $gap-xs;
+}
+
+.o-agile-dashboard__sprint-hero-dates {
+    font-size: $font-size-sm;
+    opacity: 0.7;
+    margin-bottom: $gap-md;
+}
+
+.o-agile-dashboard__sprint-hero-stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: $gap-sm;
+}
+
+.o-agile-dashboard__sprint-hero-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.o-agile-dashboard__sprint-hero-stat-val {
+    font-size: $font-size-xl;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+}
+
+.o-agile-dashboard__sprint-hero-stat-lbl {
+    font-size: $font-size-xs;
+    opacity: 0.7;
+}
+
+.o-agile-dashboard__sprint-hero-progress {
+    background: rgba(255, 255, 255, 0.2);
+    height: 6px;
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.o-agile-dashboard__sprint-hero-fill {
+    background: #fff;
+    height: 6px;
+    border-radius: 100px;
+    transition: width 400ms ease;
+}
+
+// ── No active sprint ──────────────────────────────────────────────────────────
+.o-agile-dashboard__no-sprint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    text-align: center;
+    padding: $gap-lg 0;
+}
+
+.o-agile-dashboard__no-sprint-icon {
+    margin-bottom: $gap-sm;
+
+    svg {
+        width: 40px;
+        height: 40px;
+        color: $text-subtle;
+    }
+}
+
+.o-agile-dashboard__no-sprint-msg {
+    font-size: $font-size-base;
+    color: $text-secondary;
+    margin-bottom: $gap-sm;
+}
+
+// ── Widget 3: Team workload ───────────────────────────────────────────────────
+.o-agile-dashboard__workload-list {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-xs;
+}
+
+.o-agile-dashboard__workload-row {
+    display: flex;
+    align-items: center;
+    gap: $gap-sm;
+}
+
+.o-agile-dashboard__workload-name {
+    width: 100px;
+    flex-shrink: 0;
+    font-size: $font-size-sm;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: $text-primary;
+}
+
+.o-agile-dashboard__workload-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: $gap-xs;
+    flex: 1;
+}
+
+.o-agile-dashboard__workload-bar {
+    flex: 1;
+    height: 6px;
+    background: $border-color;
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.o-agile-dashboard__workload-fill {
+    height: 100%;
+    background: $scrum-primary;
+    border-radius: 100px;
+    transition: width 300ms ease;
+}
+
+.o-agile-dashboard__workload-sp {
+    font-size: $font-size-sm;
+    font-weight: 700;
+    color: $text-primary;
+    min-width: 36px;
+    text-align: right;
+}
+
+// ── Widget 4: Backlog Health (2x2 stat-card grid) ─────────────────────────────
+.o-agile-dashboard__bh-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $gap-sm;
+    flex: 1;
+}
+
+.o-agile-dashboard__bh-stat {
+    background: $surface;
+    border: 1px solid $border-color;
+    border-radius: $btn-radius;
+    padding: $gap-sm 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    &--warn {
+        border-color: rgba($scrum-warning, 0.5);
+        background: rgba($scrum-warning, 0.06);
+    }
+
+    &--danger {
+        border-color: rgba($scrum-danger, 0.4);
+        background: rgba($scrum-danger, 0.05);
+    }
+}
+
+.o-agile-dashboard__bh-stat-val {
+    font-size: $font-dash-stat;
+    font-weight: 700;
+    color: $text-primary;
+    line-height: 1;
+}
+
+.o-agile-dashboard__bh-stat-lbl {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+}
+
+// ── Widget 6: Activity feed ───────────────────────────────────────────────────
+.o-agile-dashboard__activity-feed {
+    display: flex;
+    flex-direction: column;
+}
+
+.o-agile-dashboard__activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: $gap-sm;
+    padding: $gap-xs 0;
+    border-bottom: 1px solid rgba($border-color, 0.5);
+
+    &:last-child { border-bottom: none; }
+}
+
+.o-agile-dashboard__activity-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: $scrum-primary;
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+
+.o-agile-dashboard__activity-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px;
+    font-size: $font-size-sm;
+    flex: 1;
+}
+
+.o-agile-dashboard__activity-task {
+    font-weight: 600;
+    color: $text-primary;
+}
+
+.o-agile-dashboard__activity-author {
+    color: $text-secondary;
+}
+
+.o-agile-dashboard__activity-time {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+    white-space: nowrap;
+    margin-left: auto;
+}
+
+// ── Empty/widget fallback ─────────────────────────────────────────────────────
+.o-agile-dashboard__widget-empty {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-subtle;
+    font-size: $font-size-sm;
+    text-align: center;
+    padding: $gap-md;
+}
+
+// ── Global empty state ────────────────────────────────────────────────────────
+.o-agile-dashboard__empty-global {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: $gap-xl;
+    text-align: center;
+}
+
+.o-agile-dashboard__empty-icon {
+    margin-bottom: $gap-md;
+
+    svg {
+        width: 48px;
+        height: 48px;
+        color: $text-subtle;
+    }
+}
+
+.o-agile-dashboard__empty-title {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: $gap-sm;
+}
+
+.o-agile-dashboard__empty-msg {
+    font-size: $font-size-base;
+    color: $text-secondary;
+    max-width: 320px;
+    line-height: 1.6;
+}
+
+// ── Skeleton loading ──────────────────────────────────────────────────────────
+@keyframes dash-shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position:  200% 0; }
+}
+
+.o-agile-dashboard__skeleton-card {
+    background: linear-gradient(90deg, $border-color 25%, $bg 50%, $border-color 75%);
+    background-size: 200% 100%;
+    animation: dash-shimmer 1.4s infinite;
+    border-radius: $card-radius;
+    min-height: 160px;
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+@media (max-width: #{$bp-tablet}) {
+    .o-agile-dashboard__grid {
+        grid-template-columns: 1fr;
+
+        .o-agile-dashboard__card--sprint,
+        .o-agile-dashboard__card--velocity {
+            grid-column: 1;
+        }
+    }
+
+    .o-agile-dashboard__sprint-hero-stats {
+        flex-wrap: wrap;
+        gap: $gap-sm;
+    }
+
+    .o-agile-dashboard__bh-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: #{$bp-mobile}) {
+    .o-agile-dashboard__sprint-hero-stats {
+        flex-direction: column;
+        gap: $gap-sm;
+    }
+}

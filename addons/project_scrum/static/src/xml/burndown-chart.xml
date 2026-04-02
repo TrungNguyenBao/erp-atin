@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="project_scrum.BurndownChart">
+    <div class="o-scrum-chart o-scrum-burndown">
+
+        <!-- Header row: title + status badge -->
+        <div class="o-scrum-chart__header">
+            <div class="o-scrum-chart__title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Sprint Burndown
+                <t t-if="state.data">
+                    <span class="o-scrum-chart__subtitle">
+                        — <t t-esc="state.data.sprint_name"/>
+                    </span>
+                </t>
+            </div>
+            <t t-if="!state.loading and !state.empty">
+                <span t-att-class="'o-scrum-chart__badge ' + statusBadge.cls">
+                    <t t-esc="statusBadge.label"/>
+                </span>
+            </t>
+        </div>
+
+        <!-- Loading skeleton -->
+        <t t-if="state.loading">
+            <div class="o-scrum-chart__skeleton" t-att-style="'height:' + props.height"/>
+        </t>
+
+        <!-- Empty state -->
+        <t t-elif="state.empty">
+            <div class="o-scrum-chart__empty" t-att-style="'height:' + props.height">
+                <div class="o-scrum-chart__empty-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                </div>
+                <div class="o-scrum-chart__empty-text">No burndown data yet</div>
+                <div class="o-scrum-chart__empty-hint">
+                    Daily snapshots are recorded automatically once the sprint is active.
+                </div>
+            </div>
+        </t>
+
+        <!-- Chart canvas -->
+        <t t-else="">
+            <!-- Legend row -->
+            <div class="o-scrum-chart__legend">
+                <span class="o-scrum-chart__legend-item">
+                    <span class="o-scrum-chart__legend-swatch o-scrum-chart__legend-swatch--ideal"/>
+                    Ideal
+                </span>
+                <span class="o-scrum-chart__legend-item">
+                    <span class="o-scrum-chart__legend-swatch o-scrum-chart__legend-swatch--actual"/>
+                    Actual
+                </span>
+                <span class="o-scrum-chart__legend-item o-scrum-chart__legend-item--today">
+                    <span class="o-scrum-chart__legend-swatch o-scrum-chart__legend-swatch--today"/>
+                    Today
+                </span>
+            </div>
+
+            <div class="o-scrum-chart__canvas-wrap" t-att-style="'height:' + props.height">
+                <canvas t-ref="canvas"/>
+            </div>
+
+            <!-- Stats bar -->
+            <t t-if="state.data">
+                <div class="o-scrum-chart__stats">
+                    <div class="o-scrum-chart__stat">
+                        <span class="o-scrum-chart__stat-val">
+                            <t t-esc="state.data.total_sp"/>
+                        </span>
+                        <span class="o-scrum-chart__stat-lbl">Committed SP</span>
+                    </div>
+                    <div class="o-scrum-chart__stat">
+                        <span class="o-scrum-chart__stat-val">
+                            <t t-esc="state.data.actual.length > 0 ? state.data.actual[state.data.actual.length - 1] : '–'"/>
+                        </span>
+                        <span class="o-scrum-chart__stat-lbl">Remaining SP</span>
+                    </div>
+                    <div class="o-scrum-chart__stat">
+                        <span t-att-class="'o-scrum-chart__stat-val ' + (state.status === 'behind' ? 'text-danger' : 'text-success')">
+                            <t t-esc="state.status === 'behind' ? 'Behind' : 'On Track'"/>
+                        </span>
+                        <span class="o-scrum-chart__stat-lbl">Status</span>
+                    </div>
+                </div>
+            </t>
+        </t>
+
+    </div>
+</t>
+
+</templates>

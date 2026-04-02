@@ -1,0 +1,205 @@
+// Shared SCSS for Burndown + Velocity OWL chart widgets
+// Wireframe alignment: assets/designs/wireframe-agile-full.html Screen 5
+@import "scrum-design-tokens";
+
+// ── Chart widget container ────────────────────────────────────────────────────
+.o-scrum-chart {
+    background: $surface;
+    border: 1px solid $border-color;
+    border-radius: $card-radius;
+    padding: $gap-md;
+    display: flex;
+    flex-direction: column;
+    gap: $gap-sm;
+    font-family: $font-family;
+}
+
+// ── Header ────────────────────────────────────────────────────────────────────
+.o-scrum-chart__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $gap-sm;
+}
+
+.o-scrum-chart__title {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: $font-size-base;
+    font-weight: 700;
+    color: $text-primary;
+}
+
+.o-scrum-chart__subtitle {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    font-weight: 400;
+}
+
+// ── Status badge (keep old class names as aliases for JS compat) ──────────────
+.o-scrum-chart__badge,
+.o-scrum-chart__badge.badge-on-track,
+.o-scrum-chart__badge.badge-behind,
+.o-scrum-chart__badge.badge-no-data {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: $badge-radius;
+    font-size: $font-size-sm;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.o-scrum-chart__badge--on-track,
+.o-scrum-chart__badge.badge-on-track {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.o-scrum-chart__badge--behind,
+.o-scrum-chart__badge.badge-behind {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.o-scrum-chart__badge--no-data,
+.o-scrum-chart__badge.badge-no-data {
+    background: $border-color;
+    color: $text-secondary;
+}
+
+// ── Legend row ────────────────────────────────────────────────────────────────
+.o-scrum-chart__legend {
+    display: flex;
+    gap: 12px;
+    margin-bottom: $gap-xs;
+}
+
+.o-scrum-chart__legend-item {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    &--today {
+        color: $scrum-warning;
+    }
+}
+
+.o-scrum-chart__legend-swatch {
+    display: inline-block;
+    width: 16px;
+    height: 2px;
+
+    &--ideal {
+        border-top: 1px dashed #CBD5E1;
+        background: transparent;
+    }
+
+    &--actual {
+        background: $scrum-primary;
+    }
+
+    &--today {
+        width: 2px;
+        height: 12px;
+        background: $scrum-warning;
+    }
+}
+
+// ── Canvas wrapper ────────────────────────────────────────────────────────────
+.o-scrum-chart__canvas-wrap {
+    position: relative;
+    width: 100%;
+
+    canvas {
+        display: block;
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
+// ── Stats bar ─────────────────────────────────────────────────────────────────
+.o-scrum-chart__stats {
+    display: flex;
+    gap: $gap-lg;
+    padding-top: $gap-sm;
+    border-top: 1px solid $border-color;
+    flex-wrap: wrap;
+}
+
+.o-scrum-chart__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.o-scrum-chart__stat-val {
+    font-size: $font-dash-stat;
+    font-weight: 700;
+    color: $text-primary;
+    line-height: 1.2;
+
+    &--accent {
+        color: $scrum-accent;
+    }
+}
+
+.o-scrum-chart__stat-lbl {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+}
+
+// ── Skeleton loading ──────────────────────────────────────────────────────────
+@keyframes chart-shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position:  200% 0; }
+}
+
+.o-scrum-chart__skeleton {
+    background: linear-gradient(90deg, $border-color 25%, $bg 50%, $border-color 75%);
+    background-size: 200% 100%;
+    animation: chart-shimmer 1.4s infinite;
+    border-radius: $card-radius;
+    width: 100%;
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+.o-scrum-chart__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: $gap-xs;
+    width: 100%;
+}
+
+.o-scrum-chart__empty-icon {
+    svg {
+        width: 36px;
+        height: 36px;
+        color: $text-subtle;
+    }
+}
+
+.o-scrum-chart__empty-text {
+    font-weight: 600;
+    font-size: $font-size-base;
+    color: $text-primary;
+}
+
+.o-scrum-chart__empty-hint {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    max-width: 280px;
+    line-height: 1.5;
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+@media (max-width: #{$bp-tablet}) {
+    .o-scrum-chart__stats {
+        gap: $gap-md;
+    }
+}

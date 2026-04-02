@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="project_scrum.VelocityChart">
+    <div class="o-scrum-chart o-scrum-velocity">
+
+        <!-- Header -->
+        <div class="o-scrum-chart__header">
+            <div class="o-scrum-chart__title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Team Velocity
+            </div>
+            <t t-if="state.data and state.data.sprint_count > 0">
+                <span class="o-scrum-chart__subtitle">
+                    Last <t t-esc="state.data.sprint_count"/> sprints
+                </span>
+            </t>
+        </div>
+
+        <!-- Loading -->
+        <t t-if="state.loading">
+            <div class="o-scrum-chart__skeleton" t-att-style="'height:' + props.height"/>
+        </t>
+
+        <!-- Empty -->
+        <t t-elif="state.empty">
+            <div class="o-scrum-chart__empty" t-att-style="'height:' + props.height">
+                <div class="o-scrum-chart__empty-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                </div>
+                <div class="o-scrum-chart__empty-text">No velocity data yet</div>
+                <div class="o-scrum-chart__empty-hint">
+                    Close your first sprint to start tracking team velocity.
+                    Forecasts become available after 3 sprints.
+                </div>
+            </div>
+        </t>
+
+        <!-- Chart canvas -->
+        <t t-else="">
+            <div class="o-scrum-chart__canvas-wrap" t-att-style="'height:' + props.height">
+                <canvas t-ref="canvas"/>
+            </div>
+
+            <!-- Stats bar -->
+            <t t-if="state.data">
+                <div class="o-scrum-chart__stats">
+                    <div class="o-scrum-chart__stat">
+                        <span class="o-scrum-chart__stat-val">
+                            <t t-esc="state.data.avg_velocity"/>
+                        </span>
+                        <span class="o-scrum-chart__stat-lbl">Avg velocity (3-sprint)</span>
+                    </div>
+                    <div class="o-scrum-chart__stat">
+                        <span class="o-scrum-chart__stat-val o-scrum-chart__stat-val--accent">
+                            <t t-esc="state.data.forecast"/>
+                        </span>
+                        <span class="o-scrum-chart__stat-lbl">Forecast next sprint</span>
+                    </div>
+                    <div class="o-scrum-chart__stat">
+                        <span class="o-scrum-chart__stat-val">
+                            <t t-esc="state.data.sprint_count"/>
+                        </span>
+                        <span class="o-scrum-chart__stat-lbl">Sprints tracked</span>
+                    </div>
+                </div>
+            </t>
+        </t>
+
+    </div>
+</t>
+
+</templates>

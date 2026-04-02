@@ -1,0 +1,608 @@
+// Sprint Board SCSS — Wireframe Alignment
+// Reference: assets/designs/wireframe-agile-full.html Screen 3
+
+@import "scrum-design-tokens";
+
+// ── Root container ────────────────────────────────────────────────────────────
+.o-sprint-board {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: $bg;
+    font-family: $font-family;
+    font-size: $font-size-base;
+    color: $text-primary;
+}
+
+// ── Header ────────────────────────────────────────────────────────────────────
+.o-sprint-board__header {
+    display: flex;
+    align-items: center;
+    gap: $gap-md;
+    padding: $gap-sm $gap-md;
+    background: $surface;
+    border-bottom: 1px solid $border-color;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.o-sprint-board__header-left {
+    display: flex;
+    align-items: center;
+    gap: $gap-sm;
+}
+
+.o-sprint-board__sprint-selector {
+    padding: 4px 10px;
+    border: 1px solid $border-color;
+    border-radius: $input-radius;
+    font-size: $font-size-base;
+    font-weight: 600;
+    background: $surface;
+    color: $text-primary;
+    cursor: pointer;
+
+    &:focus {
+        outline: 2px solid $scrum-primary;
+        outline-offset: 1px;
+    }
+}
+
+.o-sprint-board__dates {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+}
+
+// ── Filter chips ──────────────────────────────────────────────────────────────
+.o-sprint-board__filter-chips {
+    display: flex;
+    gap: $gap-xs;
+    align-items: center;
+}
+
+.o-sprint-board__chip {
+    padding: 4px 12px;
+    border-radius: $badge-radius;
+    border: 1px solid $border-color;
+    background: transparent;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 150ms;
+    white-space: nowrap;
+
+    &:hover {
+        border-color: $scrum-primary;
+        color: $scrum-primary;
+    }
+
+    &--active {
+        background: $scrum-primary-lt;
+        border-color: $scrum-primary;
+        color: $scrum-primary;
+    }
+}
+
+// ── Header right: backlog toggle + create btn ─────────────────────────────────
+.o-sprint-board__header-right {
+    margin-left: auto;
+    display: flex;
+    gap: $gap-sm;
+    align-items: center;
+}
+
+.o-sprint-board__backlog-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid $border-color;
+    background: $surface;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    border-radius: $btn-radius;
+    padding: 4px 10px;
+    cursor: pointer;
+
+    &:hover {
+        border-color: $scrum-primary;
+        color: $scrum-primary;
+    }
+}
+
+.o-sprint-board__create-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    border-radius: $btn-radius;
+}
+
+// ── Body: columns + sidebar ───────────────────────────────────────────────────
+.o-sprint-board__body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+// ── Kanban columns container ──────────────────────────────────────────────────
+.o-sprint-board__columns {
+    display: flex;
+    flex: 1;
+    gap: $gap-sm;
+    padding: $gap-md;
+    overflow-x: auto;
+    overflow-y: hidden;
+    align-items: flex-start;
+}
+
+// ── Single column ─────────────────────────────────────────────────────────────
+.o-sprint-board__column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 220px;
+    max-width: 300px;
+    background: $column-bg;
+    border-radius: $column-radius;
+
+    &--closed {
+        opacity: 0.75;
+    }
+}
+
+.o-sprint-board__col-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: $column-bg;
+    border-bottom: 1px solid $border-color;
+}
+
+.o-sprint-board__col-name {
+    font-weight: 700;
+    font-size: $font-size-sm;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: $text-secondary;
+}
+
+.o-sprint-board__col-meta {
+    display: flex;
+    gap: $gap-xs;
+    align-items: center;
+    font-size: $font-size-xs;
+}
+
+.o-sprint-board__col-count {
+    background: $border-color;
+    color: $text-secondary;
+    border-radius: $badge-radius;
+    padding: 1px 6px;
+    font-weight: 700;
+    font-size: $font-size-xs;
+}
+
+.o-sprint-board__col-sp {
+    color: $text-secondary;
+}
+
+// ── Column drop zone ──────────────────────────────────────────────────────────
+.o-sprint-board__column-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: $gap-sm;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 80px;
+    transition: background 150ms;
+
+    &--over {
+        background: rgba($scrum-primary, 0.06);
+        outline: 2px dashed $scrum-primary;
+        outline-offset: -2px;
+        border-radius: 4px;
+    }
+}
+
+.o-sprint-board__col-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $gap-md;
+    border: 2px dashed $border-color;
+    border-radius: 8px;
+    color: $text-subtle;
+    font-size: $font-size-sm;
+    text-align: center;
+    min-height: 60px;
+}
+
+// ── Column footer: create issue ───────────────────────────────────────────────
+.o-sprint-board__col-footer {
+    padding: $gap-sm;
+}
+
+.o-sprint-board__col-add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    padding: 6px;
+    border: 1px dashed $border-color;
+    border-radius: $btn-radius;
+    background: transparent;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms;
+
+    &:hover {
+        border-color: $scrum-primary;
+        color: $scrum-primary;
+    }
+}
+
+// ── Task card ─────────────────────────────────────────────────────────────────
+.o-sprint-board__card {
+    background: $surface;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    padding: $gap-sm 10px;
+    cursor: grab;
+    user-select: none;
+    box-shadow: $card-shadow;
+    transition: box-shadow 200ms, transform 200ms;
+
+    &:hover {
+        box-shadow: $card-shadow-hover;
+        transform: translateY(-2px);
+    }
+
+    &:active,
+    &--dragging {
+        cursor: grabbing;
+        opacity: 0.5;
+        box-shadow: none;
+        transform: rotate(2deg) scale(0.98);
+    }
+
+    // Red left border for blocked tasks
+    &--blocked {
+        border-left: 3px solid $scrum-danger;
+        padding-left: calc(10px - 2px);
+    }
+}
+
+// ── Card top row: priority dot + type icon + task key ─────────────────────────
+.o-sprint-board__card-top {
+    display: flex;
+    align-items: center;
+    gap: $gap-xs;
+    margin-bottom: $gap-xs;
+}
+
+.o-sprint-board__priority-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+
+    &[data-priority="0"] { background: $priority-lowest; }
+    &[data-priority="1"] { background: $priority-low; }
+    &[data-priority="2"] { background: $priority-medium; }
+    &[data-priority="3"] { background: $priority-high; }
+    &[data-priority="4"] { background: $priority-highest; }
+}
+
+.o-sprint-board__type-svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: $scrum-info;
+
+    // Type-specific colors via parent data attribute
+    [data-type="story"] & { color: $type-story; }
+    [data-type="task"] & { color: $type-task; }
+    [data-type="bug"] & { color: $type-bug; }
+    [data-type="improvement"] & { color: $type-improvement; }
+    [data-type="epic"] & { color: $type-epic; }
+}
+
+.o-sprint-board__task-key {
+    font-size: $font-size-xs;
+    font-weight: 700;
+    color: $scrum-primary;
+}
+
+.o-sprint-board__card-title {
+    font-size: $font-card-title;
+    font-weight: 600;
+    line-height: 1.4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: $text-primary;
+    margin-bottom: $gap-xs;
+}
+
+// ── Blocked badge ─────────────────────────────────────────────────────────────
+.o-sprint-board__blocked-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: #FEE2E2;
+    color: $scrum-danger;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-weight: 700;
+    margin-bottom: $gap-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+// ── Card footer ───────────────────────────────────────────────────────────────
+.o-sprint-board__card-footer {
+    display: flex;
+    align-items: center;
+    gap: $gap-xs;
+}
+
+.o-sprint-board__avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.o-sprint-board__assignee,
+.o-sprint-board__unassigned {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+// ── Story points badge ────────────────────────────────────────────────────────
+.o-sprint-board__sp-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: $font-size-xs;
+    font-weight: 700;
+    background: $scrum-primary-lt;
+    color: $scrum-primary;
+    flex-shrink: 0;
+}
+
+// ── Backlog sidebar ───────────────────────────────────────────────────────────
+.o-sprint-board__backlog {
+    width: 260px;
+    flex-shrink: 0;
+    background: $surface;
+    border-left: 1px solid $border-color;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.o-sprint-board__backlog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $gap-sm $gap-md;
+    border-bottom: 1px solid $border-color;
+}
+
+.o-sprint-board__backlog-title {
+    font-weight: 700;
+    font-size: $font-size-sm;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: $text-secondary;
+}
+
+.o-sprint-board__backlog-count {
+    background: $border-color;
+    color: $text-secondary;
+    border-radius: $badge-radius;
+    padding: 1px 6px;
+    font-size: $font-size-xs;
+    font-weight: 700;
+}
+
+.o-sprint-board__backlog-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: $gap-sm;
+    display: flex;
+    flex-direction: column;
+    gap: $gap-xs;
+}
+
+.o-sprint-board__backlog-empty {
+    padding: $gap-md;
+    text-align: center;
+    color: $text-subtle;
+    font-size: $font-size-sm;
+}
+
+.o-sprint-board__backlog-item {
+    background: $surface;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    padding: $gap-sm;
+    font-size: $font-size-sm;
+    transition: box-shadow 150ms;
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: $card-shadow;
+    }
+}
+
+.o-sprint-board__backlog-item-title {
+    display: flex;
+    align-items: flex-start;
+    gap: $gap-xs;
+    margin-bottom: 4px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: $text-primary;
+}
+
+.o-sprint-board__backlog-item-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $gap-xs;
+}
+
+.o-sprint-board__add-btn {
+    background: none;
+    border: 1px solid $scrum-primary;
+    color: $scrum-primary;
+    border-radius: $btn-radius;
+    font-size: $font-size-xs;
+    padding: 1px 6px;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+        background: $scrum-primary;
+        color: #fff;
+    }
+}
+
+// ── Loading skeleton ──────────────────────────────────────────────────────────
+@keyframes skeleton-shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position:  200% 0; }
+}
+
+%skeleton-base {
+    background: linear-gradient(90deg, $border-color 25%, $bg 50%, $border-color 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.4s infinite;
+    border-radius: $btn-radius;
+}
+
+.o-sprint-board__skeleton {
+    padding: $gap-md;
+}
+
+.o-sprint-board__skeleton-header {
+    @extend %skeleton-base;
+    height: 48px;
+    margin-bottom: $gap-md;
+    border-radius: $card-radius;
+}
+
+.o-sprint-board__skeleton-columns {
+    display: flex;
+    gap: $gap-sm;
+}
+
+.o-sprint-board__skeleton-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $gap-xs;
+}
+
+.o-sprint-board__skeleton-col-header {
+    @extend %skeleton-base;
+    height: 36px;
+}
+
+.o-sprint-board__skeleton-card {
+    @extend %skeleton-base;
+    height: 72px;
+    border-radius: 8px;
+
+    &--short { height: 48px; }
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+.o-sprint-board__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: $gap-xl;
+    text-align: center;
+}
+
+.o-sprint-board__empty-icon {
+    margin-bottom: $gap-md;
+
+    svg {
+        width: 48px;
+        height: 48px;
+        color: $text-subtle;
+    }
+}
+
+.o-sprint-board__empty-title {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: $gap-sm;
+}
+
+.o-sprint-board__empty-msg {
+    font-size: $font-size-base;
+    color: $text-secondary;
+    max-width: 320px;
+    line-height: 1.6;
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+@media (max-width: #{$bp-tablet}) {
+    .o-sprint-board__body {
+        flex-direction: column;
+    }
+
+    .o-sprint-board__columns {
+        overflow-x: auto;
+        padding: $gap-sm;
+    }
+
+    .o-sprint-board__column {
+        min-width: 180px;
+    }
+
+    .o-sprint-board__backlog {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid $border-color;
+        max-height: 200px;
+    }
+
+    .o-sprint-board__filter-chips {
+        display: none;
+    }
+}
+
+@media (max-width: #{$bp-mobile}) {
+    .o-sprint-board__column {
+        min-width: 150px;
+    }
+}

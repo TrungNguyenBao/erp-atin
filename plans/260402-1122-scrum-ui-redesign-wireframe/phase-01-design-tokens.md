@@ -1,0 +1,155 @@
+# Phase 1: Design Token Update
+
+## Context Links
+- [Plan Overview](plan.md)
+- Reference: `assets/designs/wireframe-agile-full.html` `:root` block (lines 11–34)
+- File: `addons/project_scrum/static/src/scss/scrum-design-tokens.scss`
+
+## Overview
+
+- **Priority:** P0
+- **Status:** Completed
+- **Effort:** ~2h
+- **Description:** Rewrite `scrum-design-tokens.scss` to match wireframe design system. All subsequent phases depend on these tokens.
+
+## Requirements
+
+### Functional
+- F1: Replace Jira-blue `#0052CC` with enterprise blue `#2563EB` as primary
+- F2: Add Google Font import for Plus Jakarta Sans (weights 300–800)
+- F3: Add wireframe surface/bg/text/border token variables
+- F4: Add wireframe status color tokens (done, inprogress, review, testing, todo)
+- F5: Update shadow tokens to wireframe values
+- F6: Update radius tokens: card=12px, btn=8px, input=8px
+- F7: Keep all legacy `$`-variable aliases for backward compat with existing SCSS
+
+### Non-Functional
+- NF1: SCSS compiles without errors
+- NF2: No breaking changes to variable names used in sprint-board.scss / agile-dashboard.scss / charts.scss
+
+## Implementation
+
+### Full replacement of `scrum-design-tokens.scss`
+
+```scss
+// Scrum Design Tokens — Wireframe Alignment
+// Reference: assets/designs/wireframe-agile-full.html
+
+// ── Google Font ───────────────────────────────────────────────────────────────
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+// ── Brand / Primary ───────────────────────────────────────────────────────────
+$scrum-primary:     #2563EB;   // enterprise blue (wireframe --primary)
+$scrum-primary-dk:  #1D4ED8;   // hover / active
+$scrum-primary-lt:  #EFF6FF;   // tints / selected backgrounds
+$scrum-accent:      #F97316;   // CTA orange (wireframe --accent)
+
+// ── Status colors ─────────────────────────────────────────────────────────────
+$scrum-success:     #10B981;   // Done (wireframe --status-done)
+$scrum-warning:     #F59E0B;   // At risk / testing (wireframe --status-testing)
+$scrum-danger:      #EF4444;   // Blocked / high priority
+$scrum-info:        #3B82F6;   // In Progress (wireframe --status-inprogress)
+$scrum-purple:      #8B5CF6;   // In Review (wireframe --status-review)
+
+// ── Stage / status ────────────────────────────────────────────────────────────
+$status-todo:       #94A3B8;   // wireframe --status-todo
+$status-inprogress: #3B82F6;
+$status-inreview:   #8B5CF6;
+$status-done:       #10B981;
+
+// ── Surface / layout ──────────────────────────────────────────────────────────
+$bg:            #F8FAFC;   // page / board background (wireframe --bg)
+$surface:       #FFFFFF;   // card / panel surface (wireframe --surface)
+$nav-dark:      #0F172A;   // icon nav background (wireframe --nav-dark)
+$border-color:  #E2E8F0;   // wireframe --border
+
+// Legacy aliases
+$board-bg:      $bg;
+$column-bg:     #F1F5F9;   // column background (wireframe .board-col)
+$card-bg:       $surface;
+$sidebar-bg:    $bg;
+$sidebar-dark:  $nav-dark;
+
+// ── Text ──────────────────────────────────────────────────────────────────────
+$text-primary:   #1E293B;   // wireframe --text
+$text-secondary: #64748B;   // wireframe --text-sec
+$text-subtle:    #94A3B8;   // muted / placeholder
+
+// ── Issue type colors ─────────────────────────────────────────────────────────
+$type-story:       #2563EB;
+$type-task:        #3B82F6;
+$type-bug:         #EF4444;
+$type-improvement: #10B981;
+$type-epic:        #8B5CF6;
+
+// ── Priority colors ───────────────────────────────────────────────────────────
+$priority-highest: #EF4444;
+$priority-high:    #F97316;
+$priority-medium:  #F59E0B;
+$priority-low:     #22C55E;
+$priority-lowest:  #94A3B8;
+
+// ── Spacing ───────────────────────────────────────────────────────────────────
+$gap-xs: 4px;
+$gap-sm: 8px;
+$gap-md: 16px;
+$gap-lg: 24px;
+$gap-xl: 32px;
+
+// ── Radius ────────────────────────────────────────────────────────────────────
+$card-radius:   12px;   // wireframe --radius-card
+$column-radius: 12px;   // same for columns
+$btn-radius:    8px;    // wireframe --radius-btn
+$badge-radius:  100px;  // pill badges
+$input-radius:  8px;    // wireframe --radius-input
+
+// ── Shadows ───────────────────────────────────────────────────────────────────
+$card-shadow:       0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);   // wireframe --shadow-card
+$card-shadow-hover: 0 4px 12px rgba(0,0,0,.12), 0 2px 6px rgba(0,0,0,.08); // wireframe --shadow-hover
+$modal-shadow:      0 20px 40px rgba(0,0,0,.2);
+
+// ── Typography ────────────────────────────────────────────────────────────────
+$font-family:   'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-size-xs:  10px;
+$font-size-sm:  11px;
+$font-size-base:13px;
+$font-size-md:  13px;
+$font-size-lg:  16px;
+$font-size-xl:  20px;
+$font-size-h1:  24px;
+
+// Legacy aliases
+$font-board-header: 18px;
+$font-column-title: 13px;
+$font-card-title:   13px;
+$font-badge:        10px;
+$font-chart-label:  12px;
+$font-dash-stat:    22px;
+
+// ── Breakpoints ───────────────────────────────────────────────────────────────
+$bp-mobile:  480px;
+$bp-tablet:  768px;
+$bp-desktop: 1024px;
+
+// ── Z-index ───────────────────────────────────────────────────────────────────
+$z-card-dragging: 1000;
+$z-card-drag:     100;
+$z-tooltip:       1100;
+$z-sidebar:       200;
+$z-dropdown:      200;
+$z-modal:         300;
+$z-toast:         400;
+```
+
+## Todo Checklist
+
+- [x] Replace entire content of `scrum-design-tokens.scss`
+- [x] Verify no SCSS compile errors: `node_modules/.bin/sass --no-source-map file.scss /dev/null`
+- [x] Verify backward-compat aliases cover all usages in `sprint-board.scss`, `agile-dashboard.scss`, `charts.scss`
+
+## Risks
+
+| Risk | Mitigation |
+|------|------------|
+| Breaking existing SCSS that uses old token names | Keep all legacy `$` aliases in the file |
+| Font not loading in Odoo backend | Add Google Fonts import at top of tokens file; Odoo loads it via CSS |

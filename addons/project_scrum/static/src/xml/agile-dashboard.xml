@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="project_scrum.AgileDashboard">
+    <div class="o-agile-dashboard">
+
+        <!-- Top bar: breadcrumb + project selector -->
+        <div class="o-agile-dashboard__topbar">
+            <div class="o-agile-dashboard__topbar-left">
+                <span class="o-agile-dashboard__breadcrumb">
+                    <span class="o-agile-dashboard__breadcrumb-parent">Projects</span>
+                    <span class="o-agile-dashboard__breadcrumb-sep">/</span>
+                    <span class="o-agile-dashboard__breadcrumb-current">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        Dashboard
+                    </span>
+                </span>
+            </div>
+            <div class="o-agile-dashboard__topbar-right">
+                <t t-if="state.loadingProjects">
+                    <span class="o-agile-dashboard__loading-text">Loading projects...</span>
+                </t>
+                <t t-elif="state.projects.length === 0">
+                    <span class="o-agile-dashboard__no-projects">No Scrum projects found</span>
+                </t>
+                <t t-else="">
+                    <select class="o-agile-dashboard__project-selector" t-on-change="onProjectChange">
+                        <t t-foreach="state.projects" t-as="project" t-key="project.id">
+                            <option
+                                t-att-value="project.id"
+                                t-att-selected="project.id === state.projectId"
+                                t-esc="project.name"
+                            />
+                        </t>
+                    </select>
+                </t>
+            </div>
+        </div>
+
+        <!-- Loading overlay -->
+        <t t-if="state.loadingData">
+            <div class="o-agile-dashboard__grid">
+                <t t-foreach="[1,2,3,4,5,6]" t-as="n" t-key="n">
+                    <div class="o-agile-dashboard__skeleton-card"/>
+                </t>
+            </div>
+        </t>
+
+        <!-- No projects empty state -->
+        <t t-elif="state.projects.length === 0">
+            <div class="o-agile-dashboard__empty-global">
+                <div class="o-agile-dashboard__empty-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="o-agile-dashboard__empty-title">No Scrum projects yet</div>
+                <div class="o-agile-dashboard__empty-msg">
+                    Enable Scrum on a project to see the Agile Dashboard.
+                </div>
+            </div>
+        </t>
+
+        <!-- Dashboard grid -->
+        <t t-else="">
+            <div class="o-agile-dashboard__grid">
+
+                <!-- ── Widget 1: Sprint Hero (gradient) ────────────────────── -->
+                <div class="o-agile-dashboard__card o-agile-dashboard__card--sprint">
+                    <t t-if="sprint">
+                        <div class="o-agile-dashboard__sprint-hero">
+                            <div class="o-agile-dashboard__sprint-hero-label">Active Sprint</div>
+                            <div class="o-agile-dashboard__sprint-hero-name" t-esc="sprint.name"/>
+                            <div class="o-agile-dashboard__sprint-hero-dates">
+                                <t t-esc="sprint.start_date"/> – <t t-esc="sprint.end_date"/>
+                                · <t t-esc="sprint.days_remaining"/> days remaining
+                            </div>
+                            <div class="o-agile-dashboard__sprint-hero-stats">
+                                <div class="o-agile-dashboard__sprint-hero-stat">
+                                    <span class="o-agile-dashboard__sprint-hero-stat-val"
+                                          t-esc="sprint.committed"/>
+                                    <span class="o-agile-dashboard__sprint-hero-stat-lbl">Committed SP</span>
+                                </div>
+                                <div class="o-agile-dashboard__sprint-hero-stat">
+                                    <span class="o-agile-dashboard__sprint-hero-stat-val"
+                                          t-esc="sprint.completed"/>
+                                    <span class="o-agile-dashboard__sprint-hero-stat-lbl">Completed SP</span>
+                                </div>
+                                <div class="o-agile-dashboard__sprint-hero-stat">
+                                    <span class="o-agile-dashboard__sprint-hero-stat-val"
+                                          t-esc="sprint.remaining"/>
+                                    <span class="o-agile-dashboard__sprint-hero-stat-lbl">Remaining SP</span>
+                                </div>
+                                <div class="o-agile-dashboard__sprint-hero-stat">
+                                    <span class="o-agile-dashboard__sprint-hero-stat-val">
+                                        <t t-esc="sprint.completion_pct || 0"/>%
+                                    </span>
+                                    <span class="o-agile-dashboard__sprint-hero-stat-lbl">Progress</span>
+                                </div>
+                            </div>
+                            <div class="o-agile-dashboard__sprint-hero-progress">
+                                <div class="o-agile-dashboard__sprint-hero-fill"
+                                     t-att-style="'width:' + (sprint.completion_pct || 0) + '%'"/>
+                            </div>
+                        </div>
+                    </t>
+                    <!-- No active sprint -->
+                    <t t-else="">
+                        <div class="o-agile-dashboard__no-sprint">
+                            <div class="o-agile-dashboard__no-sprint-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </div>
+                            <div class="o-agile-dashboard__no-sprint-msg">No active sprint</div>
+                            <button class="btn btn-sm btn-primary mt-2"
+                                    t-on-click="onGoToSprints">
+                                Start a Sprint
+                            </button>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- ── Widget 2: Mini Burndown Chart ───────────────────────── -->
+                <div class="o-agile-dashboard__card o-agile-dashboard__card--burndown">
+                    <t t-if="sprint">
+                        <BurndownChart sprintId="sprint.id" height="'200px'"/>
+                    </t>
+                    <t t-else="">
+                        <div class="o-agile-dashboard__card-header">
+                            <span class="o-agile-dashboard__card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                                Sprint Burndown
+                            </span>
+                        </div>
+                        <div class="o-agile-dashboard__widget-empty">
+                            Start a sprint to see the burndown chart.
+                        </div>
+                    </t>
+                </div>
+
+                <!-- ── Widget 3: Team Workload ─────────────────────────────── -->
+                <div class="o-agile-dashboard__card o-agile-dashboard__card--workload">
+                    <div class="o-agile-dashboard__card-header">
+                        <span class="o-agile-dashboard__card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            Team Workload
+                        </span>
+                        <t t-if="sprint">
+                            <span class="o-agile-dashboard__card-subtitle">
+                                Sprint SP by member
+                            </span>
+                        </t>
+                    </div>
+                    <t t-if="teamWorkload.length > 0">
+                        <div class="o-agile-dashboard__workload-list">
+                            <t t-foreach="teamWorkload" t-as="member" t-key="member.name">
+                                <div class="o-agile-dashboard__workload-row">
+                                    <span class="o-agile-dashboard__workload-name"
+                                          t-esc="member.name"/>
+                                    <div class="o-agile-dashboard__workload-bar-wrap">
+                                        <div class="o-agile-dashboard__workload-bar">
+                                            <div
+                                                class="o-agile-dashboard__workload-fill"
+                                                t-att-style="'width:' + member.pct + '%'"
+                                            />
+                                        </div>
+                                        <span class="o-agile-dashboard__workload-sp">
+                                            <t t-esc="member.sp"/> SP
+                                        </span>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="o-agile-dashboard__widget-empty">
+                            No task assignments in active sprint.
+                        </div>
+                    </t>
+                </div>
+
+                <!-- ── Widget 4: Backlog Health (2x2 stat-card grid) ───────── -->
+                <div class="o-agile-dashboard__card o-agile-dashboard__card--backlog">
+                    <div class="o-agile-dashboard__card-header">
+                        <span class="o-agile-dashboard__card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                            Backlog Health
+                        </span>
+                    </div>
+                    <div class="o-agile-dashboard__bh-grid">
+                        <div class="o-agile-dashboard__bh-stat">
+                            <span class="o-agile-dashboard__bh-stat-val"
+                                  t-esc="backlogHealth.total || 0"/>
+                            <span class="o-agile-dashboard__bh-stat-lbl">Total items</span>
+                        </div>
+                        <div class="o-agile-dashboard__bh-stat o-agile-dashboard__bh-stat--warn">
+                            <span class="o-agile-dashboard__bh-stat-val"
+                                  t-esc="backlogHealth.unestimated || 0"/>
+                            <span class="o-agile-dashboard__bh-stat-lbl">Unestimated</span>
+                        </div>
+                        <div class="o-agile-dashboard__bh-stat o-agile-dashboard__bh-stat--danger">
+                            <span class="o-agile-dashboard__bh-stat-val"
+                                  t-esc="backlogHealth.high_prio || 0"/>
+                            <span class="o-agile-dashboard__bh-stat-lbl">High priority</span>
+                        </div>
+                        <div class="o-agile-dashboard__bh-stat">
+                            <span class="o-agile-dashboard__bh-stat-val"
+                                  t-esc="backlogHealth.total_sp || 0"/>
+                            <span class="o-agile-dashboard__bh-stat-lbl">Total SP</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Widget 5: Velocity Trend (full-width) ───────────────── -->
+                <div class="o-agile-dashboard__card o-agile-dashboard__card--velocity">
+                    <t t-if="state.data">
+                        <VelocityChart projectId="state.data.project_id" height="'200px'"/>
+                    </t>
+                </div>
+
+                <!-- ── Widget 6: Recent Activity ───────────────────────────── -->
+                <div class="o-agile-dashboard__card o-agile-dashboard__card--activity">
+                    <div class="o-agile-dashboard__card-header">
+                        <span class="o-agile-dashboard__card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            Recent Activity
+                        </span>
+                    </div>
+                    <t t-if="recentActivity.length > 0">
+                        <div class="o-agile-dashboard__activity-feed">
+                            <t t-foreach="recentActivity" t-as="item" t-key="item_index">
+                                <div class="o-agile-dashboard__activity-item">
+                                    <div class="o-agile-dashboard__activity-dot"/>
+                                    <div class="o-agile-dashboard__activity-body">
+                                        <span class="o-agile-dashboard__activity-task"
+                                              t-esc="item.task_name"/>
+                                        <span class="o-agile-dashboard__activity-author">
+                                            by <t t-esc="item.author"/>
+                                        </span>
+                                    </div>
+                                    <span class="o-agile-dashboard__activity-time"
+                                          t-esc="item.date"/>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="o-agile-dashboard__widget-empty">
+                            No recent activity.
+                        </div>
+                    </t>
+                </div>
+
+            </div><!-- /.o-agile-dashboard__grid -->
+        </t>
+
+    </div><!-- /.o-agile-dashboard -->
+</t>
+
+</templates>
