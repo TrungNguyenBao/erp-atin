@@ -2,7 +2,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '18.0.4.0.0',
+    'version': '18.0.5.0.0',
     'category': 'Services/Project',
     'summary': 'Scrum/Agile workflow: sprints, story points, velocity tracking',
     'description': """
@@ -17,6 +17,10 @@
         - Sprint burndown chart and velocity tracking
         - Sprint review and retrospective forms
         - Daily standup view
+        - Scrum ceremonies (Planning, Daily, Review, Retrospective)
+        - Scrum role groups (Scrum User, Scrum Master, Product Owner)
+        - Task acceptance criteria and task type classification
+        - Sprint Summary PDF report
     """,
     'depends': ['project', 'mail'],
     'data': [
@@ -28,6 +32,7 @@
         # Reports
         'report/sprint-burndown-report-views.xml',
         'report/sprint-velocity-report-views.xml',
+        'report/sprint-report-template.xml',
         # Views
         'views/project-sprint-views.xml',
         'views/project-sprint-board-views.xml',
@@ -37,6 +42,7 @@
         'views/project-task-views-inherit.xml',
         'views/project-project-views-inherit.xml',
         'views/project-kanban-views-inherit.xml',
+        'views/scrum-ceremony-views.xml',
         # Wizards
         'wizard/sprint-planning-wizard-views.xml',
         'wizard/sprint-close-wizard-views.xml',
@@ -50,6 +56,22 @@
     'assets': {
         'web.assets_backend': [
             'project_scrum/static/src/scss/project-create-wizard-styles.scss',
+            # Sprint Board OWL component (Phase 3)
+            'project_scrum/static/src/scss/scrum-design-tokens.scss',
+            'project_scrum/static/src/scss/sprint-board.scss',
+            'project_scrum/static/src/xml/sprint-board.xml',
+            'project_scrum/static/src/js/sprint-board.js',
+            # Burndown + Velocity Charts (Phase 4)
+            'project_scrum/static/src/scss/charts.scss',
+            'project_scrum/static/src/xml/burndown-chart.xml',
+            'project_scrum/static/src/xml/velocity-chart.xml',
+            'project_scrum/static/src/js/burndown-chart.js',
+            'project_scrum/static/src/js/velocity-chart.js',
+            'project_scrum/static/src/js/charts-registry.js',
+            # Agile Dashboard (Phase 5)
+            'project_scrum/static/src/scss/agile-dashboard.scss',
+            'project_scrum/static/src/xml/agile-dashboard.xml',
+            'project_scrum/static/src/js/agile-dashboard.js',
         ],
     },
     'application': False,

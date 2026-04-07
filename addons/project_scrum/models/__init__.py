@@ -7,3 +7,4 @@ from . import project_release
 from . import project_task_scrum
 from . import project_project_scrum
 from . import res_config_settings
+from . import scrum_ceremony

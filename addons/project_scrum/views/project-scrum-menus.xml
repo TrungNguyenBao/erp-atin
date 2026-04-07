@@ -10,6 +10,16 @@
         sequence="15"
     />
 
+    <!-- Agile Dashboard (Phase 5) -->
+    <menuitem
+        name="Agile Dashboard"
+        id="menu_agile_dashboard"
+        parent="menu_project_scrum"
+        action="action_agile_dashboard"
+        sequence="0"
+        groups="project_scrum.group_project_scrum"
+    />
+
     <!-- Daily Standup -->
     <menuitem
         name="Daily Standup"
@@ -62,6 +72,16 @@
         parent="menu_project_scrum"
         action="action_view_all_releases"
         sequence="6"
+    />
+
+    <!-- Ceremonies -->
+    <menuitem
+        name="Ceremonies"
+        id="menu_all_ceremonies"
+        parent="menu_project_scrum"
+        action="action_view_all_ceremonies"
+        sequence="7"
+        groups="project_scrum.group_project_scrum"
     />
 
     <!-- Reporting submenu -->

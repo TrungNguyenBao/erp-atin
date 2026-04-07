@@ -29,6 +29,22 @@ class ProjectTaskScrum(models.Model):
         tracking=True, index=True,
         groups='project_scrum.group_project_scrum')
 
+    # Task classification
+    task_type = fields.Selection([
+        ('story', 'User Story'),
+        ('task', 'Task'),
+        ('bug', 'Bug'),
+        ('improvement', 'Improvement'),
+        ('epic', 'Epic'),
+    ], string='Task Type', default='task',
+        groups='project_scrum.group_project_scrum')
+
+    # Definition of Done
+    acceptance_criteria = fields.Text(
+        string='Acceptance Criteria',
+        help='Conditions that must be met for this task to be considered done',
+        groups='project_scrum.group_project_scrum')
+
     # Impediment tracking (Phase 3)
     is_blocked = fields.Boolean(
         string='Blocked', tracking=True,

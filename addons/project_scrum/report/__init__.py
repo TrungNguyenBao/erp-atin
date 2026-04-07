@@ -2,3 +2,4 @@
 
 from . import sprint_burndown_report
 from . import sprint_velocity_report
+from . import sprint_report

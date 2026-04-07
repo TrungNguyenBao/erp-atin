@@ -91,6 +91,131 @@ class ProjectProjectScrum(models.Model):
             else:
                 project.velocity_forecast = 0
 
+    def get_dashboard_data(self):
+        """Return all Agile Dashboard widget data in a single RPC call."""
+        self.ensure_one()
+        active_sprint = self.active_sprint_id
+        sprint_data = False
+        if active_sprint:
+            days_remaining = (active_sprint.end_date - fields.Date.today()).days
+            sprint_data = {
+                'id':             active_sprint.id,
+                'name':           active_sprint.name,
+                'start_date':     active_sprint.start_date.strftime('%b %d') if active_sprint.start_date else '',
+                'end_date':       active_sprint.end_date.strftime('%b %d') if active_sprint.end_date else '',
+                'committed':      active_sprint.committed_points,
+                'completed':      active_sprint.completed_points,
+                'remaining':      active_sprint.remaining_points,
+                'completion_pct': active_sprint.completion_percentage,
+                'days_remaining': max(days_remaining, 0),
+                'task_count':     active_sprint.task_count,
+                'done_tasks':     len(active_sprint.task_ids.filtered(lambda t: t.stage_id.fold)),
+            }
+        return {
+            'project_id':      self.id,
+            'project_name':    self.name,
+            'sprint':          sprint_data,
+            'team_workload':   self._get_team_workload(active_sprint),
+            'backlog_health':  self._get_backlog_health(),
+            'recent_activity': self._get_recent_activity(limit=8),
+        }
+
+    def _get_team_workload(self, sprint=None):
+        """Return SP assigned per team member in the active sprint."""
+        if not sprint:
+            return []
+        workload = {}
+        for task in sprint.task_ids:
+            sp = task.story_points or 0
+            for user in task.user_ids:
+                if user.id not in workload:
+                    workload[user.id] = {'name': user.name, 'sp': 0, 'task_count': 0}
+                workload[user.id]['sp'] += sp
+                workload[user.id]['task_count'] += 1
+        result = sorted(workload.values(), key=lambda x: x['sp'], reverse=True)
+        max_sp = result[0]['sp'] if result else 1
+        for item in result:
+            item['pct'] = round(item['sp'] / max(max_sp, 1) * 100)
+        return result[:8]  # top 8 members
+
+    def _get_backlog_health(self):
+        """Return backlog statistics for health widget."""
+        domain_base = [
+            ('project_id', '=', self.id),
+            ('sprint_id', '=', False),
+            ('child_ids', '=', False),
+        ]
+        BacklogTask = self.env['project.task']
+        total        = BacklogTask.search_count(domain_base)
+        unestimated  = BacklogTask.search_count(domain_base + [('story_points', '=', 0)])
+        high_prio    = BacklogTask.search_count(domain_base + [('priority', '=', '1')])
+        total_sp     = sum(BacklogTask.search(domain_base).mapped('story_points'))
+        return {
+            'total':       total,
+            'unestimated': unestimated,
+            'high_prio':   high_prio,
+            'total_sp':    total_sp,
+        }
+
+    def _get_recent_activity(self, limit=8):
+        """Return recent task stage changes for the activity feed."""
+        # Fetch recent mail messages about stage changes in this project
+        domain = [
+            ('model', '=', 'project.task'),
+            ('message_type', 'in', ['notification', 'comment']),
+            ('res_id', 'in', self.task_ids.ids),
+        ]
+        messages = self.env['mail.message'].search(
+            domain, order='date desc', limit=limit
+        )
+        result = []
+        for msg in messages:
+            task = self.env['project.task'].browse(msg.res_id)
+            if not task.exists():
+                continue
+            result.append({
+                'task_name': task.name,
+                'author':    msg.author_id.name if msg.author_id else 'System',
+                'body':      msg.body[:80] if msg.body else '',
+                'date':      msg.date.strftime('%b %d, %H:%M') if msg.date else '',
+            })
+        return result
+
+    def get_velocity_data(self, limit=6):
+        """Return velocity chart data for OWL VelocityChart widget."""
+        self.ensure_one()
+        closed_sprints = self.env['project.sprint'].search(
+            [('project_id', '=', self.id), ('state', '=', 'closed')],
+            order='end_date asc',
+            limit=limit,
+        )
+        labels     = [s.name for s in closed_sprints]
+        committed  = [s.committed_points for s in closed_sprints]
+        completed  = [s.completed_points for s in closed_sprints]
+        velocities = [s.velocity or s.completed_points for s in closed_sprints]
+
+        # Rolling 3-sprint average (pad with None for early sprints)
+        rolling = []
+        window = 3
+        for i, _ in enumerate(velocities):
+            if i + 1 < window:
+                rolling.append(None)
+            else:
+                avg = sum(velocities[i - window + 1: i + 1]) / window
+                rolling.append(round(avg, 1))
+
+        return {
+            'labels':       labels,
+            'committed':    committed,
+            'completed':    completed,
+            'rolling_avg':  rolling,
+            'sprint_count': len(closed_sprints),
+            'avg_velocity': round(sum(velocities) / len(velocities), 1) if velocities else 0,
+            'forecast':     rolling[-1] if rolling and rolling[-1] is not None else (
+                round(sum(velocities) / len(velocities), 1) if velocities else 0
+            ),
+        }
+
     # M4 fix: action method filtering sprints by current project
     def action_view_project_sprints(self):
         """Open sprints for this project."""

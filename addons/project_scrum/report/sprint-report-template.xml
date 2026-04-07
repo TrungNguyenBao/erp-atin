@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Report Action -->
+    <record id="action_report_sprint_summary" model="ir.actions.report">
+        <field name="name">Sprint Summary</field>
+        <field name="model">project.sprint</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">project_scrum.report_sprint_summary</field>
+        <field name="report_file">project_scrum.report_sprint_summary</field>
+        <field name="binding_model_id" ref="model_project_sprint"/>
+        <field name="binding_type">report</field>
+        <field name="groups_id" eval="[(4, ref('project_scrum.group_project_scrum'))]"/>
+    </record>
+
+    <!-- QWeb Template -->
+    <template id="report_sprint_summary">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="sprint">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <!-- Header -->
+                        <div class="row mb-4">
+                            <div class="col-8">
+                                <h2 t-esc="sprint.name"/>
+                                <h4 class="text-muted" t-esc="sprint.project_id.name"/>
+                            </div>
+                            <div class="col-4 text-end">
+                                <span t-attf-class="badge bg-#{
+                                    'primary' if sprint.state == 'draft'
+                                    else 'success' if sprint.state == 'active'
+                                    else 'secondary'
+                                }" style="font-size:1em;">
+                                    <t t-esc="dict(sprint._fields['state'].selection).get(sprint.state, sprint.state)"/>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Sprint Dates & Goal -->
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Start Date:</strong>
+                                <span t-esc="sprint.start_date" t-options='{"widget": "date"}'/>
+                            </div>
+                            <div class="col-6">
+                                <strong>End Date:</strong>
+                                <span t-esc="sprint.end_date" t-options='{"widget": "date"}'/>
+                            </div>
+                        </div>
+                        <t t-if="sprint.goal">
+                            <div class="mb-3">
+                                <strong>Sprint Goal:</strong>
+                                <p t-esc="sprint.goal"/>
+                            </div>
+                        </t>
+
+                        <!-- Velocity Summary -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h4>Velocity Summary</h4>
+                                <table class="table table-bordered table-sm" style="width:auto;">
+                                    <tr>
+                                        <th>Planned Capacity</th>
+                                        <td><t t-esc="sprint.capacity_points"/> SP</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Committed</th>
+                                        <td><t t-esc="sprint.committed_points"/> SP</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Completed</th>
+                                        <td><t t-esc="sprint.completed_points"/> SP</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Remaining</th>
+                                        <td><t t-esc="sprint.remaining_points"/> SP</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Completion</th>
+                                        <td><t t-esc="'%.1f%%' % sprint.completion_percentage"/></td>
+                                    </tr>
+                                    <t t-if="sprint.state == 'closed'">
+                                        <tr>
+                                            <th>Velocity (Final)</th>
+                                            <td><t t-esc="sprint.velocity"/> SP</td>
+                                        </tr>
+                                    </t>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Task List -->
+                        <h4>Tasks (<t t-esc="sprint.task_count"/>)</h4>
+                        <table class="table table-bordered table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Task</th>
+                                    <th>Type</th>
+                                    <th>Assignee</th>
+                                    <th class="text-center">SP</th>
+                                    <th>Stage</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="sprint.task_ids" t-as="task">
+                                    <tr>
+                                        <td t-esc="task.name"/>
+                                        <td>
+                                            <t t-if="task.task_type">
+                                                <t t-esc="dict(task._fields['task_type'].selection).get(task.task_type, '')"/>
+                                            </t>
+                                        </td>
+                                        <td t-esc="', '.join(task.user_ids.mapped('name'))"/>
+                                        <td class="text-center" t-esc="task.story_points or ''"/>
+                                        <td t-esc="task.stage_id.name"/>
+                                        <td>
+                                            <t t-if="task.state in ('1_done', '1_canceled')">
+                                                <span class="text-success">✓ Done</span>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-if="task.is_blocked">
+                                                    <span class="text-danger">⚠ Blocked</span>
+                                                </t>
+                                                <t t-else="">In Progress</t>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <!-- Ceremonies -->
+                        <t t-if="sprint.ceremony_ids">
+                            <h4 class="mt-4">Ceremonies</h4>
+                            <table class="table table-bordered table-sm">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Duration</th>
+                                        <th>Attendees</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="sprint.ceremony_ids" t-as="ceremony">
+                                        <tr>
+                                            <td t-esc="dict(ceremony._fields['ceremony_type'].selection).get(ceremony.ceremony_type, '')"/>
+                                            <td t-esc="ceremony.date" t-options='{"widget": "datetime"}'/>
+                                            <td><t t-esc="'%.1f h' % ceremony.duration"/></td>
+                                            <td t-esc="', '.join(ceremony.attendee_ids.mapped('name'))"/>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+
+                        <!-- Review Notes -->
+                        <t t-if="sprint.review_notes">
+                            <h4 class="mt-4">Sprint Review Notes</h4>
+                            <div t-raw="sprint.review_notes"/>
+                        </t>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

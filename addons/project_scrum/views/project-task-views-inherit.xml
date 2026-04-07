@@ -14,7 +14,7 @@
                        invisible="not project_id or not enable_scrum"
                        groups="project_scrum.group_project_scrum"/>
             </xpath>
-            <!-- Add sprint_id and epic_id after milestone_id -->
+            <!-- Add sprint_id, epic_id, task_type after milestone_id -->
             <xpath expr="//field[@name='milestone_id']" position="after">
                 <field name="sprint_id"
                        invisible="not project_id or not enable_scrum"
@@ -24,6 +24,18 @@
                        invisible="not project_id or not enable_scrum"
                        groups="project_scrum.group_project_scrum"
                        options="{'no_create': True}"/>
+                <field name="task_type"
+                       invisible="not enable_scrum"
+                       groups="project_scrum.group_project_scrum"/>
+            </xpath>
+            <!-- Acceptance criteria before task_properties -->
+            <xpath expr="//field[@name='task_properties']" position="before">
+                <group string="Acceptance Criteria"
+                       invisible="not enable_scrum"
+                       groups="project_scrum.group_project_scrum">
+                    <field name="acceptance_criteria" nolabel="1"
+                           placeholder="Define the conditions that must be met for this task to be considered done..."/>
+                </group>
             </xpath>
             <!-- Blocker section before description/properties -->
             <xpath expr="//field[@name='task_properties']" position="before">

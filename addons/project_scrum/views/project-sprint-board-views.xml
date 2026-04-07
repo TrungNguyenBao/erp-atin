@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Sprint Board: tasks kanban filtered by active sprint -->
-    <record id="action_sprint_board" model="ir.actions.act_window">
+    <!-- Sprint Board: OWL interactive kanban (Phase 3) -->
+    <record id="action_sprint_board" model="ir.actions.client">
         <field name="name">Sprint Board</field>
-        <field name="res_model">project.task</field>
-        <field name="view_mode">kanban,list,form</field>
-        <field name="domain">[
-            ('sprint_id.state', '=', 'active'),
-            ('display_in_project', '=', True),
-        ]</field>
-        <field name="context">{
-            'project_kanban': True,
-        }</field>
-        <field name="search_view_id" ref="project.view_task_search_form"/>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                No active sprint found
-            </p>
-            <p>
-                Start a sprint from the Sprints menu to see tasks here.
-            </p>
-        </field>
+        <field name="tag">sprint_board_action</field>
+    </record>
+
+    <!-- Agile Dashboard: OWL client action (Phase 5) -->
+    <record id="action_agile_dashboard" model="ir.actions.client">
+        <field name="name">Agile Dashboard</field>
+        <field name="tag">agile_dashboard_action</field>
     </record>
 
     <!-- Daily Standup: active sprint tasks grouped by assignee -->

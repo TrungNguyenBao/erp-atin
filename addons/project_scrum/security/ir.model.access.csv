@@ -12,3 +12,6 @@ access_project_epic_manager,project.epic.manager,model_project_epic,project.grou
 access_project_release_user,project.release.user,model_project_release,project.group_project_user,1,0,0,0
 access_project_release_manager,project.release.manager,model_project_release,project.group_project_manager,1,1,1,1
 access_project_create_wizard,project.create.wizard,model_project_create_wizard,project.group_project_user,1,1,1,1
+access_scrum_ceremony_user,scrum.ceremony.user,model_scrum_ceremony,project.group_project_user,1,0,0,0
+access_scrum_ceremony_scrum_master,scrum.ceremony.scrum_master,model_scrum_ceremony,project_scrum.group_scrum_master,1,1,1,0
+access_scrum_ceremony_manager,scrum.ceremony.manager,model_scrum_ceremony,project.group_project_manager,1,1,1,1
