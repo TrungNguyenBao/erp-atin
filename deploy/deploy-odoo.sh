@@ -5,9 +5,9 @@
 set -euo pipefail
 
 # --- VPS Configuration ---
-VPS_IP="192.168.1.198"
-VPS_USER="btrung"
-REMOTE_DIR="/home/btrung/odoo-deploy"
+VPS_IP="192.168.1.199"
+VPS_USER="baotrung"
+REMOTE_DIR="/home/baotrung/odoo-deploy"
 
 echo "=== Odoo Docker Deployment ==="
 echo "Target: ${VPS_USER}@${VPS_IP}"
@@ -41,22 +41,39 @@ echo "[2/4] Uploading deployment files..."
 ssh "${VPS_USER}@${VPS_IP}" "mkdir -p ${REMOTE_DIR}/config ${REMOTE_DIR}/addons"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
 scp "${SCRIPT_DIR}/docker-compose.yml" "${VPS_USER}@${VPS_IP}:${REMOTE_DIR}/"
 scp "${SCRIPT_DIR}/.env" "${VPS_USER}@${VPS_IP}:${REMOTE_DIR}/"
 scp "${SCRIPT_DIR}/config/odoo.conf" "${VPS_USER}@${VPS_IP}:${REMOTE_DIR}/config/"
+
+# Sync custom addons (excludes pyc/cache)
+echo "Syncing custom addons..."
+rsync -az --delete \
+    --exclude='__pycache__' --exclude='*.pyc' --exclude='.git' \
+    "${REPO_ROOT}/addons/" "${VPS_USER}@${VPS_IP}:${REMOTE_DIR}/addons/"
 echo "Files uploaded."
 
 # --- Step 3: Start Odoo ---
 echo ""
 echo "[3/4] Starting Odoo containers..."
-ssh "${VPS_USER}@${VPS_IP}" bash -s << REMOTE_START
+: "${SUDO_PASS:?Set SUDO_PASS env var with VPS sudo password before running}"
+ssh "${VPS_USER}@${VPS_IP}" "SUDO_PASS='${SUDO_PASS}' bash -s" << 'REMOTE_START'
 set -euo pipefail
-cd ${REMOTE_DIR}
-docker compose pull
-docker compose up -d
+cd /home/baotrung/odoo-deploy
+SUDO() { echo "$SUDO_PASS" | sudo -S -p '' "$@"; }
+SUDO docker compose pull
+SUDO docker compose up -d
 echo "Waiting for Odoo to start..."
 sleep 10
-docker compose ps
+SUDO docker compose ps
+
+# Upgrade project_scrum if database exists
+if SUDO docker compose exec -T db psql -U odoo -lqt 2>/dev/null | cut -d \| -f 1 | grep -qw odoo_erp; then
+    echo "Upgrading project_scrum module on odoo_erp..."
+    SUDO docker compose exec -T odoo odoo -d odoo_erp -u project_scrum --stop-after-init --no-http || true
+    SUDO docker compose restart odoo
+fi
 REMOTE_START
 
 # --- Step 4: Verify ---
