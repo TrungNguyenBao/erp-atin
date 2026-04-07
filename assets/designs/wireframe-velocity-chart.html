@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velocity Chart — Wireframe</title>
+<style>
+:root {
+  --c-primary:    #0052CC;
+  --c-primary-dk: #0747A6;
+  --c-bg:         #F4F5F7;
+  --c-surface:    #FFFFFF;
+  --c-border:     #DFE1E6;
+  --c-text:       #172B4D;
+  --c-text-sec:   #6B778C;
+  --c-text-sub:   #97A0AF;
+  --c-sidebar:    #1D2125;
+  --c-sidebar-hov:#2C333A;
+  --c-done:       #00875A;
+  --c-warn:       #FF8B00;
+  --c-committed:  #C1D5F6;
+  --c-completed:  #0052CC;
+  --c-avg:        #FF8B00;
+  --font: -apple-system,"Segoe UI",Roboto,sans-serif;
+  --r-sm:3px; --r-md:4px; --r-lg:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:var(--c-bg);color:var(--c-text);font-size:14px;display:flex;height:100vh;overflow:hidden;}
+
+.wf-banner{position:fixed;top:0;left:0;right:0;background:#FF5630;color:#fff;text-align:center;font-size:11px;font-weight:700;letter-spacing:2px;padding:3px;z-index:9999;}
+
+/* SIDEBARS */
+.icon-sidebar{width:64px;background:var(--c-sidebar);display:flex;flex-direction:column;align-items:center;padding-top:30px;flex-shrink:0;}
+.s-logo{width:32px;height:32px;background:var(--c-primary);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:20px;}
+.s-divider{width:28px;height:1px;background:#344563;margin:8px 0;}
+.s-icon{width:40px;height:40px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;color:#B8C7E0;margin:2px 0;transition:background .15s,color .15s;position:relative;}
+.s-icon:hover{background:var(--c-sidebar-hov);color:#fff;}
+.s-icon.active{background:var(--c-sidebar-hov);color:#4C9AFF;}
+.s-icon .tip{display:none;position:absolute;left:52px;top:50%;transform:translateY(-50%);background:#0E1624;color:#fff;padding:4px 8px;border-radius:var(--r-sm);font-size:12px;white-space:nowrap;z-index:300;}
+.s-icon:hover .tip{display:block;}
+.s-bottom{margin-top:auto;padding-bottom:14px;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.user-av{width:32px;height:32px;border-radius:50%;background:#6554C0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+
+.proj-nav{width:220px;background:var(--c-sidebar);padding-top:30px;flex-shrink:0;display:flex;flex-direction:column;overflow-y:auto;border-right:1px solid #2C333A;}
+.proj-head{padding:10px 16px;display:flex;align-items:center;gap:10px;}
+.proj-av{width:28px;height:28px;background:linear-gradient(135deg,#0052CC,#6554C0);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
+.proj-name{font-size:13px;font-weight:600;color:#B8C7E0;}
+.proj-type{font-size:11px;color:#6B778C;}
+.nav-sec{font-size:11px;font-weight:600;color:#6B778C;letter-spacing:.08em;text-transform:uppercase;padding:16px 16px 4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;font-size:13px;color:#B8C7E0;cursor:pointer;transition:background .12s,color .12s;}
+.nav-item:hover{background:#2C333A;color:#fff;}
+.nav-item.active{background:#2C333A;color:#4C9AFF;border-left:2px solid #4C9AFF;}
+.nav-icon{font-size:14px;width:16px;text-align:center;}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;padding-top:22px;}
+.top-bar{height:48px;background:#1D2125;display:flex;align-items:center;padding:0 20px;flex-shrink:0;border-bottom:1px solid #2C333A;}
+.breadcrumb{font-size:13px;color:#B8C7E0;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#4C9AFF;text-decoration:none;}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb .sep{color:#6B778C;}
+.tb-actions{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--r-md);font-size:13px;font-weight:500;cursor:pointer;border:none;transition:background .12s;}
+.btn-primary{background:var(--c-primary);color:#fff;}
+.btn-primary:hover{background:var(--c-primary-dk);}
+.btn-ghost{background:transparent;color:#B8C7E0;border:1px solid #344563;}
+.btn-ghost:hover{background:#2C333A;}
+.btn-light{background:transparent;color:var(--c-text-sec);border:1px solid var(--c-border);}
+.btn-light:hover{background:#EBECF0;}
+
+.page-body{flex:1;overflow-y:auto;padding:24px 28px;}
+.page-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.page-title{font-size:24px;font-weight:600;color:var(--c-text);margin-bottom:4px;}
+.page-sub{font-size:14px;color:var(--c-text-sec);}
+
+/* Forecast badge */
+.forecast-badge{display:inline-flex;align-items:center;gap:8px;background:#FFFAE6;border:1px solid #FFAB00;border-radius:var(--r-lg);padding:10px 16px;}
+.fb-label{font-size:12px;color:var(--c-text-sec);}
+.fb-val{font-size:20px;font-weight:700;color:#FF8B00;}
+
+/* Sprint count selector */
+.sprint-selector{display:flex;align-items:center;gap:8px;margin-bottom:20px;}
+.sprint-selector label{font-size:13px;color:var(--c-text-sec);}
+.sprint-selector select{padding:6px 10px;border:1px solid var(--c-border);border-radius:var(--r-md);font-size:13px;color:var(--c-text);background:#fff;cursor:pointer;}
+
+/* Chart card */
+.chart-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-lg);padding:20px;margin-bottom:20px;}
+.chart-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.chart-title{font-size:16px;font-weight:600;color:var(--c-text);}
+.chart-legend{display:flex;align-items:center;gap:20px;}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--c-text-sec);}
+.leg-box{width:14px;height:14px;border-radius:2px;}
+.leg-line{width:24px;height:3px;border-radius:2px;}
+
+/* Tooltip mockup */
+.tooltip-mock{background:var(--c-sidebar);color:#E8ECEF;border-radius:var(--r-md);padding:10px 14px;font-size:12px;width:160px;box-shadow:0 4px 16px rgba(0,0,0,.3);}
+.tt-sprint{font-weight:700;margin-bottom:6px;color:#fff;}
+.tt-row{display:flex;justify-content:space-between;gap:8px;margin-bottom:3px;}
+.tt-label{color:#97A0AF;}
+.tt-val{font-weight:600;color:#E8ECEF;}
+
+/* Stats table */
+.table-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:24px;}
+.table-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--c-border);}
+.table-title{font-size:15px;font-weight:600;color:var(--c-text);}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:#F4F5F7;}
+th{padding:10px 16px;text-align:left;font-size:11px;font-weight:700;color:var(--c-text-sec);letter-spacing:.05em;text-transform:uppercase;border-bottom:1px solid var(--c-border);}
+td{padding:10px 16px;font-size:13px;color:var(--c-text);border-bottom:1px solid var(--c-border);}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#F4F5F7;}
+.diff-pos{color:var(--c-done);font-weight:600;}
+.diff-neg{color:#DE350B;font-weight:600;}
+.diff-zero{color:var(--c-text-sub);}
+
+/* Velocity bar inline */
+.vbar-wrap{display:flex;align-items:center;gap:8px;}
+.vbar{height:8px;border-radius:4px;display:inline-block;}
+
+/* Annotation */
+.ann{display:inline-block;background:#E3F2FD;border:1px dashed #1976D2;border-radius:var(--r-sm);padding:4px 8px;font-size:10px;color:#0D47A1;max-width:220px;line-height:1.4;margin:4px 0;}
+.ann::before{content:'📐 ';}
+
+.variant-banner{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#97A0AF;padding:4px 0 14px;}
+.empty-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-lg);padding:48px;text-align:center;max-width:500px;margin:0 auto 32px;}
+.es-icon{font-size:48px;margin-bottom:12px;}
+.es-title{font-size:18px;font-weight:600;color:var(--c-text);margin-bottom:8px;}
+.es-desc{font-size:14px;color:var(--c-text-sec);line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="wf-banner">⚡ WIREFRAME — Velocity Chart — Odoo Scrum Addon · File 3/5</div>
+
+<!-- ICON SIDEBAR -->
+<div class="icon-sidebar">
+  <div class="s-logo">🔷</div>
+  <div class="s-divider"></div>
+  <div class="s-icon"><span>🏠</span><div class="tip">Home</div></div>
+  <div class="s-icon"><span>📋</span><div class="tip">Projects</div></div>
+  <div class="s-icon"><span>🎯</span><div class="tip">Issues</div></div>
+  <div class="s-icon active"><span>📊</span><div class="tip">Reports</div></div>
+  <div class="s-icon"><span>👥</span><div class="tip">Teams</div></div>
+  <div class="s-divider"></div>
+  <div class="s-icon"><span>⚙️</span><div class="tip">Settings</div></div>
+  <div class="s-bottom">
+    <div class="s-icon"><span>❓</span><div class="tip">Help</div></div>
+    <div class="s-icon"><span>🔔</span><div class="tip">Notifications</div></div>
+    <div class="user-av">HQ</div>
+  </div>
+</div>
+
+<!-- PROJECT SIDEBAR -->
+<div class="proj-nav">
+  <div class="proj-head">
+    <div class="proj-av">SA</div>
+    <div>
+      <div class="proj-name">Scrum Alpha</div>
+      <div class="proj-type">Software project</div>
+    </div>
+  </div>
+  <div class="nav-sec">Planning</div>
+  <div class="nav-item"><span class="nav-icon">📅</span>Roadmap</div>
+  <div class="nav-item"><span class="nav-icon">📋</span>Backlog</div>
+  <div class="nav-item"><span class="nav-icon">🏃</span>Active Sprint</div>
+  <div class="nav-sec">Reports</div>
+  <div class="nav-item"><span class="nav-icon">🔥</span>Burndown Chart</div>
+  <div class="nav-item active"><span class="nav-icon">⚡</span>Velocity Chart</div>
+  <div class="nav-item"><span class="nav-icon">📈</span>Cumulative Flow</div>
+  <div class="nav-sec">Ceremonies</div>
+  <div class="nav-item"><span class="nav-icon">🗓️</span>Ceremonies</div>
+  <div class="nav-item"><span class="nav-icon">🔄</span>Retrospectives</div>
+  <div class="nav-sec">Project</div>
+  <div class="nav-item"><span class="nav-icon">🏷️</span>Releases</div>
+  <div class="nav-item"><span class="nav-icon">⚙️</span>Project Settings</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="top-bar">
+    <div class="breadcrumb">
+      <a>Projects</a><span class="sep">/</span>
+      <a>Scrum Alpha</a><span class="sep">/</span>
+      <a>Reports</a><span class="sep">/</span>
+      <span>Velocity Chart</span>
+    </div>
+    <div class="tb-actions">
+      <button class="btn btn-ghost">← Back to Board</button>
+      <button class="btn btn-light">⬇ Export PDF</button>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <div class="page-hdr">
+      <div>
+        <div class="page-title">⚡ Velocity Chart</div>
+        <div class="page-sub">Track team performance across sprints — story points committed vs. completed</div>
+      </div>
+      <!-- FORECAST BADGE -->
+      <div class="forecast-badge">
+        <div>
+          <div class="fb-label">Estimated next sprint velocity</div>
+          <div class="fb-val">31 SP</div>
+        </div>
+        <div style="font-size:24px;">🎯</div>
+      </div>
+    </div>
+
+    <!-- Sprint count selector -->
+    <div class="sprint-selector">
+      <label>Show last:</label>
+      <select>
+        <option>7 sprints</option>
+        <option>5 sprints</option>
+        <option>All sprints</option>
+      </select>
+      <div class="ann">Rolling average uses last 3 sprints by default. Configurable in project settings.</div>
+    </div>
+
+    <!-- VELOCITY CHART CARD -->
+    <div class="chart-card">
+      <div class="chart-hdr">
+        <div class="chart-title">Sprint Velocity — Last 7 Sprints</div>
+        <div class="chart-legend">
+          <div class="leg-item">
+            <div class="leg-box" style="background:var(--c-committed);"></div>
+            Committed
+          </div>
+          <div class="leg-item">
+            <div class="leg-box" style="background:var(--c-completed);"></div>
+            Completed
+          </div>
+          <div class="leg-item">
+            <div class="leg-line" style="background:var(--c-avg);height:2px;border-top:2px dashed var(--c-avg);"></div>
+            Avg (3-sprint)
+          </div>
+        </div>
+      </div>
+
+      <!-- SVG GROUPED BAR CHART -->
+      <div style="position:relative;">
+        <svg viewBox="0 0 700 280" style="width:100%;height:280px;background:#fff;border:1px solid var(--c-border);border-radius:var(--r-md);">
+          <!-- Grid lines -->
+          <line x1="55" y1="20" x2="55" y2="240" stroke="#DFE1E6" stroke-width="1"/>
+          <line x1="55" y1="240" x2="695" y2="240" stroke="#DFE1E6" stroke-width="1"/>
+          <line x1="55" y1="60"  x2="695" y2="60"  stroke="#F4F5F7" stroke-width="1"/>
+          <line x1="55" y1="100" x2="695" y2="100" stroke="#F4F5F7" stroke-width="1"/>
+          <line x1="55" y1="140" x2="695" y2="140" stroke="#F4F5F7" stroke-width="1"/>
+          <line x1="55" y1="180" x2="695" y2="180" stroke="#F4F5F7" stroke-width="1"/>
+          <line x1="55" y1="220" x2="695" y2="220" stroke="#F4F5F7" stroke-width="1"/>
+
+          <!-- Y labels (0-50 SP) -->
+          <text x="48" y="243" text-anchor="end" font-size="10" fill="#97A0AF">0</text>
+          <text x="48" y="223" text-anchor="end" font-size="10" fill="#97A0AF">5</text>
+          <text x="48" y="183" text-anchor="end" font-size="10" fill="#97A0AF">15</text>
+          <text x="48" y="143" text-anchor="end" font-size="10" fill="#97A0AF">25</text>
+          <text x="48" y="103" text-anchor="end" font-size="10" fill="#97A0AF">35</text>
+          <text x="48" y="63"  text-anchor="end" font-size="10" fill="#97A0AF">45</text>
+          <text x="48" y="23"  text-anchor="end" font-size="10" fill="#97A0AF">50</text>
+
+          <!-- Y axis label -->
+          <text x="14" y="140" text-anchor="middle" font-size="10" fill="#6B778C" transform="rotate(-90 14 140)">Story Points</text>
+
+          <!--
+            7 sprint groups, each ~90px wide
+            Bar width = 28px, gap = 8px
+            Sprint 1 starts at x=75
+            Committed=light blue, Completed=dark blue
+            Scale: 1 SP ≈ 4px (50 SP = 200px height)
+          -->
+
+          <!-- Sprint 1: committed=32, completed=28 -->
+          <rect x="70"  y="112" width="28" height="128" fill="var(--c-committed)" rx="2"/>
+          <rect x="100" y="128" width="28" height="112" fill="var(--c-completed)" rx="2"/>
+          <text x="89"  y="254" text-anchor="middle" font-size="9" fill="#97A0AF">S-1</text>
+          <text x="84"  y="108" text-anchor="middle" font-size="9" fill="#6B778C">32</text>
+          <text x="114" y="124" text-anchor="middle" font-size="9" fill="var(--c-primary)">28</text>
+
+          <!-- Sprint 2: committed=36, completed=30 -->
+          <rect x="165" y="96"  width="28" height="144" fill="var(--c-committed)" rx="2"/>
+          <rect x="195" y="120" width="28" height="120" fill="var(--c-completed)" rx="2"/>
+          <text x="184" y="254" text-anchor="middle" font-size="9" fill="#97A0AF">S-2</text>
+          <text x="179" y="92"  text-anchor="middle" font-size="9" fill="#6B778C">36</text>
+          <text x="209" y="116" text-anchor="middle" font-size="9" fill="var(--c-primary)">30</text>
+
+          <!-- Sprint 3: committed=30, completed=30 (full completion) -->
+          <rect x="260" y="120" width="28" height="120" fill="var(--c-committed)" rx="2"/>
+          <rect x="290" y="120" width="28" height="120" fill="var(--c-completed)" rx="2"/>
+          <text x="279" y="254" text-anchor="middle" font-size="9" fill="#97A0AF">S-3</text>
+          <text x="274" y="116" text-anchor="middle" font-size="9" fill="#6B778C">30</text>
+          <text x="304" y="116" text-anchor="middle" font-size="9" fill="var(--c-primary)" font-weight="700">30 ✓</text>
+
+          <!-- Sprint 4: committed=40, completed=26 (low) -->
+          <rect x="355" y="80"  width="28" height="160" fill="var(--c-committed)" rx="2"/>
+          <rect x="385" y="136" width="28" height="104" fill="var(--c-completed)" rx="2"/>
+          <text x="374" y="254" text-anchor="middle" font-size="9" fill="#97A0AF">S-4</text>
+          <text x="369" y="76"  text-anchor="middle" font-size="9" fill="#6B778C">40</text>
+          <text x="399" y="132" text-anchor="middle" font-size="9" fill="var(--c-primary)">26</text>
+
+          <!-- Sprint 5: committed=38, completed=33 -->
+          <rect x="450" y="88"  width="28" height="152" fill="var(--c-committed)" rx="2"/>
+          <rect x="480" y="108" width="28" height="132" fill="var(--c-completed)" rx="2"/>
+          <text x="469" y="254" text-anchor="middle" font-size="9" fill="#97A0AF">S-5</text>
+          <text x="464" y="84"  text-anchor="middle" font-size="9" fill="#6B778C">38</text>
+          <text x="494" y="104" text-anchor="middle" font-size="9" fill="var(--c-primary)">33</text>
+
+          <!-- Sprint 6: committed=34, completed=28 -->
+          <rect x="545" y="104" width="28" height="136" fill="var(--c-committed)" rx="2"/>
+          <rect x="575" y="128" width="28" height="112" fill="var(--c-completed)" rx="2"/>
+          <text x="564" y="254" text-anchor="middle" font-size="9" fill="#97A0AF">S-6</text>
+          <text x="559" y="100" text-anchor="middle" font-size="9" fill="#6B778C">34</text>
+          <text x="589" y="124" text-anchor="middle" font-size="9" fill="var(--c-primary)">28</text>
+
+          <!-- Sprint 7 (current, in progress) — lighter -->
+          <rect x="640" y="108" width="28" height="132" fill="var(--c-committed)" opacity="0.5" rx="2" stroke-dasharray="3,2" stroke="#C1D5F6" stroke-width="1"/>
+          <rect x="640" y="108" width="28" height="132" fill="transparent" rx="2" stroke="#97A0AF" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="654" y="254" text-anchor="middle" font-size="9" fill="#97A0AF">S-7 ▸</text>
+          <text x="654" y="104" text-anchor="middle" font-size="9" fill="#97A0AF">33?</text>
+
+          <!-- ROLLING AVERAGE LINE (orange dashed) -->
+          <!-- Points at midpoint of each sprint's completed bar top -->
+          <polyline
+            points="114,128 209,120 304,120 399,136 494,108 589,128 654,116"
+            fill="none" stroke="var(--c-avg)" stroke-width="2" stroke-dasharray="6,3"/>
+
+          <!-- Average line dots -->
+          <circle cx="114" cy="128" r="3" fill="var(--c-avg)"/>
+          <circle cx="209" cy="120" r="3" fill="var(--c-avg)"/>
+          <circle cx="304" cy="120" r="3" fill="var(--c-avg)"/>
+          <circle cx="399" cy="136" r="3" fill="var(--c-avg)"/>
+          <circle cx="494" cy="108" r="3" fill="var(--c-avg)"/>
+          <circle cx="589" cy="128" r="3" fill="var(--c-avg)"/>
+          <circle cx="654" cy="116" r="4" fill="var(--c-avg)" stroke="#fff" stroke-width="2"/>
+
+        </svg>
+
+        <!-- TOOLTIP MOCKUP (positioned over Sprint 5 bar) -->
+        <div style="position:absolute;top:60px;left:440px;z-index:10;">
+          <div class="tooltip-mock">
+            <div class="tt-sprint">Sprint 5</div>
+            <div class="tt-row"><span class="tt-label">Committed</span><span class="tt-val">38 SP</span></div>
+            <div class="tt-row"><span class="tt-label">Completed</span><span class="tt-val" style="color:#57D9A3;">33 SP</span></div>
+            <div class="tt-row"><span class="tt-label">Completion</span><span class="tt-val" style="color:#57D9A3;">87%</span></div>
+            <div class="tt-row"><span class="tt-label">Duration</span><span class="tt-val">14 days</span></div>
+          </div>
+          <div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid #1D2125;margin-left:70px;"></div>
+        </div>
+        <div class="ann" style="margin-top:8px;">Tooltip appears on bar hover — shows sprint stats inline without navigation.</div>
+      </div>
+    </div>
+
+    <!-- STATS TABLE -->
+    <div class="table-card">
+      <div class="table-head">
+        <div class="table-title">Sprint Velocity Breakdown</div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-light" style="font-size:12px;">⬇ Export CSV</button>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Sprint</th>
+            <th>Committed</th>
+            <th>Completed</th>
+            <th>Difference</th>
+            <th>Completion %</th>
+            <th>Velocity Bar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Sprint 1</strong></td>
+            <td>32 SP</td>
+            <td>28 SP</td>
+            <td><span class="diff-neg">-4 SP</span></td>
+            <td>88%</td>
+            <td><div class="vbar-wrap"><div class="vbar" style="width:56px;background:var(--c-committed);"></div><div class="vbar" style="width:44px;background:var(--c-completed);margin-left:-50px;opacity:0.8;"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 2</strong></td>
+            <td>36 SP</td>
+            <td>30 SP</td>
+            <td><span class="diff-neg">-6 SP</span></td>
+            <td>83%</td>
+            <td><div class="vbar-wrap"><div class="vbar" style="width:64px;background:var(--c-committed);"></div><div class="vbar" style="width:52px;background:var(--c-completed);margin-left:-60px;opacity:0.8;"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 3</strong></td>
+            <td>30 SP</td>
+            <td>30 SP</td>
+            <td><span class="diff-pos">+0 SP ✓</span></td>
+            <td>100% 🎉</td>
+            <td><div class="vbar-wrap"><div class="vbar" style="width:52px;background:var(--c-completed);"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 4</strong></td>
+            <td>40 SP</td>
+            <td>26 SP</td>
+            <td><span class="diff-neg">-14 SP</span></td>
+            <td>65%</td>
+            <td><div class="vbar-wrap"><div class="vbar" style="width:72px;background:var(--c-committed);"></div><div class="vbar" style="width:44px;background:var(--c-completed);margin-left:-68px;opacity:0.8;"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 5</strong></td>
+            <td>38 SP</td>
+            <td>33 SP</td>
+            <td><span class="diff-neg">-5 SP</span></td>
+            <td>87%</td>
+            <td><div class="vbar-wrap"><div class="vbar" style="width:68px;background:var(--c-committed);"></div><div class="vbar" style="width:56px;background:var(--c-completed);margin-left:-64px;opacity:0.8;"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 6</strong></td>
+            <td>34 SP</td>
+            <td>28 SP</td>
+            <td><span class="diff-neg">-6 SP</span></td>
+            <td>82%</td>
+            <td><div class="vbar-wrap"><div class="vbar" style="width:60px;background:var(--c-committed);"></div><div class="vbar" style="width:48px;background:var(--c-completed);margin-left:-56px;opacity:0.8;"></div></div></td>
+          </tr>
+          <tr style="background:#FFFAE6;">
+            <td><strong>Sprint 7</strong> <span style="font-size:11px;color:#97A0AF;">(active)</span></td>
+            <td>33 SP</td>
+            <td>— SP</td>
+            <td class="diff-zero">In Progress</td>
+            <td>—</td>
+            <td><div class="vbar-wrap"><div class="vbar" style="width:58px;background:#EBECF0;border:1px dashed #97A0AF;"></div></div></td>
+          </tr>
+          <tr style="background:#F4F5F7;">
+            <td colspan="2"><strong>3-Sprint Rolling Avg:</strong></td>
+            <td colspan="4" style="font-weight:700;color:#FF8B00;">≈ 31 SP</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- =============================================
+         VARIANT: EMPTY STATE
+         ============================================= -->
+    <div style="border-top:2px dashed #DFE1E6;padding-top:20px;">
+      <div class="variant-banner">↓ STATE VARIANT: No Closed Sprints</div>
+      <div class="empty-card">
+        <div class="es-icon">⚡</div>
+        <div class="es-title">No velocity data yet</div>
+        <div class="es-desc">Complete at least one sprint to see velocity data here. Velocity is calculated from closed sprints with estimated issues.</div>
+        <div style="margin-top:16px;">
+          <button class="btn btn-primary" style="margin-right:8px;">View Active Sprint</button>
+          <button class="btn btn-light">Go to Backlog</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page-body -->
+</div><!-- /main -->
+</body>
+</html>

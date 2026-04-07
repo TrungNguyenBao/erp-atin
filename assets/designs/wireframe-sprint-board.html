@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprint Board — Wireframe</title>
+<style>
+/* =====================================================
+   DESIGN TOKENS — Atlassian Design System
+   ===================================================== */
+:root {
+  --c-primary:      #0052CC;
+  --c-primary-dk:   #0747A6;
+  --c-primary-lt:   #DEEBFF;
+  --c-bg:           #F4F5F7;
+  --c-surface:      #FFFFFF;
+  --c-border:       #DFE1E6;
+  --c-text:         #172B4D;
+  --c-text-sec:     #6B778C;
+  --c-text-subtle:  #97A0AF;
+  --c-sidebar:      #1D2125;
+  --c-sidebar-hov:  #2C333A;
+
+  --s-todo:         #DFE1E6;
+  --s-inprog:       #0052CC;
+  --s-review:       #6554C0;
+  --s-done:         #00875A;
+
+  --t-story:        #0052CC;
+  --t-bug:          #DE350B;
+  --t-task:         #4BADE8;
+  --t-epic:         #6554C0;
+  --t-impr:         #36B37E;
+
+  --p-highest:      #DE350B;
+  --p-high:         #FF5630;
+  --p-medium:       #FFAB00;
+  --p-low:          #2684FF;
+  --p-lowest:       #57D9A3;
+
+  --font: -apple-system, "Segoe UI", Roboto, sans-serif;
+  --r-sm: 3px;
+  --r-md: 4px;
+  --r-lg: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-size: 14px;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* =====================================================
+   WIREFRAME BANNER
+   ===================================================== */
+.wf-banner {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: #FF5630;
+  color: #fff;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 3px;
+  z-index: 9999;
+}
+
+/* =====================================================
+   ICON SIDEBAR
+   ===================================================== */
+.icon-sidebar {
+  width: 64px;
+  background: var(--c-sidebar);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.s-logo {
+  width: 32px; height: 32px;
+  background: var(--c-primary);
+  border-radius: var(--r-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.s-divider { width: 28px; height: 1px; background: #344563; margin: 8px 0; }
+
+.s-icon {
+  width: 40px; height: 40px;
+  border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  cursor: pointer;
+  color: #B8C7E0;
+  margin: 2px 0;
+  transition: background .15s, color .15s;
+  position: relative;
+}
+.s-icon:hover { background: var(--c-sidebar-hov); color: #fff; }
+.s-icon.active { background: var(--c-sidebar-hov); color: #4C9AFF; }
+.s-icon .tip {
+  display: none;
+  position: absolute;
+  left: 52px; top: 50%;
+  transform: translateY(-50%);
+  background: #0E1624; color: #fff;
+  padding: 4px 8px; border-radius: var(--r-sm);
+  font-size: 12px; white-space: nowrap; z-index: 300;
+}
+.s-icon:hover .tip { display: block; }
+
+.s-bottom {
+  margin-top: auto; padding-bottom: 14px;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
+}
+.user-av {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: #6554C0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff;
+  cursor: pointer;
+}
+
+/* =====================================================
+   PROJECT SIDEBAR
+   ===================================================== */
+.proj-nav {
+  width: 220px;
+  background: var(--c-sidebar);
+  padding-top: 30px;
+  flex-shrink: 0;
+  display: flex; flex-direction: column;
+  overflow-y: auto;
+  border-right: 1px solid #2C333A;
+}
+
+.proj-head {
+  padding: 10px 16px 10px;
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer;
+}
+.proj-av {
+  width: 28px; height: 28px;
+  background: linear-gradient(135deg, #0052CC, #6554C0);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff;
+  flex-shrink: 0;
+}
+.proj-name { font-size: 13px; font-weight: 600; color: #B8C7E0; }
+.proj-type { font-size: 11px; color: #6B778C; }
+
+.nav-sec { font-size: 11px; font-weight: 600; color: #6B778C; letter-spacing: .08em; text-transform: uppercase; padding: 16px 16px 4px; }
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 16px;
+  font-size: 13px; color: #B8C7E0;
+  cursor: pointer;
+  transition: background .12s, color .12s;
+}
+.nav-item:hover { background: #2C333A; color: #fff; }
+.nav-item.active { background: #2C333A; color: #4C9AFF; border-left: 2px solid #4C9AFF; }
+.nav-icon { font-size: 14px; width: 16px; text-align: center; }
+
+/* =====================================================
+   MAIN CONTENT
+   ===================================================== */
+.main {
+  flex: 1;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  padding-top: 22px;
+}
+
+/* Top App Bar */
+.top-bar {
+  height: 48px;
+  background: #1D2125;
+  display: flex; align-items: center;
+  padding: 0 16px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #2C333A;
+}
+.breadcrumb {
+  font-size: 13px; color: #B8C7E0;
+  display: flex; align-items: center; gap: 6px;
+}
+.breadcrumb a { color: #4C9AFF; text-decoration: none; cursor: pointer; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb .sep { color: #6B778C; }
+.tb-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 12px;
+  border-radius: var(--r-md);
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; border: none;
+  transition: background .12s;
+}
+.btn-primary { background: var(--c-primary); color: #fff; }
+.btn-primary:hover { background: var(--c-primary-dk); }
+.btn-ghost { background: transparent; color: #B8C7E0; border: 1px solid #344563; }
+.btn-ghost:hover { background: #2C333A; }
+.btn-light { background: transparent; color: var(--c-text-sec); border: 1px solid var(--c-border); }
+.btn-light:hover { background: #EBECF0; }
+
+/* =====================================================
+   BOARD HEADER
+   ===================================================== */
+.board-head {
+  padding: 14px 20px 6px;
+  background: var(--c-bg);
+  flex-shrink: 0;
+}
+.bh-row1 {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 4px;
+}
+.bh-title { font-size: 20px; font-weight: 600; color: var(--c-text); }
+.bh-dates { font-size: 12px; color: var(--c-text-sec); }
+.goal-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12px; color: var(--c-text-sec);
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  padding: 3px 8px; cursor: pointer;
+}
+.goal-btn:hover { background: #EBECF0; }
+.more-btn {
+  font-size: 13px; color: var(--c-text-sec);
+  background: transparent; border: none;
+  cursor: pointer; padding: 4px 8px;
+  border-radius: var(--r-md);
+}
+.more-btn:hover { background: #EBECF0; }
+
+/* Filter bar */
+.filter-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 20px 12px;
+  background: var(--c-bg);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.fgrp {
+  display: flex; align-items: center; gap: 4px;
+  background: #fff; border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  padding: 4px 10px; font-size: 12px;
+  color: var(--c-text-sec); cursor: pointer;
+}
+.fgrp:hover { background: #EBECF0; }
+.fgrp .fv { color: var(--c-text); font-weight: 500; }
+.ftag {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #fff; border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  padding: 4px 10px; font-size: 12px;
+  color: var(--c-text-sec); cursor: pointer;
+}
+.ftag:hover { background: #EBECF0; }
+.ftag.on { background: #DEEBFF; border-color: var(--c-primary); color: var(--c-primary); }
+
+.av-filter {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: #fff;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color .12s;
+}
+.av-filter:hover { border-color: var(--c-primary); }
+
+/* =====================================================
+   BOARD COLUMNS
+   ===================================================== */
+.board-body {
+  flex: 1;
+  overflow-x: auto; overflow-y: hidden;
+  padding: 0 20px 20px;
+}
+.board-cols {
+  display: flex; gap: 12px;
+  height: 100%;
+  min-width: 920px;
+}
+
+.col {
+  flex: 1;
+  min-width: 236px; max-width: 310px;
+  display: flex; flex-direction: column;
+  background: var(--c-bg);
+}
+
+.col-hdr {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 4px;
+  flex-shrink: 0;
+}
+.col-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.col-title {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .07em; text-transform: uppercase;
+  color: var(--c-text-sec);
+}
+.col-cnt { font-size: 11px; color: var(--c-text-subtle); font-weight: 500; }
+
+/* Column status colours */
+.col-todo  .col-dot { background: #42526E; }
+.col-ip    .col-dot { background: var(--s-inprog); }
+.col-rv    .col-dot { background: var(--s-review); }
+.col-dn    .col-dot { background: var(--s-done); }
+.col-ip    .col-title { color: var(--s-inprog); }
+.col-rv    .col-title { color: var(--s-review); }
+.col-dn    .col-title { color: var(--s-done); }
+
+.col-cards {
+  flex: 1; overflow-y: auto;
+  padding: 2px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #DFE1E6 transparent;
+}
+.col-add {
+  display: flex; align-items: center; justify-content: center;
+  height: 28px; margin: 4px 0;
+  border: 1px dashed var(--c-border); border-radius: var(--r-md);
+  color: var(--c-text-subtle); font-size: 12px; cursor: pointer;
+  opacity: 0; transition: opacity .15s;
+}
+.col:hover .col-add { opacity: 1; }
+.col-add:hover { background: #DEEBFF; border-color: var(--c-primary); color: var(--c-primary); }
+
+/* =====================================================
+   CARDS
+   ===================================================== */
+.card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  cursor: grab;
+  transition: box-shadow .15s;
+}
+.card:hover { box-shadow: 0 2px 8px rgba(9,30,66,.15); border-color: #B3D4FF; }
+
+.card-hdr { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 4px; }
+.itype {
+  width: 16px; height: 16px;
+  border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; color: #fff;
+  flex-shrink: 0; margin-top: 1px;
+}
+.ikey { font-size: 11px; color: var(--c-text-sec); font-weight: 500; white-space: nowrap; }
+.ctitle { font-size: 13px; color: var(--c-text); line-height: 1.4; flex: 1; }
+
+.epic-pill {
+  display: inline-flex; align-items: center;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px; font-weight: 600;
+  margin-bottom: 6px;
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.cfoot { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+.prio { width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+.sp {
+  font-size: 11px; font-weight: 600;
+  background: #EBECF0; color: var(--c-text-sec);
+  padding: 1px 7px; border-radius: 10px;
+  margin-left: auto;
+}
+.av {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: #fff;
+  flex-shrink: 0;
+}
+
+/* Blocked card */
+.card.blocked { border-left: 3px solid var(--p-high); }
+.blocked-flag {
+  display: inline-flex; align-items: center; gap: 3px;
+  background: #FFEBE6; color: #BF2600;
+  font-size: 10px; font-weight: 600;
+  padding: 2px 6px; border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+/* Drag ghost */
+.card.ghost {
+  opacity: .5;
+  border: 2px dashed var(--c-primary);
+  background: #DEEBFF;
+  cursor: grabbing;
+}
+
+/* Drop zone */
+.drop-zone {
+  height: 56px;
+  border: 2px dashed #4C9AFF;
+  border-radius: var(--r-md);
+  background: rgba(222,235,255,.5);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: var(--c-primary);
+  margin-bottom: 8px;
+}
+
+/* Empty col */
+.col-empty {
+  border: 2px dashed var(--c-border);
+  border-radius: var(--r-md);
+  padding: 18px 12px;
+  text-align: center;
+  color: var(--c-text-subtle);
+  font-size: 12px;
+}
+
+/* =====================================================
+   ANNOTATIONS
+   ===================================================== */
+.ann {
+  display: inline-block;
+  background: #E3F2FD; border: 1px dashed #1976D2;
+  border-radius: var(--r-sm);
+  padding: 4px 8px;
+  font-size: 10px; color: #0D47A1;
+  max-width: 180px; line-height: 1.4;
+  margin: 4px 0;
+}
+.ann::before { content: '📐 '; }
+
+/* =====================================================
+   EMPTY STATE SECTION (variant)
+   ===================================================== */
+.variant-banner {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: #97A0AF;
+  padding: 4px 0 12px;
+}
+.empty-sprint-card {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 48px 32px; text-align: center;
+  max-width: 500px; margin: 0 auto 32px;
+}
+.es-icon { font-size: 48px; margin-bottom: 14px; }
+.es-title { font-size: 20px; font-weight: 600; color: var(--c-text); margin-bottom: 8px; }
+.es-desc { font-size: 14px; color: var(--c-text-sec); margin-bottom: 20px; line-height: 1.5; }
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+@media(max-width:768px){
+  .proj-nav { display: none; }
+  .icon-sidebar { width: 48px; }
+  .board-cols { display: none; }
+  .mob-tabs { display: flex !important; }
+  .mob-col { display: block !important; }
+}
+.mob-tabs {
+  display: none;
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+  overflow-x: auto;
+}
+.mob-tab {
+  padding: 10px 14px;
+  font-size: 13px; font-weight: 500;
+  color: var(--c-text-sec);
+  white-space: nowrap; cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.mob-tab.active { color: var(--c-primary); border-bottom-color: var(--c-primary); }
+</style>
+</head>
+<body>
+<div class="wf-banner">⚡ WIREFRAME — Sprint Board — Odoo Scrum Addon · File 1/5</div>
+
+<!-- ICON SIDEBAR -->
+<div class="icon-sidebar">
+  <div class="s-logo">🔷</div>
+  <div class="s-divider"></div>
+  <div class="s-icon"><span>🏠</span><div class="tip">Home</div></div>
+  <div class="s-icon active"><span>📋</span><div class="tip">Projects</div></div>
+  <div class="s-icon"><span>🎯</span><div class="tip">Issues</div></div>
+  <div class="s-icon"><span>📊</span><div class="tip">Dashboards</div></div>
+  <div class="s-icon"><span>👥</span><div class="tip">Teams</div></div>
+  <div class="s-divider"></div>
+  <div class="s-icon"><span>⚙️</span><div class="tip">Settings</div></div>
+  <div class="s-bottom">
+    <div class="s-icon"><span>❓</span><div class="tip">Help</div></div>
+    <div class="s-icon"><span>🔔</span><div class="tip">Notifications (3)</div></div>
+    <div class="user-av">HQ</div>
+  </div>
+</div>
+
+<!-- PROJECT SIDEBAR -->
+<div class="proj-nav">
+  <div class="proj-head">
+    <div class="proj-av">SA</div>
+    <div>
+      <div class="proj-name">Scrum Alpha</div>
+      <div class="proj-type">Software project</div>
+    </div>
+  </div>
+  <div class="nav-sec">Planning</div>
+  <div class="nav-item"><span class="nav-icon">📅</span>Roadmap</div>
+  <div class="nav-item"><span class="nav-icon">📋</span>Backlog</div>
+  <div class="nav-item active"><span class="nav-icon">🏃</span>Active Sprint</div>
+  <div class="nav-sec">Reports</div>
+  <div class="nav-item"><span class="nav-icon">🔥</span>Burndown Chart</div>
+  <div class="nav-item"><span class="nav-icon">⚡</span>Velocity Chart</div>
+  <div class="nav-item"><span class="nav-icon">📈</span>Cumulative Flow</div>
+  <div class="nav-sec">Ceremonies</div>
+  <div class="nav-item"><span class="nav-icon">🗓️</span>Ceremonies</div>
+  <div class="nav-item"><span class="nav-icon">🔄</span>Retrospectives</div>
+  <div class="nav-sec">Project</div>
+  <div class="nav-item"><span class="nav-icon">🏷️</span>Releases</div>
+  <div class="nav-item"><span class="nav-icon">👥</span>Team Members</div>
+  <div class="nav-item"><span class="nav-icon">⚙️</span>Project Settings</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="breadcrumb">
+      <a>Projects</a><span class="sep">/</span>
+      <a>Scrum Alpha</a><span class="sep">/</span>
+      <span>Board</span>
+    </div>
+    <div class="tb-actions">
+      <button class="btn btn-ghost">🔗 Share</button>
+      <button class="btn btn-ghost">⋯ More</button>
+    </div>
+  </div>
+
+  <!-- BOARD HEADER -->
+  <div class="board-head">
+    <div class="bh-row1">
+      <span class="bh-title">Sprint 5</span>
+      <span class="bh-dates">Apr 1 – Apr 14, 2026</span>
+      <button class="goal-btn" title="Goal: Deliver user auth and dashboard v2">🎯 Goal ▾</button>
+      <button class="more-btn">●○○ More</button>
+      <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+        <button class="btn btn-light">📊 Reports</button>
+        <button class="btn btn-primary">✓ Complete Sprint</button>
+      </div>
+    </div>
+    <div class="ann">
+      "Complete Sprint" triggers a modal showing issue counts. Sprint goal uses tooltip on hover to show full text.
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="fgrp">Group by:&nbsp;<span class="fv">Assignee</span>&nbsp;▾</div>
+    <div class="fgrp">Epic ▾</div>
+    <div class="fgrp">Versions ▾</div>
+    <div class="ftag">Quick Filters ▾</div>
+    <div class="ftag on">🔴 Only My Issues ✕</div>
+    <div class="ftag">⏰ Recently Updated</div>
+    <div class="av-filter" style="background:#0052CC;" title="Nguyen Van A">NVA</div>
+    <div class="av-filter" style="background:#36B37E;" title="Tran Thi B">TTB</div>
+    <div class="av-filter" style="background:#FF5630;" title="Le Van C">LVC</div>
+    <div class="av-filter" style="background:#6554C0;" title="Pham Thi D">PTD</div>
+    <div style="margin-left:auto;">
+      <button class="btn btn-light" style="padding:5px 10px;">🔍</button>
+    </div>
+  </div>
+
+  <!-- MOBILE TABS -->
+  <div class="mob-tabs">
+    <div class="mob-tab active">TO DO (5)</div>
+    <div class="mob-tab">IN PROGRESS (3)</div>
+    <div class="mob-tab">IN REVIEW (2)</div>
+    <div class="mob-tab">DONE (4)</div>
+  </div>
+
+  <!-- BOARD BODY -->
+  <div class="board-body">
+    <div class="board-cols">
+
+      <!-- === TO DO === -->
+      <div class="col col-todo">
+        <div class="col-hdr">
+          <div class="col-dot"></div>
+          <span class="col-title">To Do</span>
+          <span class="col-cnt">5</span>
+        </div>
+        <div class="col-cards">
+
+          <!-- Story -->
+          <div class="card">
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-story)">S</div>
+              <span class="ikey">SCRM-101</span>
+            </div>
+            <div class="ctitle">User can reset password via email link</div>
+            <div class="epic-pill" style="background:#EAE6FF;color:#403294;">🟣 Auth &amp; Security</div>
+            <div class="cfoot">
+              <div class="prio" style="color:var(--p-medium);" title="Medium">◆</div>
+              <div class="sp">5</div>
+              <div class="av" style="background:#0052CC;" title="Nguyen Van A">NVA</div>
+            </div>
+          </div>
+
+          <!-- Blocked Task -->
+          <div class="card blocked">
+            <div class="blocked-flag">⚠ Blocked</div>
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-task)">T</div>
+              <span class="ikey">SCRM-102</span>
+            </div>
+            <div class="ctitle">Integrate OAuth2 with Google provider</div>
+            <div class="epic-pill" style="background:#EAE6FF;color:#403294;">🟣 Auth &amp; Security</div>
+            <div class="cfoot">
+              <div class="prio" style="color:var(--p-high);" title="High">▲</div>
+              <div class="sp">8</div>
+              <div class="av" style="background:#FF5630;" title="Le Van C">LVC</div>
+            </div>
+          </div>
+
+          <!-- Bug -->
+          <div class="card">
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-bug)">●</div>
+              <span class="ikey">SCRM-103</span>
+            </div>
+            <div class="ctitle">Login form validation error not cleared on retry</div>
+            <div class="epic-pill" style="background:#FFEBE6;color:#BF2600;">🔴 Bug Fixes</div>
+            <div class="cfoot">
+              <div class="prio" style="color:var(--p-highest);" title="Highest">🔺</div>
+              <div class="sp">2</div>
+              <div class="av" style="background:#36B37E;" title="Tran Thi B">TTB</div>
+            </div>
+          </div>
+
+          <!-- Improvement -->
+          <div class="card">
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-impr)">↑</div>
+              <span class="ikey">SCRM-107</span>
+            </div>
+            <div class="ctitle">Add loading skeleton to dashboard widgets</div>
+            <div class="epic-pill" style="background:#E3FCEF;color:#006644;">🟢 Dashboard v2</div>
+            <div class="cfoot">
+              <div class="prio" style="color:var(--p-low);" title="Low">▼</div>
+              <div class="sp">3</div>
+              <div class="av" style="background:#6554C0;" title="Pham Thi D">PTD</div>
+            </div>
+          </div>
+
+          <!-- Epic -->
+          <div class="card">
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-epic)">⚡</div>
+              <span class="ikey">SCRM-108</span>
+            </div>
+            <div class="ctitle">Set up email notification service infrastructure</div>
+            <div class="epic-pill" style="background:#EAE6FF;color:#403294;">🟣 Auth &amp; Security</div>
+            <div class="cfoot">
+              <div class="prio" style="color:var(--p-medium);" title="Medium">◆</div>
+              <div class="sp">5</div>
+              <div class="av" style="background:#0052CC;" title="Nguyen Van A">NVA</div>
+            </div>
+          </div>
+
+          <div class="col-add">+ Create issue</div>
+        </div>
+      </div>
+
+      <!-- === IN PROGRESS === -->
+      <div class="col col-ip">
+        <div class="col-hdr">
+          <div class="col-dot"></div>
+          <span class="col-title">In Progress</span>
+          <span class="col-cnt">3</span>
+        </div>
+        <div class="col-cards">
+
+          <!-- Drop zone (drag state) -->
+          <div class="drop-zone">📥 Drop here</div>
+
+          <!-- Ghost card (being dragged) -->
+          <div class="card ghost">
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-story)">S</div>
+              <span class="ikey">SCRM-99</span>
+            </div>
+            <div class="ctitle">Dashboard widget drag-drop reordering</div>
+            <div class="cfoot">
+              <div class="sp">3</div>
+              <div class="av" style="background:#0052CC;">NVA</div>
+            </div>
+          </div>
+          <div class="ann">Ghost card: 50% opacity + dashed blue border. Drop zone above shows during drag-over.</div>
+
+          <!-- Card -->
+          <div class="card">
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-story)">S</div>
+              <span class="ikey">SCRM-98</span>
+            </div>
+            <div class="ctitle">Build sprint velocity chart component</div>
+            <div class="epic-pill" style="background:#DEEBFF;color:#0747A6;">🔵 Reports Module</div>
+            <div class="cfoot">
+              <div class="prio" style="color:var(--p-high);">▲</div>
+              <div class="sp">8</div>
+              <div class="av" style="background:#36B37E;">TTB</div>
+            </div>
+          </div>
+
+          <!-- Card -->
+          <div class="card">
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-task)">T</div>
+              <span class="ikey">SCRM-95</span>
+            </div>
+            <div class="ctitle">Write unit tests for authentication service</div>
+            <div class="epic-pill" style="background:#EAE6FF;color:#403294;">🟣 Auth &amp; Security</div>
+            <div class="cfoot">
+              <div class="prio" style="color:var(--p-medium);">◆</div>
+              <div class="sp">3</div>
+              <div class="av" style="background:#FF5630;">LVC</div>
+            </div>
+          </div>
+
+          <div class="col-add">+ Create issue</div>
+        </div>
+      </div>
+
+      <!-- === IN REVIEW === -->
+      <div class="col col-rv">
+        <div class="col-hdr">
+          <div class="col-dot"></div>
+          <span class="col-title">In Review</span>
+          <span class="col-cnt">2</span>
+        </div>
+        <div class="col-cards">
+
+          <div class="card">
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-story)">S</div>
+              <span class="ikey">SCRM-90</span>
+            </div>
+            <div class="ctitle">Design token system for dark mode support</div>
+            <div class="epic-pill" style="background:#E3FCEF;color:#006644;">🟢 Dashboard v2</div>
+            <div class="cfoot">
+              <div class="prio" style="color:var(--p-medium);">◆</div>
+              <div class="sp">5</div>
+              <div class="av" style="background:#6554C0;">PTD</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-bug)">●</div>
+              <span class="ikey">SCRM-91</span>
+            </div>
+            <div class="ctitle">Fix avatar upload cropping on mobile devices</div>
+            <div class="epic-pill" style="background:#FFEBE6;color:#BF2600;">🔴 Bug Fixes</div>
+            <div class="cfoot">
+              <div class="prio" style="color:var(--p-high);">▲</div>
+              <div class="sp">2</div>
+              <div class="av" style="background:#36B37E;">TTB</div>
+            </div>
+          </div>
+
+          <div class="col-add">+ Create issue</div>
+        </div>
+      </div>
+
+      <!-- === DONE === -->
+      <div class="col col-dn">
+        <div class="col-hdr">
+          <div class="col-dot"></div>
+          <span class="col-title">Done</span>
+          <span class="col-cnt">4</span>
+        </div>
+        <div class="col-cards">
+
+          <div class="card" style="opacity:.72;">
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-story)">S</div>
+              <span class="ikey">SCRM-85</span>
+            </div>
+            <div class="ctitle" style="text-decoration:line-through;color:var(--c-text-sec);">Implement JWT token refresh mechanism</div>
+            <div class="cfoot">
+              <div class="prio" style="color:var(--p-high);">▲</div>
+              <div class="sp">5</div>
+              <div class="av" style="background:#0052CC;">NVA</div>
+            </div>
+          </div>
+
+          <div class="card" style="opacity:.72;">
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-task)">T</div>
+              <span class="ikey">SCRM-86</span>
+            </div>
+            <div class="ctitle" style="text-decoration:line-through;color:var(--c-text-sec);">Set up CI/CD pipeline with GitHub Actions</div>
+            <div class="cfoot">
+              <div class="prio" style="color:var(--p-medium);">◆</div>
+              <div class="sp">3</div>
+              <div class="av" style="background:#FF5630;">LVC</div>
+            </div>
+          </div>
+
+          <div class="card" style="opacity:.72;">
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-impr)">↑</div>
+              <span class="ikey">SCRM-82</span>
+            </div>
+            <div class="ctitle" style="text-decoration:line-through;color:var(--c-text-sec);">Optimize PostgreSQL query for sprint backlog</div>
+            <div class="cfoot">
+              <div class="prio" style="color:var(--p-low);">▼</div>
+              <div class="sp">2</div>
+              <div class="av" style="background:#6554C0;">PTD</div>
+            </div>
+          </div>
+
+          <div class="card" style="opacity:.72;">
+            <div class="card-hdr">
+              <div class="itype" style="background:var(--t-bug)">●</div>
+              <span class="ikey">SCRM-80</span>
+            </div>
+            <div class="ctitle" style="text-decoration:line-through;color:var(--c-text-sec);">Fix null pointer in sprint date validator</div>
+            <div class="cfoot">
+              <div class="prio" style="color:var(--p-highest);">🔺</div>
+              <div class="sp">1</div>
+              <div class="av" style="background:#36B37E;">TTB</div>
+            </div>
+          </div>
+
+          <div class="col-add">+ Create issue</div>
+        </div>
+      </div>
+
+    </div><!-- /board-cols -->
+
+    <!-- =====================================================
+         EMPTY STATE VARIANT
+         ===================================================== -->
+    <div style="margin-top:24px;border-top:2px dashed #DFE1E6;padding-top:20px;">
+      <div class="variant-banner">↓ STATE VARIANT: No Active Sprint</div>
+      <div class="empty-sprint-card">
+        <div class="es-icon">🏃</div>
+        <div class="es-title">No active sprint</div>
+        <div class="es-desc">Plan and start a sprint in your backlog to see it here. Create your first sprint from the Backlog view to get started.</div>
+        <button class="btn btn-primary" style="margin:0 auto;">Go to Backlog</button>
+      </div>
+    </div>
+
+  </div><!-- /board-body -->
+</div><!-- /main -->
+</body>
+</html>

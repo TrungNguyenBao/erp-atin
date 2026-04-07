@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agile Dashboard — Wireframe</title>
+<style>
+:root {
+  --c-primary:    #0052CC;
+  --c-primary-dk: #0747A6;
+  --c-primary-lt: #DEEBFF;
+  --c-bg:         #F4F5F7;
+  --c-surface:    #FFFFFF;
+  --c-border:     #DFE1E6;
+  --c-text:       #172B4D;
+  --c-text-sec:   #6B778C;
+  --c-text-sub:   #97A0AF;
+  --c-sidebar:    #1D2125;
+  --c-sidebar-hov:#2C333A;
+  --c-done:       #00875A;
+  --c-warn:       #FF8B00;
+  --c-danger:     #DE350B;
+  --c-review:     #6554C0;
+  --font: -apple-system,"Segoe UI",Roboto,sans-serif;
+  --r-sm:3px; --r-md:4px; --r-lg:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:var(--c-bg);color:var(--c-text);font-size:14px;display:flex;height:100vh;overflow:hidden;}
+
+.wf-banner{position:fixed;top:0;left:0;right:0;background:#FF5630;color:#fff;text-align:center;font-size:11px;font-weight:700;letter-spacing:2px;padding:3px;z-index:9999;}
+
+/* ICON SIDEBAR */
+.icon-sidebar{width:64px;background:var(--c-sidebar);display:flex;flex-direction:column;align-items:center;padding-top:30px;flex-shrink:0;}
+.s-logo{width:32px;height:32px;background:var(--c-primary);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:20px;cursor:pointer;}
+.s-divider{width:28px;height:1px;background:#344563;margin:8px 0;}
+.s-icon{width:40px;height:40px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;color:#B8C7E0;margin:2px 0;transition:background .15s,color .15s;position:relative;}
+.s-icon:hover{background:var(--c-sidebar-hov);color:#fff;}
+.s-icon.active{background:var(--c-sidebar-hov);color:#4C9AFF;}
+.s-icon .tip{display:none;position:absolute;left:52px;top:50%;transform:translateY(-50%);background:#0E1624;color:#fff;padding:4px 8px;border-radius:var(--r-sm);font-size:12px;white-space:nowrap;z-index:300;}
+.s-icon:hover .tip{display:block;}
+.s-bottom{margin-top:auto;padding-bottom:14px;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.user-av{width:32px;height:32px;border-radius:50%;background:#6554C0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;cursor:pointer;}
+
+/* PROJECT SIDEBAR (narrow dark) */
+.proj-nav{width:220px;background:var(--c-sidebar);padding-top:30px;flex-shrink:0;display:flex;flex-direction:column;overflow-y:auto;border-right:1px solid #2C333A;}
+.proj-head{padding:10px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;}
+.proj-av{width:28px;height:28px;background:linear-gradient(135deg,#0052CC,#6554C0);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
+.proj-name{font-size:13px;font-weight:600;color:#B8C7E0;}
+.proj-type{font-size:11px;color:#6B778C;}
+.nav-sec{font-size:11px;font-weight:600;color:#6B778C;letter-spacing:.08em;text-transform:uppercase;padding:16px 16px 4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;font-size:13px;color:#B8C7E0;cursor:pointer;transition:background .12s,color .12s;}
+.nav-item:hover{background:#2C333A;color:#fff;}
+.nav-item.active{background:#2C333A;color:#4C9AFF;border-left:2px solid #4C9AFF;}
+.nav-icon{font-size:14px;width:16px;text-align:center;}
+.nav-badge{margin-left:auto;background:#0052CC;color:#fff;border-radius:10px;padding:1px 7px;font-size:10px;font-weight:700;}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;padding-top:22px;}
+.top-bar{height:48px;background:#1D2125;display:flex;align-items:center;padding:0 20px;flex-shrink:0;border-bottom:1px solid #2C333A;}
+.breadcrumb{font-size:13px;color:#B8C7E0;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#4C9AFF;text-decoration:none;}
+.breadcrumb .sep{color:#6B778C;}
+.tb-actions{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--r-md);font-size:13px;font-weight:500;cursor:pointer;border:none;transition:background .12s;}
+.btn-primary{background:var(--c-primary);color:#fff;}
+.btn-primary:hover{background:var(--c-primary-dk);}
+.btn-ghost{background:transparent;color:#B8C7E0;border:1px solid #344563;}
+.btn-ghost:hover{background:#2C333A;}
+.btn-light{background:transparent;color:var(--c-text-sec);border:1px solid var(--c-border);}
+.btn-light:hover{background:#EBECF0;}
+.btn-sm{padding:4px 10px;font-size:12px;}
+
+/* PAGE BODY */
+.page-body{flex:1;overflow-y:auto;padding:20px 24px;}
+.page-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+.page-title{font-size:22px;font-weight:600;color:var(--c-text);}
+.page-proj{font-size:14px;color:var(--c-text-sec);margin-top:2px;}
+
+/* ACTIVE SPRINT CARD */
+.active-sprint-card{background:linear-gradient(135deg,#0052CC 0%,#0747A6 100%);border-radius:var(--r-lg);padding:20px 24px;color:#fff;margin-bottom:20px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.asc-left{flex:1;min-width:240px;}
+.asc-title{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;opacity:.8;margin-bottom:4px;}
+.asc-name{font-size:20px;font-weight:700;margin-bottom:2px;}
+.asc-dates{font-size:13px;opacity:.8;margin-bottom:12px;}
+.asc-progress-wrap{margin-bottom:8px;}
+.asc-prog-label{display:flex;justify-content:space-between;font-size:12px;opacity:.9;margin-bottom:6px;}
+.asc-prog-bar{height:8px;background:rgba(255,255,255,.25);border-radius:4px;overflow:hidden;}
+.asc-prog-fill{height:100%;background:#57D9A3;border-radius:4px;}
+.asc-stats{display:flex;gap:16px;flex-wrap:wrap;}
+.asc-stat{text-align:center;}
+.asc-stat-val{font-size:20px;font-weight:700;}
+.asc-stat-label{font-size:11px;opacity:.8;}
+.asc-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
+
+/* Progress ring */
+.ring-wrap{position:relative;display:flex;align-items:center;justify-content:center;}
+.ring-label{position:absolute;text-align:center;}
+.ring-pct{font-size:18px;font-weight:700;color:#fff;}
+.ring-sub{font-size:10px;color:rgba(255,255,255,.7);}
+
+/* WIDGET GRID */
+.widget-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.widget{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-lg);padding:16px;}
+.widget-title{font-size:13px;font-weight:600;color:var(--c-text);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.widget-title a{font-size:11px;color:var(--c-primary);text-decoration:none;cursor:pointer;}
+.widget-title a:hover{text-decoration:underline;}
+
+/* Sprint Health widget */
+.health-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.health-label{font-size:12px;color:var(--c-text-sec);}
+.health-val{font-size:14px;font-weight:600;color:var(--c-text);}
+.health-bar-wrap{margin-bottom:8px;}
+.health-bar-label{display:flex;justify-content:space-between;font-size:11px;color:var(--c-text-sec);margin-bottom:4px;}
+.prog-bar{height:6px;background:#EBECF0;border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:3px;}
+
+/* Mini burndown SVG */
+.mini-chart{width:100%;height:80px;}
+
+/* Velocity widget bars */
+.vel-bars{display:flex;align-items:flex-end;gap:6px;height:60px;padding-bottom:4px;}
+.vel-bar-group{display:flex;align-items:flex-end;gap:2px;flex:1;}
+.vel-bar{width:12px;border-radius:2px 2px 0 0;}
+.vel-bar-label{font-size:9px;color:var(--c-text-sub);text-align:center;margin-top:3px;}
+
+/* Team workload widget */
+.member-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.member-row:last-child{margin-bottom:0;}
+.member-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+.member-name{font-size:12px;color:var(--c-text);width:80px;flex-shrink:0;}
+.member-bar-wrap{flex:1;}
+.member-sp{font-size:11px;color:var(--c-text-sec);white-space:nowrap;margin-left:6px;}
+
+/* Backlog status widget */
+.bstat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.bstat-cell{background:var(--c-bg);border-radius:var(--r-md);padding:10px 12px;}
+.bstat-val{font-size:22px;font-weight:700;color:var(--c-text);margin-bottom:2px;}
+.bstat-label{font-size:11px;color:var(--c-text-sec);}
+.bstat-cell.warn .bstat-val{color:var(--c-warn);}
+.bstat-cell.danger .bstat-val{color:var(--c-danger);}
+.bstat-cell.good .bstat-val{color:var(--c-done);}
+.bstat-cell.blue .bstat-val{color:var(--c-primary);}
+
+/* Activity feed */
+.activity-section{font-size:11px;font-weight:700;color:var(--c-text-sub);text-transform:uppercase;letter-spacing:.08em;margin:10px 0 6px;}
+.activity-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--c-border);}
+.activity-item:last-child{border-bottom:none;}
+.act-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px;}
+.act-content{flex:1;}
+.act-text{font-size:13px;color:var(--c-text);line-height:1.4;}
+.act-text a{color:var(--c-primary);text-decoration:none;font-weight:500;}
+.act-time{font-size:11px;color:var(--c-text-sub);margin-top:2px;}
+.act-key{font-size:11px;color:var(--c-text-sec);background:#EBECF0;padding:1px 6px;border-radius:3px;white-space:nowrap;}
+
+/* Annotation */
+.ann{display:inline-block;background:#E3F2FD;border:1px dashed #1976D2;border-radius:var(--r-sm);padding:4px 8px;font-size:10px;color:#0D47A1;max-width:240px;line-height:1.4;margin:4px 0;}
+.ann::before{content:'📐 ';}
+
+/* Variant */
+.variant-banner{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#97A0AF;padding:4px 0 14px;margin-top:8px;}
+.empty-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-lg);padding:48px;text-align:center;max-width:500px;margin:0 auto 32px;}
+.es-icon{font-size:48px;margin-bottom:12px;}
+.es-title{font-size:18px;font-weight:600;color:var(--c-text);margin-bottom:8px;}
+.es-desc{font-size:14px;color:var(--c-text-sec);line-height:1.5;margin-bottom:16px;}
+</style>
+</head>
+<body>
+<div class="wf-banner">⚡ WIREFRAME — Agile Dashboard — Odoo Scrum Addon · File 4/5</div>
+
+<!-- ICON SIDEBAR -->
+<div class="icon-sidebar">
+  <div class="s-logo">🔷</div>
+  <div class="s-divider"></div>
+  <div class="s-icon"><span>🏠</span><div class="tip">Home</div></div>
+  <div class="s-icon active"><span>📋</span><div class="tip">Projects</div></div>
+  <div class="s-icon"><span>🎯</span><div class="tip">Issues</div></div>
+  <div class="s-icon"><span>📊</span><div class="tip">Reports</div></div>
+  <div class="s-icon"><span>👥</span><div class="tip">Teams</div></div>
+  <div class="s-divider"></div>
+  <div class="s-icon"><span>⚙️</span><div class="tip">Settings</div></div>
+  <div class="s-bottom">
+    <div class="s-icon"><span>❓</span><div class="tip">Help</div></div>
+    <div class="s-icon"><span>🔔</span><div class="tip">3 notifications</div></div>
+    <div class="user-av">HQ</div>
+  </div>
+</div>
+
+<!-- PROJECT SIDEBAR -->
+<div class="proj-nav">
+  <div class="proj-head">
+    <div class="proj-av">SA</div>
+    <div>
+      <div class="proj-name">Scrum Alpha</div>
+      <div class="proj-type">Software project</div>
+    </div>
+  </div>
+  <div class="nav-sec">Overview</div>
+  <div class="nav-item active"><span class="nav-icon">📊</span>Summary</div>
+  <div class="nav-sec">Planning</div>
+  <div class="nav-item"><span class="nav-icon">📅</span>Roadmap</div>
+  <div class="nav-item"><span class="nav-icon">📋</span>Backlog</div>
+  <div class="nav-item"><span class="nav-icon">🏃</span>Active Sprint <span class="nav-badge">14</span></div>
+  <div class="nav-sec">Reports</div>
+  <div class="nav-item"><span class="nav-icon">🔥</span>Burndown Chart</div>
+  <div class="nav-item"><span class="nav-icon">⚡</span>Velocity Chart</div>
+  <div class="nav-item"><span class="nav-icon">📈</span>Cumulative Flow</div>
+  <div class="nav-sec">Ceremonies</div>
+  <div class="nav-item"><span class="nav-icon">🗓️</span>Ceremonies</div>
+  <div class="nav-item"><span class="nav-icon">🔄</span>Retrospectives</div>
+  <div class="nav-sec">Project</div>
+  <div class="nav-item"><span class="nav-icon">🏷️</span>Releases</div>
+  <div class="nav-item"><span class="nav-icon">👥</span>Team Members</div>
+  <div class="nav-item"><span class="nav-icon">⚙️</span>Project Settings</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="top-bar">
+    <div class="breadcrumb">
+      <a>Projects</a><span class="sep">/</span>
+      <span>Scrum Alpha</span>
+    </div>
+    <div class="tb-actions">
+      <button class="btn btn-ghost">+ Create Issue</button>
+      <button class="btn btn-ghost">⚙ Board Settings</button>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <div class="page-hdr">
+      <div>
+        <div class="page-title">📊 Project Summary</div>
+        <div class="page-proj">Scrum Alpha · Software Project · Last updated: Just now</div>
+      </div>
+      <button class="btn btn-light">⚙ Customize Dashboard</button>
+    </div>
+
+    <!-- ACTIVE SPRINT CARD -->
+    <div class="active-sprint-card">
+      <div class="asc-left">
+        <div class="asc-title">Active Sprint</div>
+        <div class="asc-name">Sprint 5 — Auth &amp; Dashboard v2</div>
+        <div class="asc-dates">📅 Apr 1 – Apr 14, 2026 · 4 days remaining</div>
+        <div class="asc-progress-wrap">
+          <div class="asc-prog-label">
+            <span>Progress</span>
+            <span>22 / 36 SP (61%)</span>
+          </div>
+          <div class="asc-prog-bar" style="width:100%;">
+            <div class="asc-prog-fill" style="width:61%;"></div>
+          </div>
+        </div>
+        <div class="asc-stats">
+          <div class="asc-stat">
+            <div class="asc-stat-val">5</div>
+            <div class="asc-stat-label">To Do</div>
+          </div>
+          <div class="asc-stat">
+            <div class="asc-stat-val">3</div>
+            <div class="asc-stat-label">In Progress</div>
+          </div>
+          <div class="asc-stat">
+            <div class="asc-stat-val">2</div>
+            <div class="asc-stat-label">In Review</div>
+          </div>
+          <div class="asc-stat" style="color:#57D9A3;">
+            <div class="asc-stat-val">4</div>
+            <div class="asc-stat-label">Done ✓</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress ring (SVG) -->
+      <div class="ring-wrap" style="flex-shrink:0;">
+        <svg width="96" height="96" viewBox="0 0 96 96">
+          <circle cx="48" cy="48" r="40" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="8"/>
+          <circle cx="48" cy="48" r="40" fill="none" stroke="#57D9A3" stroke-width="8"
+            stroke-dasharray="153 251" stroke-dashoffset="63" stroke-linecap="round"
+            transform="rotate(-90 48 48)"/>
+        </svg>
+        <div class="ring-label">
+          <div class="ring-pct">61%</div>
+          <div class="ring-sub">Complete</div>
+        </div>
+      </div>
+
+      <div class="asc-right">
+        <button class="btn" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);">
+          📋 View Board →
+        </button>
+        <button class="btn btn-sm" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.2);font-size:11px;">
+          🔥 Burndown →
+        </button>
+      </div>
+    </div>
+
+    <!-- WIDGET GRID: 2 columns -->
+    <div class="widget-grid">
+
+      <!-- SPRINT HEALTH WIDGET -->
+      <div class="widget">
+        <div class="widget-title">
+          💚 Sprint Health
+          <a>View details →</a>
+        </div>
+
+        <div class="health-row">
+          <span class="health-label">Days remaining</span>
+          <span class="health-val">4 / 14 days</span>
+        </div>
+        <div class="health-bar-wrap">
+          <div class="prog-bar">
+            <div class="prog-fill" style="width:71%;background:#FFAB00;"></div>
+          </div>
+        </div>
+
+        <div class="health-row" style="margin-top:8px;">
+          <span class="health-label">Commitment fulfilled</span>
+          <span class="health-val" style="color:var(--c-done);">61%</span>
+        </div>
+        <div class="health-bar-wrap">
+          <div class="health-bar-label"><span>0%</span><span>100%</span></div>
+          <div class="prog-bar">
+            <div class="prog-fill" style="width:61%;background:var(--c-done);"></div>
+          </div>
+        </div>
+
+        <div class="health-row" style="margin-top:8px;">
+          <span class="health-label">Blocked issues</span>
+          <span class="health-val" style="color:var(--c-danger);">1 🔴</span>
+        </div>
+        <div class="health-row">
+          <span class="health-label">Unestimated issues</span>
+          <span class="health-val" style="color:var(--c-warn);">2 ⚠</span>
+        </div>
+
+        <div class="ann" style="margin-top:8px;">Health score aggregates pace, blocked items, unestimated issues.</div>
+      </div>
+
+      <!-- MINI BURNDOWN WIDGET -->
+      <div class="widget">
+        <div class="widget-title">
+          🔥 Burndown (mini)
+          <a>Full report →</a>
+        </div>
+        <svg class="mini-chart" viewBox="0 0 280 80" style="border:1px solid var(--c-border);border-radius:var(--r-md);background:#fff;">
+          <!-- grid -->
+          <line x1="20" y1="10" x2="20" y2="70" stroke="#DFE1E6" stroke-width="1"/>
+          <line x1="20" y1="70" x2="270" y2="70" stroke="#DFE1E6" stroke-width="1"/>
+          <!-- ideal -->
+          <line x1="20" y1="10" x2="270" y2="70" stroke="#97A0AF" stroke-width="1" stroke-dasharray="4,3"/>
+          <!-- actual -->
+          <polyline points="20,10 45,14 70,22 95,28 120,32 145,37 170,44 195,50 220,56 245,60"
+            fill="none" stroke="#0052CC" stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="245" cy="60" r="3" fill="#0052CC"/>
+          <!-- today -->
+          <line x1="245" y1="10" x2="245" y2="70" stroke="#FFAB00" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <text x="25" y="13" font-size="8" fill="#0052CC">34 SP</text>
+          <text x="248" y="58" font-size="8" fill="#0052CC">14 SP</text>
+        </svg>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;">
+          <div style="font-size:12px;color:var(--c-text-sec);">Remaining: <strong style="color:var(--c-primary);">14 SP</strong></div>
+          <div style="font-size:12px;color:var(--c-text-sec);">Ideal: <strong style="color:#97A0AF;">10 SP</strong></div>
+          <div style="font-size:12px;color:var(--c-text-sec);">Δ: <strong style="color:var(--c-warn);">+4 SP</strong></div>
+        </div>
+      </div>
+
+      <!-- VELOCITY WIDGET -->
+      <div class="widget">
+        <div class="widget-title">
+          ⚡ Team Velocity
+          <a>Full chart →</a>
+        </div>
+        <div class="vel-bars">
+          <!-- 6 sprints, each group = committed (light) + completed (dark) -->
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+            <div style="display:flex;align-items:flex-end;gap:2px;">
+              <div class="vel-bar" style="height:42px;background:#C1D5F6;"></div>
+              <div class="vel-bar" style="height:36px;background:#0052CC;"></div>
+            </div>
+            <div class="vel-bar-label">S-1</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+            <div style="display:flex;align-items:flex-end;gap:2px;">
+              <div class="vel-bar" style="height:48px;background:#C1D5F6;"></div>
+              <div class="vel-bar" style="height:39px;background:#0052CC;"></div>
+            </div>
+            <div class="vel-bar-label">S-2</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+            <div style="display:flex;align-items:flex-end;gap:2px;">
+              <div class="vel-bar" style="height:40px;background:#C1D5F6;"></div>
+              <div class="vel-bar" style="height:40px;background:#00875A;"></div>
+            </div>
+            <div class="vel-bar-label">S-3</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+            <div style="display:flex;align-items:flex-end;gap:2px;">
+              <div class="vel-bar" style="height:54px;background:#C1D5F6;"></div>
+              <div class="vel-bar" style="height:34px;background:#DE350B;"></div>
+            </div>
+            <div class="vel-bar-label">S-4</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+            <div style="display:flex;align-items:flex-end;gap:2px;">
+              <div class="vel-bar" style="height:51px;background:#C1D5F6;"></div>
+              <div class="vel-bar" style="height:44px;background:#0052CC;"></div>
+            </div>
+            <div class="vel-bar-label">S-5</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+            <div style="display:flex;align-items:flex-end;gap:2px;">
+              <div class="vel-bar" style="height:44px;background:#EBECF0;border:1px dashed #97A0AF;"></div>
+              <div class="vel-bar" style="height:0px;background:#0052CC;"></div>
+            </div>
+            <div class="vel-bar-label">S-6▸</div>
+          </div>
+        </div>
+        <div style="margin-top:8px;display:flex;gap:12px;">
+          <div style="font-size:12px;color:var(--c-text-sec);">Avg velocity: <strong style="color:#FF8B00;">31 SP</strong></div>
+          <div style="font-size:12px;color:var(--c-text-sec);">Trend: <strong style="color:var(--c-done);">↗ +8%</strong></div>
+        </div>
+      </div>
+
+      <!-- TEAM WORKLOAD WIDGET -->
+      <div class="widget">
+        <div class="widget-title">
+          👥 Team Workload
+          <a>Manage team →</a>
+        </div>
+
+        <div class="member-row">
+          <div class="member-av" style="background:#0052CC;">NVA</div>
+          <div class="member-name">Nguyen Van A</div>
+          <div class="member-bar-wrap">
+            <div class="prog-bar" style="height:8px;">
+              <div class="prog-fill" style="width:75%;background:#0052CC;"></div>
+            </div>
+          </div>
+          <div class="member-sp">15 SP</div>
+        </div>
+
+        <div class="member-row">
+          <div class="member-av" style="background:#36B37E;">TTB</div>
+          <div class="member-name">Tran Thi B</div>
+          <div class="member-bar-wrap">
+            <div class="prog-bar" style="height:8px;">
+              <div class="prog-fill" style="width:50%;background:#36B37E;"></div>
+            </div>
+          </div>
+          <div class="member-sp">10 SP</div>
+        </div>
+
+        <div class="member-row">
+          <div class="member-av" style="background:#FF5630;">LVC</div>
+          <div class="member-name">Le Van C</div>
+          <div class="member-bar-wrap">
+            <div class="prog-bar" style="height:8px;">
+              <div class="prog-fill" style="width:90%;background:#FFAB00;"></div>
+            </div>
+          </div>
+          <div class="member-sp">18 SP ⚠</div>
+        </div>
+
+        <div class="member-row">
+          <div class="member-av" style="background:#6554C0;">PTD</div>
+          <div class="member-name">Pham Thi D</div>
+          <div class="member-bar-wrap">
+            <div class="prog-bar" style="height:8px;">
+              <div class="prog-fill" style="width:35%;background:#6554C0;"></div>
+            </div>
+          </div>
+          <div class="member-sp">7 SP</div>
+        </div>
+
+        <div class="ann" style="margin-top:8px;">Bar = % of capacity. Orange/red = overloaded (>100% of 20 SP capacity).</div>
+      </div>
+
+    </div><!-- /widget-grid row 1 -->
+
+    <!-- WIDGET GRID ROW 2 -->
+    <div class="widget-grid" style="margin-bottom:16px;">
+
+      <!-- BACKLOG STATUS WIDGET -->
+      <div class="widget">
+        <div class="widget-title">
+          📋 Backlog Status
+          <a>Go to Backlog →</a>
+        </div>
+        <div class="bstat-grid">
+          <div class="bstat-cell blue">
+            <div class="bstat-val">87</div>
+            <div class="bstat-label">Total issues</div>
+          </div>
+          <div class="bstat-cell warn">
+            <div class="bstat-val">23</div>
+            <div class="bstat-label">Unestimated</div>
+          </div>
+          <div class="bstat-cell danger">
+            <div class="bstat-val">8</div>
+            <div class="bstat-label">High priority</div>
+          </div>
+          <div class="bstat-cell good">
+            <div class="bstat-val">312</div>
+            <div class="bstat-label">Total story pts</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT ACTIVITY WIDGET -->
+      <div class="widget" style="overflow:auto;max-height:280px;">
+        <div class="widget-title">
+          🕐 Recent Activity
+          <a>View all →</a>
+        </div>
+
+        <div class="activity-section">Today</div>
+
+        <div class="activity-item">
+          <div class="act-av" style="background:#0052CC;">NVA</div>
+          <div class="act-content">
+            <div class="act-text"><strong>Nguyen Van A</strong> moved <a>SCRM-91</a> to <span style="background:#EAE6FF;color:#403294;padding:1px 5px;border-radius:3px;font-size:11px;font-weight:600;">In Review</span></div>
+            <div class="act-time">2 minutes ago</div>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="act-av" style="background:#36B37E;">TTB</div>
+          <div class="act-content">
+            <div class="act-text"><strong>Tran Thi B</strong> completed <a>SCRM-86</a> — Set up CI/CD pipeline</div>
+            <div class="act-time">45 minutes ago</div>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="act-av" style="background:#FF5630;">LVC</div>
+          <div class="act-content">
+            <div class="act-text"><strong>Le Van C</strong> added comment on <a>SCRM-102</a>: "Blocked by missing OAuth config..."</div>
+            <div class="act-time">1 hour ago</div>
+          </div>
+        </div>
+
+        <div class="activity-section" style="margin-top:8px;">Yesterday</div>
+
+        <div class="activity-item">
+          <div class="act-av" style="background:#6554C0;">PTD</div>
+          <div class="act-content">
+            <div class="act-text"><strong>Pham Thi D</strong> created <a>SCRM-108</a> — Set up email notification service</div>
+            <div class="act-time">Yesterday, 4:30 PM</div>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="act-av" style="background:#0052CC;">NVA</div>
+          <div class="act-content">
+            <div class="act-text"><strong>Nguyen Van A</strong> estimated <a>SCRM-103</a> at <strong>2 SP</strong></div>
+            <div class="act-time">Yesterday, 2:15 PM</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /widget-grid row 2 -->
+
+    <!-- =============================================
+         VARIANT: NO ACTIVE SPRINT
+         ============================================= -->
+    <div style="border-top:2px dashed #DFE1E6;padding-top:20px;">
+      <div class="variant-banner">↓ STATE VARIANT: No Active Sprint</div>
+      <div style="background:var(--c-surface);border:1px dashed var(--c-border);border-radius:var(--r-lg);padding:20px 24px;margin-bottom:16px;display:flex;align-items:center;gap:20px;">
+        <div style="font-size:40px;">🏃</div>
+        <div style="flex:1;">
+          <div style="font-size:16px;font-weight:600;color:var(--c-text);margin-bottom:4px;">No active sprint</div>
+          <div style="font-size:13px;color:var(--c-text-sec);">Start a sprint from the Backlog to see your team's progress here.</div>
+        </div>
+        <button class="btn btn-primary">Create Sprint</button>
+        <button class="btn btn-light" style="margin-left:-4px;">Go to Backlog</button>
+      </div>
+    </div>
+
+  </div><!-- /page-body -->
+</div><!-- /main -->
+</body>
+</html>

@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ceremony Views — Wireframe</title>
+<style>
+:root {
+  --c-primary:    #0052CC;
+  --c-primary-dk: #0747A6;
+  --c-bg:         #F4F5F7;
+  --c-surface:    #FFFFFF;
+  --c-border:     #DFE1E6;
+  --c-text:       #172B4D;
+  --c-text-sec:   #6B778C;
+  --c-text-sub:   #97A0AF;
+  --c-sidebar:    #1D2125;
+  --c-sidebar-hov:#2C333A;
+  --c-done:       #00875A;
+  --c-review:     #6554C0;
+  --c-warn:       #FF8B00;
+  --c-danger:     #DE350B;
+
+  /* Ceremony type colours */
+  --ct-planning:  #0052CC;
+  --ct-daily:     #6B778C;
+  --ct-review:    #00875A;
+  --ct-retro:     #6554C0;
+
+  --font: -apple-system,"Segoe UI",Roboto,sans-serif;
+  --r-sm:3px; --r-md:4px; --r-lg:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:var(--c-bg);color:var(--c-text);font-size:14px;display:flex;height:100vh;overflow:hidden;}
+
+.wf-banner{position:fixed;top:0;left:0;right:0;background:#FF5630;color:#fff;text-align:center;font-size:11px;font-weight:700;letter-spacing:2px;padding:3px;z-index:9999;}
+
+/* ICON SIDEBAR */
+.icon-sidebar{width:64px;background:var(--c-sidebar);display:flex;flex-direction:column;align-items:center;padding-top:30px;flex-shrink:0;}
+.s-logo{width:32px;height:32px;background:var(--c-primary);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:20px;}
+.s-divider{width:28px;height:1px;background:#344563;margin:8px 0;}
+.s-icon{width:40px;height:40px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;color:#B8C7E0;margin:2px 0;transition:background .15s,color .15s;position:relative;}
+.s-icon:hover{background:var(--c-sidebar-hov);color:#fff;}
+.s-icon.active{background:var(--c-sidebar-hov);color:#4C9AFF;}
+.s-icon .tip{display:none;position:absolute;left:52px;top:50%;transform:translateY(-50%);background:#0E1624;color:#fff;padding:4px 8px;border-radius:var(--r-sm);font-size:12px;white-space:nowrap;z-index:300;}
+.s-icon:hover .tip{display:block;}
+.s-bottom{margin-top:auto;padding-bottom:14px;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.user-av{width:32px;height:32px;border-radius:50%;background:#6554C0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+
+/* PROJECT SIDEBAR */
+.proj-nav{width:220px;background:var(--c-sidebar);padding-top:30px;flex-shrink:0;display:flex;flex-direction:column;overflow-y:auto;border-right:1px solid #2C333A;}
+.proj-head{padding:10px 16px;display:flex;align-items:center;gap:10px;}
+.proj-av{width:28px;height:28px;background:linear-gradient(135deg,#0052CC,#6554C0);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
+.proj-name{font-size:13px;font-weight:600;color:#B8C7E0;}
+.proj-type{font-size:11px;color:#6B778C;}
+.nav-sec{font-size:11px;font-weight:600;color:#6B778C;letter-spacing:.08em;text-transform:uppercase;padding:16px 16px 4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 16px;font-size:13px;color:#B8C7E0;cursor:pointer;transition:background .12s,color .12s;}
+.nav-item:hover{background:#2C333A;color:#fff;}
+.nav-item.active{background:#2C333A;color:#4C9AFF;border-left:2px solid #4C9AFF;}
+.nav-icon{font-size:14px;width:16px;text-align:center;}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;padding-top:22px;}
+.top-bar{height:48px;background:#1D2125;display:flex;align-items:center;padding:0 20px;flex-shrink:0;border-bottom:1px solid #2C333A;}
+.breadcrumb{font-size:13px;color:#B8C7E0;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#4C9AFF;text-decoration:none;}
+.breadcrumb .sep{color:#6B778C;}
+.tb-actions{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--r-md);font-size:13px;font-weight:500;cursor:pointer;border:none;transition:background .12s;}
+.btn-primary{background:var(--c-primary);color:#fff;}
+.btn-primary:hover{background:var(--c-primary-dk);}
+.btn-ghost{background:transparent;color:#B8C7E0;border:1px solid #344563;}
+.btn-ghost:hover{background:#2C333A;}
+.btn-light{background:transparent;color:var(--c-text-sec);border:1px solid var(--c-border);}
+.btn-light:hover{background:#EBECF0;}
+.btn-danger{background:#FFEBE6;color:#BF2600;border:1px solid #FFBDAD;}
+.btn-danger:hover{background:#FFBDAD;}
+.btn-sm{padding:4px 10px;font-size:12px;}
+
+/* PAGE BODY */
+.page-body{flex:1;overflow-y:auto;padding:0;}
+
+/* View tabs */
+.view-tabs{background:var(--c-surface);border-bottom:1px solid var(--c-border);padding:0 24px;display:flex;align-items:center;gap:0;}
+.view-tab{padding:12px 16px;font-size:13px;font-weight:500;color:var(--c-text-sec);cursor:pointer;border-bottom:2px solid transparent;transition:color .12s;}
+.view-tab:hover{color:var(--c-text);}
+.view-tab.active{color:var(--c-primary);border-bottom-color:var(--c-primary);}
+
+/* Section wrapper */
+.section{padding:24px;display:none;}
+.section.visible{display:block;}
+
+/* Page header row */
+.page-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+.page-title{font-size:20px;font-weight:600;color:var(--c-text);}
+.page-sub{font-size:13px;color:var(--c-text-sec);margin-top:2px;}
+
+/* =====================================================
+   STATE 1: LIST VIEW
+   ===================================================== */
+.table-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:24px;}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:#F4F5F7;}
+th{padding:10px 16px;text-align:left;font-size:11px;font-weight:700;color:var(--c-text-sec);letter-spacing:.05em;text-transform:uppercase;border-bottom:1px solid var(--c-border);white-space:nowrap;}
+td{padding:10px 16px;font-size:13px;color:var(--c-text);border-bottom:1px solid var(--c-border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#F8F9FB;}
+
+.ctype-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
+.ct-planning{background:#DEEBFF;color:var(--ct-planning);}
+.ct-daily{background:#EBECF0;color:var(--ct-daily);}
+.ct-review{background:#E3FCEF;color:var(--ct-review);}
+.ct-retro{background:#EAE6FF;color:var(--ct-retro);}
+
+.status-loz{display:inline-flex;align-items:center;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:600;text-transform:uppercase;}
+.loz-planned{background:#DEEBFF;color:#0747A6;}
+.loz-active{background:#E3FCEF;color:#006644;}
+.loz-completed{background:#EBECF0;color:#42526E;}
+.loz-cancelled{background:#FFEBE6;color:#BF2600;}
+
+.av-stack{display:flex;align-items:center;}
+.av-stack .av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;border:2px solid #fff;margin-left:-5px;}
+.av-stack .av:first-child{margin-left:0;}
+.av-count{font-size:11px;color:var(--c-text-sec);margin-left:4px;}
+
+/* =====================================================
+   STATE 2: FORM VIEW
+   ===================================================== */
+.form-layout{display:grid;grid-template-columns:1fr 280px;gap:0;background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-lg);overflow:hidden;}
+.form-main{padding:24px;border-right:1px solid var(--c-border);}
+.form-sidebar{padding:20px;background:#FAFBFC;}
+
+.form-title-input{width:100%;font-size:20px;font-weight:600;color:var(--c-text);border:none;border-bottom:2px solid var(--c-border);padding:4px 0 8px;background:transparent;outline:none;margin-bottom:16px;}
+.form-title-input:focus{border-bottom-color:var(--c-primary);}
+.form-title-input::placeholder{color:var(--c-text-sub);}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.form-field{display:flex;flex-direction:column;gap:4px;}
+.form-field.full{grid-column:1/-1;}
+.form-label{font-size:12px;font-weight:600;color:var(--c-text-sec);text-transform:uppercase;letter-spacing:.05em;}
+.form-input,.form-select,.form-textarea{width:100%;padding:8px 10px;border:1px solid var(--c-border);border-radius:var(--r-md);font-size:13px;color:var(--c-text);background:#fff;font-family:var(--font);}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--c-primary);box-shadow:0 0 0 2px rgba(0,82,204,.15);}
+.form-textarea{resize:vertical;min-height:80px;line-height:1.5;}
+
+/* Rich text toolbar */
+.rte-toolbar{display:flex;gap:2px;padding:6px 8px;background:#F4F5F7;border:1px solid var(--c-border);border-bottom:none;border-radius:var(--r-md) var(--r-md) 0 0;}
+.rte-btn{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;border-radius:var(--r-sm);cursor:pointer;font-size:13px;color:var(--c-text-sec);}
+.rte-btn:hover{background:#DFE1E6;}
+.rte-sep{width:1px;height:20px;background:var(--c-border);margin:4px 4px;}
+
+/* Attendees chips */
+.chip-wrap{display:flex;flex-wrap:wrap;gap:6px;padding:8px;border:1px solid var(--c-border);border-radius:var(--r-md);min-height:40px;background:#fff;}
+.chip{display:inline-flex;align-items:center;gap:4px;background:#DEEBFF;color:var(--c-primary);border-radius:20px;padding:3px 10px 3px 6px;font-size:12px;font-weight:500;}
+.chip .av-sm{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;}
+.chip-x{cursor:pointer;color:var(--c-primary);font-size:14px;line-height:1;}
+.chip-x:hover{color:var(--c-danger);}
+.chip-add{border:1px dashed var(--c-border);background:transparent;color:var(--c-text-sub);border-radius:20px;padding:3px 10px;font-size:12px;cursor:pointer;}
+.chip-add:hover{background:#EBECF0;}
+
+/* Action items checklist */
+.checklist-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--c-border);}
+.checklist-item:last-child{border-bottom:none;}
+.checklist-item input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--c-primary);}
+.checklist-text{flex:1;font-size:13px;color:var(--c-text);}
+.checklist-text.done{text-decoration:line-through;color:var(--c-text-sub);}
+.checklist-assign{font-size:11px;color:var(--c-text-sub);}
+
+/* Sidebar metadata */
+.meta-section{margin-bottom:16px;}
+.meta-label{font-size:11px;font-weight:600;color:var(--c-text-sub);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.meta-value{font-size:13px;color:var(--c-text);}
+.meta-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dashed var(--c-border);}
+.meta-row:last-child{border-bottom:none;}
+.meta-key{font-size:12px;color:var(--c-text-sec);}
+.meta-val{font-size:12px;font-weight:500;color:var(--c-text);}
+
+/* Form actions */
+.form-actions{display:flex;align-items:center;gap:8px;margin-top:20px;padding-top:16px;border-top:1px solid var(--c-border);}
+
+/* =====================================================
+   STATE 3: RETROSPECTIVE
+   ===================================================== */
+.retro-layout{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;}
+.retro-col{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-lg);overflow:hidden;}
+.retro-col-hdr{padding:12px 16px;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:space-between;}
+.retro-col-body{padding:12px 16px;}
+
+.retro-card{border-radius:var(--r-md);padding:10px 12px;margin-bottom:8px;font-size:13px;line-height:1.4;position:relative;}
+.retro-card.went-well{background:#E3FCEF;border-left:3px solid var(--c-done);color:#06341B;}
+.retro-card.improve{background:#FFF0DB;border-left:3px solid var(--c-warn);color:#3D2400;}
+.retro-card-by{font-size:10px;color:#6B778C;margin-top:4px;}
+.retro-votes{position:absolute;top:6px;right:8px;display:flex;align-items:center;gap:3px;font-size:11px;color:var(--c-text-sub);}
+.retro-add-btn{width:100%;padding:8px;border:1px dashed var(--c-border);border-radius:var(--r-md);background:transparent;color:var(--c-text-sub);font-size:13px;cursor:pointer;text-align:left;}
+.retro-add-btn:hover{background:#EBECF0;color:var(--c-text);}
+
+/* Retro action items column */
+.action-item-retro{display:flex;align-items:flex-start;gap:8px;padding:8px;background:#DEEBFF;border-left:3px solid var(--c-primary);border-radius:0 var(--r-md) var(--r-md) 0;margin-bottom:8px;}
+.action-item-retro input[type=checkbox]{margin-top:2px;accent-color:var(--c-primary);}
+.ai-text{flex:1;font-size:13px;color:var(--c-text);}
+.ai-owner{font-size:10px;color:var(--c-text-sec);margin-top:3px;}
+
+/* =====================================================
+   STATE 4: CALENDAR VIEW
+   ===================================================== */
+.calendar-layout{}
+.cal-nav{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.cal-month{font-size:18px;font-weight:600;color:var(--c-text);}
+.cal-nav-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--c-border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:var(--c-text-sec);}
+.cal-nav-btn:hover{background:#EBECF0;}
+
+.cal-grid{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-lg);overflow:hidden;}
+.cal-days-hdr{display:grid;grid-template-columns:repeat(7,1fr);background:#F4F5F7;border-bottom:1px solid var(--c-border);}
+.cal-day-hdr{padding:8px;text-align:center;font-size:11px;font-weight:700;color:var(--c-text-sec);letter-spacing:.06em;text-transform:uppercase;}
+.cal-weeks{display:flex;flex-direction:column;}
+.cal-week{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--c-border);}
+.cal-week:last-child{border-bottom:none;}
+.cal-cell{min-height:80px;padding:6px;border-right:1px solid var(--c-border);position:relative;}
+.cal-cell:last-child{border-right:none;}
+.cal-cell.other-month .cal-date{color:#DFE1E6;}
+.cal-cell.today{background:#FFFAE6;}
+.cal-cell.today .cal-date{background:var(--c-primary);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;}
+.cal-date{font-size:12px;font-weight:600;color:var(--c-text-sec);margin-bottom:4px;display:inline-block;}
+.cal-event{border-radius:3px;padding:2px 6px;font-size:10px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;}
+.cal-event:hover{filter:brightness(0.9);}
+.ev-planning{background:#DEEBFF;color:var(--ct-planning);}
+.ev-daily{background:#EBECF0;color:var(--ct-daily);}
+.ev-review{background:#E3FCEF;color:var(--ct-review);}
+.ev-retro{background:#EAE6FF;color:var(--ct-retro);}
+
+/* Annotation */
+.ann{display:inline-block;background:#E3F2FD;border:1px dashed #1976D2;border-radius:var(--r-sm);padding:4px 8px;font-size:10px;color:#0D47A1;max-width:240px;line-height:1.4;margin:4px 0;}
+.ann::before{content:'📐 ';}
+
+/* Variant label */
+.variant-label{display:flex;align-items:center;gap:8px;margin:0 0 12px;}
+.variant-pill{background:#F4F5F7;border:1px solid #DFE1E6;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:#97A0AF;letter-spacing:.08em;text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div class="wf-banner">⚡ WIREFRAME — Ceremony Views — Odoo Scrum Addon · File 5/5</div>
+
+<!-- ICON SIDEBAR -->
+<div class="icon-sidebar">
+  <div class="s-logo">🔷</div>
+  <div class="s-divider"></div>
+  <div class="s-icon"><span>🏠</span><div class="tip">Home</div></div>
+  <div class="s-icon"><span>📋</span><div class="tip">Projects</div></div>
+  <div class="s-icon"><span>🎯</span><div class="tip">Issues</div></div>
+  <div class="s-icon"><span>📊</span><div class="tip">Reports</div></div>
+  <div class="s-icon active"><span>🗓️</span><div class="tip">Ceremonies</div></div>
+  <div class="s-divider"></div>
+  <div class="s-icon"><span>⚙️</span><div class="tip">Settings</div></div>
+  <div class="s-bottom">
+    <div class="s-icon"><span>❓</span><div class="tip">Help</div></div>
+    <div class="s-icon"><span>🔔</span><div class="tip">Notifications</div></div>
+    <div class="user-av">HQ</div>
+  </div>
+</div>
+
+<!-- PROJECT SIDEBAR -->
+<div class="proj-nav">
+  <div class="proj-head">
+    <div class="proj-av">SA</div>
+    <div>
+      <div class="proj-name">Scrum Alpha</div>
+      <div class="proj-type">Software project</div>
+    </div>
+  </div>
+  <div class="nav-sec">Planning</div>
+  <div class="nav-item"><span class="nav-icon">📅</span>Roadmap</div>
+  <div class="nav-item"><span class="nav-icon">📋</span>Backlog</div>
+  <div class="nav-item"><span class="nav-icon">🏃</span>Active Sprint</div>
+  <div class="nav-sec">Reports</div>
+  <div class="nav-item"><span class="nav-icon">🔥</span>Burndown Chart</div>
+  <div class="nav-item"><span class="nav-icon">⚡</span>Velocity Chart</div>
+  <div class="nav-sec">Ceremonies</div>
+  <div class="nav-item active"><span class="nav-icon">🗓️</span>Ceremonies</div>
+  <div class="nav-item"><span class="nav-icon">🔄</span>Retrospectives</div>
+  <div class="nav-sec">Project</div>
+  <div class="nav-item"><span class="nav-icon">🏷️</span>Releases</div>
+  <div class="nav-item"><span class="nav-icon">⚙️</span>Project Settings</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="top-bar">
+    <div class="breadcrumb">
+      <a>Projects</a><span class="sep">/</span>
+      <a>Scrum Alpha</a><span class="sep">/</span>
+      <span>Ceremonies</span>
+    </div>
+    <div class="tb-actions">
+      <button class="btn btn-ghost">← Back</button>
+    </div>
+  </div>
+
+  <!-- VIEW TABS -->
+  <div class="view-tabs">
+    <div class="view-tab active">📋 List</div>
+    <div class="view-tab">📝 Form</div>
+    <div class="view-tab">🔄 Retrospective</div>
+    <div class="view-tab">📅 Calendar</div>
+    <div style="margin-left:auto;padding:8px 0;">
+      <button class="btn btn-primary btn-sm">+ Create Ceremony</button>
+    </div>
+  </div>
+
+  <div class="page-body">
+
+    <!-- ============================================================
+         STATE 1: LIST VIEW
+         ============================================================ -->
+    <div class="section visible" id="state-list">
+      <div class="variant-label">
+        <div class="variant-pill">State 1</div>
+        <span style="font-size:13px;color:var(--c-text-sec);">Ceremony List View</span>
+      </div>
+      <div class="page-hdr">
+        <div>
+          <div class="page-title">🗓️ Ceremonies</div>
+          <div class="page-sub">All sprint ceremonies — Sprint 5</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="btn btn-light btn-sm">Sprint 5 ▾</button>
+          <button class="btn btn-light btn-sm">All Types ▾</button>
+          <button class="btn btn-light btn-sm">🔍</button>
+          <button class="btn btn-primary btn-sm">+ Create Ceremony</button>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Sprint</th>
+              <th>Date</th>
+              <th>Duration</th>
+              <th>Attendees</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Planning -->
+            <tr>
+              <td><a style="color:var(--c-primary);text-decoration:none;font-weight:500;cursor:pointer;">Sprint 5 Planning</a></td>
+              <td><span class="ctype-badge ct-planning">📋 Planning</span></td>
+              <td>Sprint 5</td>
+              <td>Apr 1, 2026 · 9:00 AM</td>
+              <td>2h</td>
+              <td>
+                <div class="av-stack">
+                  <div class="av" style="background:#0052CC;">NVA</div>
+                  <div class="av" style="background:#36B37E;">TTB</div>
+                  <div class="av" style="background:#FF5630;">LVC</div>
+                  <div class="av" style="background:#6554C0;">PTD</div>
+                  <span class="av-count">4</span>
+                </div>
+              </td>
+              <td><span class="status-loz loz-completed">✓ Completed</span></td>
+              <td><button class="btn btn-light btn-sm">⋯</button></td>
+            </tr>
+            <!-- Daily 1 -->
+            <tr>
+              <td><a style="color:var(--c-primary);text-decoration:none;font-weight:500;cursor:pointer;">Daily Standup — Apr 2</a></td>
+              <td><span class="ctype-badge ct-daily">☀ Daily</span></td>
+              <td>Sprint 5</td>
+              <td>Apr 2, 2026 · 9:30 AM</td>
+              <td>15 min</td>
+              <td>
+                <div class="av-stack">
+                  <div class="av" style="background:#0052CC;">NVA</div>
+                  <div class="av" style="background:#36B37E;">TTB</div>
+                  <div class="av" style="background:#FF5630;">LVC</div>
+                  <span class="av-count">3</span>
+                </div>
+              </td>
+              <td><span class="status-loz loz-completed">✓ Completed</span></td>
+              <td><button class="btn btn-light btn-sm">⋯</button></td>
+            </tr>
+            <!-- Daily 2 -->
+            <tr>
+              <td><a style="color:var(--c-primary);text-decoration:none;font-weight:500;cursor:pointer;">Daily Standup — Apr 3</a></td>
+              <td><span class="ctype-badge ct-daily">☀ Daily</span></td>
+              <td>Sprint 5</td>
+              <td>Apr 3, 2026 · 9:30 AM</td>
+              <td>15 min</td>
+              <td>
+                <div class="av-stack">
+                  <div class="av" style="background:#0052CC;">NVA</div>
+                  <div class="av" style="background:#6554C0;">PTD</div>
+                  <span class="av-count">2</span>
+                </div>
+              </td>
+              <td><span class="status-loz loz-completed">✓ Completed</span></td>
+              <td><button class="btn btn-light btn-sm">⋯</button></td>
+            </tr>
+            <!-- Today's daily (active) -->
+            <tr style="background:#FFFAE6;">
+              <td><a style="color:var(--c-primary);text-decoration:none;font-weight:500;cursor:pointer;">Daily Standup — Apr 1 ★</a></td>
+              <td><span class="ctype-badge ct-daily">☀ Daily</span></td>
+              <td>Sprint 5</td>
+              <td><strong>Today · 9:30 AM</strong></td>
+              <td>15 min</td>
+              <td>
+                <div class="av-stack">
+                  <div class="av" style="background:#0052CC;">NVA</div>
+                  <div class="av" style="background:#36B37E;">TTB</div>
+                  <div class="av" style="background:#FF5630;">LVC</div>
+                  <div class="av" style="background:#6554C0;">PTD</div>
+                  <span class="av-count">4</span>
+                </div>
+              </td>
+              <td><span class="status-loz loz-active">▶ Active</span></td>
+              <td><button class="btn btn-primary btn-sm">Start</button></td>
+            </tr>
+            <!-- Sprint Review (upcoming) -->
+            <tr>
+              <td><a style="color:var(--c-primary);text-decoration:none;font-weight:500;cursor:pointer;">Sprint 5 Review</a></td>
+              <td><span class="ctype-badge ct-review">✅ Review</span></td>
+              <td>Sprint 5</td>
+              <td>Apr 14, 2026 · 2:00 PM</td>
+              <td>1h</td>
+              <td>
+                <div class="av-stack">
+                  <div class="av" style="background:#0052CC;">NVA</div>
+                  <div class="av" style="background:#36B37E;">TTB</div>
+                  <div class="av" style="background:#FF5630;">LVC</div>
+                  <div class="av" style="background:#6554C0;">PTD</div>
+                  <span class="av-count">4</span>
+                </div>
+              </td>
+              <td><span class="status-loz loz-planned">📅 Planned</span></td>
+              <td><button class="btn btn-light btn-sm">⋯</button></td>
+            </tr>
+            <!-- Retrospective (upcoming) -->
+            <tr>
+              <td><a style="color:var(--c-primary);text-decoration:none;font-weight:500;cursor:pointer;">Sprint 5 Retrospective</a></td>
+              <td><span class="ctype-badge ct-retro">🔄 Retro</span></td>
+              <td>Sprint 5</td>
+              <td>Apr 14, 2026 · 3:30 PM</td>
+              <td>1.5h</td>
+              <td>
+                <div class="av-stack">
+                  <div class="av" style="background:#0052CC;">NVA</div>
+                  <div class="av" style="background:#36B37E;">TTB</div>
+                  <div class="av" style="background:#FF5630;">LVC</div>
+                  <div class="av" style="background:#6554C0;">PTD</div>
+                  <span class="av-count">4</span>
+                </div>
+              </td>
+              <td><span class="status-loz loz-planned">📅 Planned</span></td>
+              <td><button class="btn btn-light btn-sm">⋯</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ann">Row hover = light gray highlight. Active/today row = yellow tint. Action menu (⋯) opens: Edit, Delete, Duplicate.</div>
+
+      <!-- ============================================================
+           STATE 2: FORM VIEW (Planning type)
+           ============================================================ -->
+      <div class="variant-label" style="margin-top:32px;padding-top:20px;border-top:2px dashed #DFE1E6;">
+        <div class="variant-pill">State 2</div>
+        <span style="font-size:13px;color:var(--c-text-sec);">Ceremony Form — Planning Type</span>
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <div class="breadcrumb" style="color:var(--c-text-sec);">
+          <a style="color:var(--c-primary);">Ceremonies</a>
+          <span class="sep">/</span>
+          <span>Sprint 5 Planning</span>
+        </div>
+      </div>
+
+      <div class="form-layout" style="margin-bottom:24px;">
+        <!-- FORM MAIN -->
+        <div class="form-main">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <span class="ctype-badge ct-planning" style="font-size:12px;">📋 Sprint Planning</span>
+            <span style="font-size:12px;color:var(--c-text-sub);">Created by Nguyen Van A · Apr 1, 2026</span>
+          </div>
+
+          <input class="form-title-input" type="text" value="Sprint 5 Planning" placeholder="Ceremony name...">
+
+          <div class="form-row">
+            <div class="form-field">
+              <div class="form-label">Type</div>
+              <select class="form-select">
+                <option selected>📋 Sprint Planning</option>
+                <option>☀ Daily Standup</option>
+                <option>✅ Sprint Review</option>
+                <option>🔄 Retrospective</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <div class="form-label">Sprint</div>
+              <select class="form-select">
+                <option selected>Sprint 5 (Active)</option>
+                <option>Sprint 6</option>
+                <option>Sprint 4</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <div class="form-label">Date &amp; Time</div>
+              <input class="form-input" type="text" value="Apr 1, 2026 · 09:00 AM">
+            </div>
+            <div class="form-field">
+              <div class="form-label">Duration</div>
+              <select class="form-select">
+                <option>15 minutes</option>
+                <option>30 minutes</option>
+                <option>1 hour</option>
+                <option selected>2 hours</option>
+                <option>Custom...</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-field full" style="margin-bottom:16px;">
+            <div class="form-label">Description / Agenda</div>
+            <div class="rte-toolbar">
+              <button class="rte-btn" title="Bold"><strong>B</strong></button>
+              <button class="rte-btn" title="Italic"><em>I</em></button>
+              <button class="rte-btn" title="Underline"><u>U</u></button>
+              <div class="rte-sep"></div>
+              <button class="rte-btn" title="Bullet list">≡</button>
+              <button class="rte-btn" title="Numbered list">1.</button>
+              <div class="rte-sep"></div>
+              <button class="rte-btn" title="Link">🔗</button>
+              <button class="rte-btn" title="Attach">📎</button>
+            </div>
+            <textarea class="form-textarea" rows="4" style="border-radius:0 0 var(--r-md) var(--r-md);">Agenda:
+1. Review sprint backlog and velocity from Sprint 4
+2. Estimate and commit to issues for Sprint 5
+3. Define sprint goal and assign owners</textarea>
+          </div>
+
+          <div class="form-field full" style="margin-bottom:16px;">
+            <div class="form-label">Attendees</div>
+            <div class="chip-wrap">
+              <div class="chip"><div class="av-sm" style="background:#0052CC;">NVA</div> Nguyen Van A <span class="chip-x">×</span></div>
+              <div class="chip"><div class="av-sm" style="background:#36B37E;">TTB</div> Tran Thi B <span class="chip-x">×</span></div>
+              <div class="chip"><div class="av-sm" style="background:#FF5630;">LVC</div> Le Van C <span class="chip-x">×</span></div>
+              <div class="chip"><div class="av-sm" style="background:#6554C0;">PTD</div> Pham Thi D <span class="chip-x">×</span></div>
+              <button class="chip-add">+ Add attendee</button>
+            </div>
+          </div>
+
+          <div class="form-field full" style="margin-bottom:4px;">
+            <div class="form-label" style="margin-bottom:8px;">Action Items</div>
+            <div class="checklist-item">
+              <input type="checkbox" checked>
+              <span class="checklist-text done">Prepare sprint backlog with estimated stories</span>
+              <span class="checklist-assign">NVA</span>
+            </div>
+            <div class="checklist-item">
+              <input type="checkbox">
+              <span class="checklist-text">Set sprint goal and get team agreement</span>
+              <span class="checklist-assign">All</span>
+            </div>
+            <div class="checklist-item">
+              <input type="checkbox">
+              <span class="checklist-text">Assign team capacity per team member</span>
+              <span class="checklist-assign">LVC</span>
+            </div>
+            <div style="margin-top:8px;">
+              <button class="btn btn-light btn-sm">+ Add action item</button>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary">💾 Save</button>
+            <button class="btn btn-light">Cancel</button>
+            <div style="margin-left:auto;">
+              <button class="btn btn-danger btn-sm">🗑 Delete</button>
+            </div>
+          </div>
+        </div><!-- /form-main -->
+
+        <!-- FORM SIDEBAR -->
+        <div class="form-sidebar">
+          <div class="meta-section">
+            <div class="meta-label">Details</div>
+            <div class="meta-row">
+              <span class="meta-key">Status</span>
+              <span class="meta-val"><span class="status-loz loz-completed" style="font-size:11px;">✓ Completed</span></span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Type</span>
+              <span class="meta-val"><span class="ctype-badge ct-planning" style="font-size:10px;">📋 Planning</span></span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Sprint</span>
+              <span class="meta-val">Sprint 5</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Date</span>
+              <span class="meta-val">Apr 1, 2026</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Time</span>
+              <span class="meta-val">09:00 – 11:00</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Duration</span>
+              <span class="meta-val">2 hours</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Attendees</span>
+              <span class="meta-val">4 people</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Facilitator</span>
+              <span class="meta-val">Nguyen Van A</span>
+            </div>
+          </div>
+
+          <div class="meta-section">
+            <div class="meta-label">Linked</div>
+            <div class="meta-row">
+              <span class="meta-key">Sprint</span>
+              <a style="font-size:12px;color:var(--c-primary);">Sprint 5 →</a>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key">Issues added</span>
+              <span class="meta-val">14 issues</span>
+            </div>
+          </div>
+
+          <div class="meta-section">
+            <div class="meta-label">Attachments (2)</div>
+            <div style="font-size:12px;color:var(--c-text-sec);margin-bottom:4px;">📄 sprint5-backlog.pdf</div>
+            <div style="font-size:12px;color:var(--c-text-sec);margin-bottom:8px;">🖼 board-screenshot.png</div>
+            <button class="btn btn-light btn-sm" style="width:100%;">+ Attach file</button>
+          </div>
+
+          <div class="meta-section">
+            <div class="meta-label">Labels</div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;">
+              <span style="background:#EAE6FF;color:#403294;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:600;">sprint-5</span>
+              <span style="background:#DEEBFF;color:#0747A6;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:600;">planning</span>
+              <button class="btn-light" style="border:none;padding:2px 6px;font-size:11px;color:var(--c-text-sub);cursor:pointer;">+ Add</button>
+            </div>
+          </div>
+        </div><!-- /form-sidebar -->
+      </div>
+
+      <!-- ============================================================
+           STATE 3: RETROSPECTIVE FORM
+           ============================================================ -->
+      <div class="variant-label" style="margin-top:32px;padding-top:20px;border-top:2px dashed #DFE1E6;">
+        <div class="variant-pill">State 3</div>
+        <span style="font-size:13px;color:var(--c-text-sec);">Retrospective Form — 3-Column Board</span>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+        <div>
+          <div style="font-size:18px;font-weight:600;color:var(--c-text);">🔄 Sprint 5 Retrospective</div>
+          <div style="font-size:12px;color:var(--c-text-sec);">Apr 14, 2026 · 3:30 PM · Sprint 5</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <span class="status-loz loz-planned" style="align-self:center;">📅 Planned</span>
+          <button class="btn btn-light">⚙ Settings</button>
+          <button class="btn btn-primary">Start Retro</button>
+        </div>
+      </div>
+
+      <div class="retro-layout">
+        <!-- WENT WELL column -->
+        <div class="retro-col">
+          <div class="retro-col-hdr" style="background:#E3FCEF;color:#006644;border-bottom:1px solid #B3F5BC;">
+            😊 What went well
+            <span style="background:#006644;color:#fff;border-radius:10px;padding:1px 8px;font-size:11px;font-weight:700;">3</span>
+          </div>
+          <div class="retro-col-body">
+            <div class="retro-card went-well">
+              Great team collaboration on the auth module sprint
+              <div class="retro-votes">👍 3</div>
+              <div class="retro-card-by">— Nguyen Van A</div>
+            </div>
+            <div class="retro-card went-well">
+              CI/CD pipeline now saves ~2 hours per deploy cycle
+              <div class="retro-votes">👍 4</div>
+              <div class="retro-card-by">— Tran Thi B</div>
+            </div>
+            <div class="retro-card went-well">
+              Daily standups were focused and under 15 minutes
+              <div class="retro-votes">👍 2</div>
+              <div class="retro-card-by">— Le Van C</div>
+            </div>
+            <button class="retro-add-btn">+ Add what went well</button>
+          </div>
+        </div>
+
+        <!-- TO IMPROVE column -->
+        <div class="retro-col">
+          <div class="retro-col-hdr" style="background:#FFF0DB;color:#FF8B00;border-bottom:1px solid #FFE0B2;">
+            🔧 What to improve
+            <span style="background:#FF8B00;color:#fff;border-radius:10px;padding:1px 8px;font-size:11px;font-weight:700;">2</span>
+          </div>
+          <div class="retro-col-body">
+            <div class="retro-card improve">
+              OAuth integration was blocked for 2 days due to missing credentials — need better onboarding docs
+              <div class="retro-votes">👍 5</div>
+              <div class="retro-card-by">— Le Van C</div>
+            </div>
+            <div class="retro-card improve">
+              Sprint planning took 3h instead of 2h — need pre-refined backlog
+              <div class="retro-votes">👍 3</div>
+              <div class="retro-card-by">— Pham Thi D</div>
+            </div>
+            <button class="retro-add-btn">+ Add improvement item</button>
+          </div>
+        </div>
+
+        <!-- ACTION ITEMS column -->
+        <div class="retro-col">
+          <div class="retro-col-hdr" style="background:#DEEBFF;color:#0052CC;border-bottom:1px solid #B3D4FF;">
+            ✅ Action items
+            <span style="background:#0052CC;color:#fff;border-radius:10px;padding:1px 8px;font-size:11px;font-weight:700;">3</span>
+          </div>
+          <div class="retro-col-body">
+            <div class="action-item-retro">
+              <input type="checkbox" checked>
+              <div>
+                <div class="ai-text" style="text-decoration:line-through;color:var(--c-text-sub);">Create OAuth credentials doc in Confluence</div>
+                <div class="ai-owner">Owner: LVC · Due: Apr 5</div>
+              </div>
+            </div>
+            <div class="action-item-retro">
+              <input type="checkbox">
+              <div>
+                <div class="ai-text">Add pre-refinement session before each sprint planning (1h)</div>
+                <div class="ai-owner">Owner: NVA · Due: Apr 15</div>
+              </div>
+            </div>
+            <div class="action-item-retro">
+              <input type="checkbox">
+              <div>
+                <div class="ai-text">Document sprint definition of done checklist</div>
+                <div class="ai-owner">Owner: PTD · Due: Apr 16</div>
+              </div>
+            </div>
+            <button class="retro-add-btn" style="background:transparent;border:1px dashed #B3D4FF;">+ Add action item</button>
+          </div>
+        </div>
+      </div>
+      <div class="ann">Retro board uses sticky-card metaphor. Votes visible after voting phase. Cards can be grouped by theme (drag to reorder).</div>
+
+      <!-- ============================================================
+           STATE 4: CALENDAR VIEW — April 2026
+           ============================================================ -->
+      <div class="variant-label" style="margin-top:32px;padding-top:20px;border-top:2px dashed #DFE1E6;">
+        <div class="variant-pill">State 4</div>
+        <span style="font-size:13px;color:var(--c-text-sec);">Calendar View — April 2026</span>
+      </div>
+
+      <div class="calendar-layout">
+        <div class="cal-nav">
+          <button class="cal-nav-btn">‹</button>
+          <div class="cal-month">April 2026</div>
+          <button class="cal-nav-btn">›</button>
+          <button class="btn btn-light btn-sm" style="margin-left:8px;">Today</button>
+          <div style="margin-left:auto;display:flex;gap:6px;">
+            <!-- Legend -->
+            <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--c-text-sec);">
+              <span style="width:10px;height:10px;border-radius:2px;background:#DEEBFF;display:inline-block;"></span>Planning
+            </span>
+            <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--c-text-sec);">
+              <span style="width:10px;height:10px;border-radius:2px;background:#EBECF0;display:inline-block;"></span>Daily
+            </span>
+            <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--c-text-sec);">
+              <span style="width:10px;height:10px;border-radius:2px;background:#E3FCEF;display:inline-block;"></span>Review
+            </span>
+            <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--c-text-sec);">
+              <span style="width:10px;height:10px;border-radius:2px;background:#EAE6FF;display:inline-block;"></span>Retro
+            </span>
+          </div>
+        </div>
+
+        <div class="cal-grid">
+          <div class="cal-days-hdr">
+            <div class="cal-day-hdr">Sun</div>
+            <div class="cal-day-hdr">Mon</div>
+            <div class="cal-day-hdr">Tue</div>
+            <div class="cal-day-hdr">Wed</div>
+            <div class="cal-day-hdr">Thu</div>
+            <div class="cal-day-hdr">Fri</div>
+            <div class="cal-day-hdr">Sat</div>
+          </div>
+          <div class="cal-weeks">
+            <!-- Week 1: Mar 29 – Apr 4 -->
+            <div class="cal-week">
+              <div class="cal-cell other-month"><span class="cal-date">29</span></div>
+              <div class="cal-cell other-month"><span class="cal-date">30</span></div>
+              <div class="cal-cell other-month"><span class="cal-date">31</span></div>
+              <div class="cal-cell today">
+                <span class="cal-date">1</span>
+                <div class="cal-event ev-planning">📋 9:00 Sprint 5 Planning</div>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">2</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">3</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell"><span class="cal-date">4</span></div>
+            </div>
+            <!-- Week 2: Apr 5 – Apr 11 -->
+            <div class="cal-week">
+              <div class="cal-cell"><span class="cal-date">5</span></div>
+              <div class="cal-cell">
+                <span class="cal-date">6</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">7</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">8</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">9</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">10</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell"><span class="cal-date">11</span></div>
+            </div>
+            <!-- Week 3: Apr 12 – Apr 18 -->
+            <div class="cal-week">
+              <div class="cal-cell"><span class="cal-date">12</span></div>
+              <div class="cal-cell">
+                <span class="cal-date">13</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">14</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+                <div class="cal-event ev-review">✅ 14:00 Sprint 5 Review</div>
+                <div class="cal-event ev-retro">🔄 15:30 Retrospective</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">15</span>
+                <div class="cal-event ev-planning">📋 9:00 Sprint 6 Planning</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">16</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">17</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell"><span class="cal-date">18</span></div>
+            </div>
+            <!-- Week 4: Apr 19 – Apr 25 -->
+            <div class="cal-week">
+              <div class="cal-cell"><span class="cal-date">19</span></div>
+              <div class="cal-cell">
+                <span class="cal-date">20</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">21</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">22</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">23</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">24</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell"><span class="cal-date">25</span></div>
+            </div>
+            <!-- Week 5: Apr 26 – May 2 -->
+            <div class="cal-week">
+              <div class="cal-cell"><span class="cal-date">26</span></div>
+              <div class="cal-cell">
+                <span class="cal-date">27</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">28</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+                <div class="cal-event ev-review">✅ 14:00 Sprint 6 Review</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">29</span>
+                <div class="cal-event ev-retro">🔄 15:00 Retrospective</div>
+              </div>
+              <div class="cal-cell">
+                <span class="cal-date">30</span>
+                <div class="cal-event ev-daily">☀ 9:30 Daily Standup</div>
+              </div>
+              <div class="cal-cell other-month"><span class="cal-date">1</span></div>
+              <div class="cal-cell other-month"><span class="cal-date">2</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ann" style="margin-top:8px;">Events color-coded by type. Click event chip = opens ceremony form. Today = highlighted cell. Other months = dimmed dates.</div>
+      </div>
+
+    </div><!-- /state-list section -->
+  </div><!-- /page-body -->
+</div><!-- /main -->
+</body>
+</html>

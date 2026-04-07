@@ -1,7 +1,7 @@
 ---
 title: "Scrum/Agile Enhancement Module for Odoo 18 CE"
 description: "Three-phase implementation of project_scrum addon: sprint model, boards, analytics, ceremonies, epics"
-status: pending
+status: completed
 priority: P1
 effort: 30h
 branch: main
@@ -107,9 +107,9 @@ addons/project_scrum/
 
 | Phase | Scope | Effort | Status |
 |-------|-------|--------|--------|
-| [Phase 1](phase-01-foundation-sprint-model-and-boards.md) | Sprint model, task extension, boards, backlog, planning wizard, security | ~14h | Pending |
-| [Phase 2](phase-02-analytics-and-ceremonies.md) | Burndown chart, velocity tracking, sprint review/retro, standup view | ~10h | Pending |
-| [Phase 3](phase-03-advanced-features.md) | Epics, releases, impediment tracking, email digest, velocity forecast | ~6h | Pending |
+| [Phase 1](phase-01-foundation-sprint-model-and-boards.md) | Sprint model, task extension, boards, backlog, planning wizard, security | ~14h | Completed |
+| [Phase 2](phase-02-analytics-and-ceremonies.md) | Burndown chart, velocity tracking, sprint review/retro, standup view | ~10h | Completed |
+| [Phase 3](phase-03-advanced-features.md) | Epics, releases, impediment tracking, email digest, velocity forecast | ~6h | Completed |
 
 ## Key Architecture Decisions
 

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Wireframe — Create Sprint</title>
+<style>
+/* ── Reset & base ─────────────────────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:14px;color:#172B4D;background:#F4F5F7;}
+
+/* ── Wireframe banner ────────────────────────────────────────────────────── */
+.wf-banner{padding:5px 14px;background:#172B4D;font-size:11px;color:#fff;
+  display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:999;}
+.wf-banner strong{color:#4FC3F7;}
+.wf-tag{background:#0052CC;color:#fff;border-radius:3px;padding:1px 7px;
+  font-size:10px;font-weight:700;letter-spacing:.5px;}
+
+/* ── Section heading ─────────────────────────────────────────────────────── */
+.section-lbl{font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.6px;color:#6B778C;padding:20px 0 8px;border-top:2px solid #DFE1E6;
+  margin-top:28px;}
+.section-lbl:first-of-type{border-top:none;margin-top:0;}
+
+/* ── Note box ────────────────────────────────────────────────────────────── */
+.note{font-size:11px;color:#0052CC;border:1px dashed #4C9AFF;border-radius:3px;
+  padding:4px 10px;margin-top:8px;background:rgba(76,154,255,.06);display:inline-block;}
+
+/* ── App shell (Jira-like) ───────────────────────────────────────────────── */
+.app-shell{display:flex;min-height:100vh;}
+
+/* Jira left icon sidebar */
+.icon-nav{width:56px;background:#1D2125;display:flex;flex-direction:column;
+  align-items:center;padding:8px 0;gap:4px;flex-shrink:0;}
+.icon-nav .logo{width:28px;height:28px;background:#0052CC;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  font-weight:900;font-size:14px;margin-bottom:8px;}
+.icon-nav .nav-icon{width:36px;height:36px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  color:#8c9bab;font-size:16px;cursor:pointer;transition:background .15s;}
+.icon-nav .nav-icon:hover,.icon-nav .nav-icon.active{background:#3b4350;color:#fff;}
+
+/* Project sidebar */
+.project-nav{width:240px;background:#fff;border-right:1px solid #DFE1E6;
+  display:flex;flex-direction:column;padding:16px 0;flex-shrink:0;}
+.project-nav .proj-header{padding:0 16px 16px;border-bottom:1px solid #F4F5F7;}
+.proj-avatar{width:32px;height:32px;background:#0052CC;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  font-weight:700;font-size:12px;flex-shrink:0;}
+.proj-name{font-weight:700;font-size:13px;color:#172B4D;}
+.proj-type{font-size:11px;color:#6B778C;}
+.project-nav .nav-item{padding:7px 16px;font-size:13px;color:#172B4D;cursor:pointer;
+  display:flex;align-items:center;gap:8px;border-radius:0;}
+.project-nav .nav-item:hover{background:#F4F5F7;}
+.project-nav .nav-item.active{background:#DEEBFF;color:#0052CC;font-weight:600;
+  border-left:3px solid #0052CC;padding-left:13px;}
+.project-nav .nav-item .nav-icon-sm{font-size:14px;width:20px;text-align:center;}
+
+/* Main content */
+.main-content{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+
+/* Top bar */
+.topbar{height:48px;background:#fff;border-bottom:1px solid #DFE1E6;
+  display:flex;align-items:center;padding:0 20px;gap:8px;flex-shrink:0;}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#6B778C;}
+.breadcrumb a{color:#6B778C;text-decoration:none;}
+.breadcrumb a:hover{color:#0052CC;text-decoration:underline;}
+.breadcrumb .sep{color:#C1C7D0;}
+.breadcrumb .current{color:#172B4D;font-weight:500;}
+
+/* Page body */
+.page-body{flex:1;padding:24px;overflow-y:auto;}
+
+/* ── Backlog view context ─────────────────────────────────────────────────── */
+.backlog-header{display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;}
+.backlog-title{font-size:20px;font-weight:700;color:#172B4D;}
+.backlog-subtitle{font-size:13px;color:#6B778C;margin-top:2px;}
+.backlog-actions{display:flex;gap:8px;align-items:center;}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;
+  border-radius:3px;font-size:13px;font-weight:500;cursor:pointer;border:none;
+  transition:background .15s;}
+.btn-primary{background:#0052CC;color:#fff;}
+.btn-primary:hover{background:#0747A6;}
+.btn-default{background:#F4F5F7;color:#172B4D;border:1px solid #DFE1E6;}
+.btn-default:hover{background:#EBECF0;}
+.btn-sm{padding:4px 8px;font-size:12px;}
+.btn-link{background:none;border:none;color:#0052CC;font-size:13px;cursor:pointer;padding:0;}
+.btn-link:hover{text-decoration:underline;}
+.btn-danger{background:#DE350B;color:#fff;}
+.btn-danger:hover{background:#BF2600;}
+
+/* Sprint section in backlog */
+.sprint-section{background:#fff;border:1px solid #DFE1E6;border-radius:4px;
+  margin-bottom:12px;overflow:hidden;}
+.sprint-section-header{display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;background:#F4F5F7;border-bottom:1px solid #DFE1E6;cursor:pointer;}
+.sprint-section-header:hover{background:#EBECF0;}
+.sprint-section-left{display:flex;align-items:center;gap:8px;}
+.sprint-toggle{font-size:11px;color:#6B778C;}
+.sprint-name-label{font-weight:600;font-size:13px;}
+.sprint-dates-label{font-size:12px;color:#6B778C;}
+.sprint-stats-label{font-size:12px;color:#6B778C;}
+.sprint-actions-group{display:flex;align-items:center;gap:6px;}
+.status-lozenge{display:inline-block;padding:2px 8px;border-radius:3px;
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+.loz-draft{background:#DFE1E6;color:#42526E;}
+.loz-active{background:#E3FCEF;color:#006644;}
+.loz-closed{background:#DFE1E6;color:#42526E;}
+
+/* Backlog items (tasks) */
+.backlog-item{display:flex;align-items:center;gap:10px;padding:8px 14px;
+  border-bottom:1px solid #F4F5F7;cursor:pointer;font-size:13px;}
+.backlog-item:last-child{border-bottom:none;}
+.backlog-item:hover{background:#F4F5F7;}
+.issue-type-icon{width:16px;height:16px;border-radius:2px;
+  display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;}
+.issue-key{font-size:12px;color:#0052CC;font-weight:500;min-width:72px;flex-shrink:0;}
+.issue-summary{flex:1;color:#172B4D;}
+.issue-priority{font-size:12px;flex-shrink:0;}
+.issue-assignee{width:22px;height:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+.sp-pill{background:#F4F5F7;border:1px solid #DFE1E6;color:#172B4D;
+  border-radius:3px;padding:1px 6px;font-size:11px;font-weight:600;flex-shrink:0;}
+.epic-lozenge{padding:1px 7px;border-radius:3px;font-size:11px;font-weight:500;
+  flex-shrink:0;}
+
+/* "Create Sprint" ghost / placeholder */
+.create-sprint-placeholder{border:2px dashed #DFE1E6;border-radius:4px;
+  padding:20px;text-align:center;color:#97A0AF;font-size:13px;margin-bottom:12px;
+  cursor:pointer;transition:border-color .15s;}
+.create-sprint-placeholder:hover{border-color:#4C9AFF;color:#0052CC;}
+
+/* ── MODAL DIALOG ────────────────────────────────────────────────────────── */
+.modal-backdrop{position:fixed;inset:0;background:rgba(9,30,66,.54);
+  display:flex;align-items:center;justify-content:center;z-index:500;}
+.modal-standalone{/* static positioning for wireframe display */
+  position:relative;inset:unset;}
+
+.modal{background:#fff;border-radius:4px;box-shadow:0 8px 16px rgba(9,30,66,.25);
+  width:560px;max-width:96vw;display:flex;flex-direction:column;
+  max-height:88vh;overflow:hidden;}
+.modal-header{display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px 0;}
+.modal-title{font-size:20px;font-weight:700;color:#172B4D;}
+.modal-close{width:32px;height:32px;border:none;background:none;cursor:pointer;
+  color:#6B778C;font-size:18px;border-radius:3px;display:flex;
+  align-items:center;justify-content:center;}
+.modal-close:hover{background:#F4F5F7;color:#172B4D;}
+.modal-body{padding:20px 24px;overflow-y:auto;flex:1;}
+.modal-footer{padding:16px 24px;border-top:1px solid #F4F5F7;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.modal-footer-right{display:flex;gap:8px;}
+
+/* Form fields */
+.field-group{margin-bottom:18px;}
+.field-label{display:block;font-size:12px;font-weight:600;color:#172B4D;
+  margin-bottom:5px;}
+.field-label .required{color:#DE350B;margin-left:2px;}
+.field-hint{font-size:11px;color:#6B778C;margin-top:3px;}
+.field-input{width:100%;padding:8px 10px;border:2px solid #DFE1E6;border-radius:3px;
+  font-size:14px;color:#172B4D;background:#fff;outline:none;
+  transition:border-color .1s;}
+.field-input:focus{border-color:#4C9AFF;}
+.field-input.is-invalid{border-color:#DE350B;background:#FFFAE6;}
+.field-input-error{font-size:11px;color:#DE350B;margin-top:3px;display:none;}
+.field-input-error.show{display:block;}
+.field-textarea{resize:vertical;min-height:80px;line-height:1.5;}
+select.field-input{appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236B778C'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;
+  padding-right:28px;}
+
+/* Date row */
+.date-row{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:end;}
+.date-sep{font-size:20px;color:#DFE1E6;text-align:center;padding-bottom:8px;}
+
+/* Duration chips */
+.duration-chips{display:flex;gap:6px;flex-wrap:wrap;}
+.duration-chip{padding:5px 12px;border:2px solid #DFE1E6;border-radius:3px;
+  font-size:12px;font-weight:500;cursor:pointer;color:#172B4D;background:#fff;
+  transition:all .1s;}
+.duration-chip:hover{border-color:#4C9AFF;color:#0052CC;}
+.duration-chip.active{border-color:#0052CC;background:#DEEBFF;color:#0052CC;font-weight:700;}
+
+/* Capacity row */
+.capacity-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* Member rows in capacity section */
+.member-row{display:flex;align-items:center;gap:8px;padding:6px 0;
+  border-bottom:1px solid #F4F5F7;}
+.member-row:last-child{border-bottom:none;}
+.member-avatar{width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;flex-shrink:0;}
+.member-name{flex:1;font-size:13px;}
+.member-days-input{width:60px;padding:4px 6px;border:2px solid #DFE1E6;
+  border-radius:3px;font-size:13px;text-align:center;}
+.member-days-input:focus{border-color:#4C9AFF;outline:none;}
+.member-sp-est{font-size:11px;color:#6B778C;min-width:50px;text-align:right;}
+
+/* Accordion section */
+.accordion-trigger{display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;padding:8px 0;color:#0052CC;font-size:13px;font-weight:500;
+  border-top:1px solid #F4F5F7;margin-top:4px;}
+.accordion-trigger:hover{color:#0747A6;}
+.accordion-chevron{font-size:11px;color:#6B778C;transition:transform .15s;}
+
+/* ── VALIDATION ERROR STATE ────────────────────────────────────────────────── */
+.modal-error-banner{display:flex;align-items:flex-start;gap:10px;
+  background:#FFEBE6;border:1px solid #FFBDAD;border-radius:3px;
+  padding:10px 14px;margin-bottom:16px;font-size:13px;color:#DE350B;}
+.error-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+
+/* ── SUCCESS CONFIRMATION STATE ────────────────────────────────────────────── */
+.success-modal-body{text-align:center;padding:32px 24px;}
+.success-icon{font-size:48px;margin-bottom:12px;}
+.success-title{font-size:20px;font-weight:700;color:#172B4D;margin-bottom:6px;}
+.success-subtitle{font-size:14px;color:#6B778C;margin-bottom:20px;line-height:1.5;}
+.success-sprint-card{background:#F4F5F7;border-radius:4px;padding:16px;
+  text-align:left;margin-bottom:16px;}
+.success-sprint-name{font-size:16px;font-weight:700;margin-bottom:4px;}
+.success-sprint-meta{font-size:12px;color:#6B778C;}
+
+/* ── QUICK-CREATE inline state ─────────────────────────────────────────────── */
+.inline-create{background:#fff;border:2px solid #4C9AFF;border-radius:4px;
+  padding:14px 16px;margin-bottom:12px;}
+.inline-create-title{font-size:13px;font-weight:600;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:space-between;}
+.inline-create-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;}
+.inline-field{display:flex;flex-direction:column;gap:4px;}
+.inline-label{font-size:11px;font-weight:600;color:#6B778C;}
+.inline-input{padding:6px 8px;border:2px solid #DFE1E6;border-radius:3px;
+  font-size:13px;width:100%;outline:none;}
+.inline-input:focus{border-color:#4C9AFF;}
+.inline-input.w-200{width:200px;}
+.inline-input.w-130{width:130px;}
+
+/* ── SPRINT LIST within Backlog (after creation) ───────────────────────────── */
+.sprint-badge{display:inline-flex;align-items:center;gap:5px;
+  background:#DEEBFF;color:#0052CC;border-radius:3px;
+  padding:3px 8px;font-size:12px;font-weight:600;}
+.sprint-badge .dot{width:8px;height:8px;border-radius:50%;background:#0052CC;}
+
+/* ── Progress ring (for capacity) ─────────────────────────────────────────── */
+.capacity-summary{display:flex;align-items:center;gap:14px;
+  background:#F4F5F7;border-radius:3px;padding:10px 14px;margin-top:10px;}
+.cap-stat{display:flex;flex-direction:column;gap:1px;}
+.cap-stat-val{font-size:18px;font-weight:700;color:#172B4D;}
+.cap-stat-lbl{font-size:11px;color:#6B778C;}
+
+/* ── Help tooltip ──────────────────────────────────────────────────────────── */
+.help-icon{display:inline-flex;width:16px;height:16px;border-radius:50%;
+  background:#DFE1E6;color:#6B778C;font-size:10px;font-weight:700;
+  align-items:center;justify-content:center;cursor:default;margin-left:4px;
+  vertical-align:middle;}
+
+/* Layout utilities */
+.flex{display:flex;}.gap-8{gap:8px;}.gap-12{gap:12px;}
+.mt-4{margin-top:4px;}.mt-8{margin-top:8px;}.mt-12{margin-top:12px;}
+.text-secondary{color:#6B778C;}.text-sm{font-size:12px;}
+.text-danger{color:#DE350B;}.text-success{color:#00875A;}
+.fw-600{font-weight:600;}
+.ml-auto{margin-left:auto;}
+.divider{height:1px;background:#F4F5F7;margin:16px 0;}
+
+/* ── Page wrapper for static display ──────────────────────────────────────── */
+.wireframe-page{padding:20px;max-width:1200px;margin:0 auto;}
+.state-section{margin-bottom:48px;}
+
+/* modal static display override */
+.modal-wrap{background:rgba(9,30,66,.20);border-radius:6px;padding:32px;
+  display:flex;justify-content:center;margin-bottom:8px;}
+</style>
+</head>
+<body>
+
+<!-- ── Wireframe banner ─────────────────────────────────────────────────── -->
+<div class="wf-banner">
+  <span class="wf-tag">WIREFRAME</span>
+  <strong>Create Sprint</strong>
+  &nbsp;·&nbsp; Jira-style UI · Modal dialog + Backlog context · 5 states
+</div>
+
+<div class="wireframe-page">
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     STATE 0 — BACKLOG CONTEXT (where "Create Sprint" button lives)
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section-lbl">State 0 — Backlog view context (before click)</div>
+<div class="state-section">
+
+  <div class="app-shell" style="border-radius:6px;overflow:hidden;border:1px solid #DFE1E6;height:560px;">
+
+    <!-- Icon nav -->
+    <div class="icon-nav">
+      <div class="logo">J</div>
+      <div class="nav-icon active">⊞</div>
+      <div class="nav-icon">🔍</div>
+      <div class="nav-icon">🔔</div>
+      <div class="nav-icon">⚙</div>
+      <div class="nav-icon" style="margin-top:auto;">👤</div>
+    </div>
+
+    <!-- Project sidebar -->
+    <div class="project-nav">
+      <div class="proj-header">
+        <div class="flex gap-8" style="align-items:center;">
+          <div class="proj-avatar">SA</div>
+          <div>
+            <div class="proj-name">Scrum Alpha</div>
+            <div class="proj-type">Software project</div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:8px 0;">
+        <div class="nav-item"><span class="nav-icon-sm">📋</span>Board</div>
+        <div class="nav-item active"><span class="nav-icon-sm">📦</span>Backlog</div>
+        <div class="nav-item"><span class="nav-icon-sm">📁</span>Releases</div>
+        <div class="nav-item"><span class="nav-icon-sm">📊</span>Reports</div>
+        <div class="nav-item"><span class="nav-icon-sm">⚙</span>Project settings</div>
+      </div>
+    </div>
+
+    <!-- Main area: Backlog -->
+    <div class="main-content">
+      <div class="topbar">
+        <div class="breadcrumb">
+          <a href="#">Projects</a><span class="sep">/</span>
+          <a href="#">Scrum Alpha</a><span class="sep">/</span>
+          <span class="current">Backlog</span>
+        </div>
+      </div>
+      <div class="page-body">
+        <div class="backlog-header">
+          <div>
+            <div class="backlog-title">Backlog</div>
+            <div class="backlog-subtitle">Sprint 4 · Active · 9 days remaining</div>
+          </div>
+          <div class="backlog-actions">
+            <button class="btn btn-default btn-sm">⚙ Board settings</button>
+            <button class="btn btn-primary btn-sm" style="font-weight:700;">
+              + Create Sprint
+            </button>
+          </div>
+        </div>
+
+        <!-- Active sprint section -->
+        <div class="sprint-section">
+          <div class="sprint-section-header">
+            <div class="sprint-section-left">
+              <span class="sprint-toggle">▼</span>
+              <span class="sprint-name-label">Sprint 4</span>
+              <span class="sprint-dates-label">Apr 1 – Apr 14, 2026</span>
+              <span class="status-lozenge loz-active">Active</span>
+            </div>
+            <div class="sprint-actions-group">
+              <span class="sprint-stats-label">6 issues · 22 / 34 SP</span>
+              <button class="btn btn-default btn-sm">Complete Sprint</button>
+            </div>
+          </div>
+          <!-- Tasks -->
+          <div class="backlog-item">
+            <div class="issue-type-icon" style="background:#0052CC;color:#fff;">📖</div>
+            <span class="issue-key">SCRUM-12</span>
+            <span class="issue-summary">Implement user login API endpoint</span>
+            <span class="epic-lozenge" style="background:#EAE6FF;color:#6554C0;">Auth Epic</span>
+            <span class="issue-priority">🔴</span>
+            <div class="issue-assignee" style="background:#0052CC;">AL</div>
+            <span class="sp-pill">5</span>
+          </div>
+          <div class="backlog-item">
+            <div class="issue-type-icon" style="background:#DE350B;color:#fff;">🐛</div>
+            <span class="issue-key">SCRUM-09</span>
+            <span class="issue-summary">Fix cart total calculation bug</span>
+            <span class="epic-lozenge" style="background:#E3FCEF;color:#006644;">Checkout</span>
+            <span class="issue-priority">🟠</span>
+            <div class="issue-assignee" style="background:#36B37E;">BO</div>
+            <span class="sp-pill">3</span>
+          </div>
+          <div class="backlog-item">
+            <div class="issue-type-icon" style="background:#4BADE8;color:#fff;">✅</div>
+            <span class="issue-key">SCRUM-07</span>
+            <span class="issue-summary">Update user profile page UI</span>
+            <span class="epic-lozenge" style="background:#DEEBFF;color:#0052CC;">UI Refresh</span>
+            <span class="issue-priority">🟡</span>
+            <div class="issue-assignee" style="background:#FF5630;">CA</div>
+            <span class="sp-pill">8</span>
+          </div>
+        </div>
+
+        <!-- Backlog section -->
+        <div class="sprint-section">
+          <div class="sprint-section-header">
+            <div class="sprint-section-left">
+              <span class="sprint-toggle">▼</span>
+              <span class="sprint-name-label">Backlog</span>
+            </div>
+            <span class="sprint-stats-label">8 issues · 36 SP</span>
+          </div>
+          <div class="backlog-item">
+            <div class="issue-type-icon" style="background:#0052CC;color:#fff;">📖</div>
+            <span class="issue-key">SCRUM-18</span>
+            <span class="issue-summary">Add two-factor authentication</span>
+            <span class="epic-lozenge" style="background:#EAE6FF;color:#6554C0;">Auth Epic</span>
+            <span class="issue-priority">🟠</span>
+            <div class="issue-assignee" style="background:#FFAB00;color:#172B4D;">DA</div>
+            <span class="sp-pill">13</span>
+          </div>
+          <div class="backlog-item">
+            <div class="issue-type-icon" style="background:#36B37E;color:#fff;">⚡</div>
+            <span class="issue-key">SCRUM-17</span>
+            <span class="issue-summary">Improve search response time</span>
+            <span class="epic-lozenge" style="background:#E3FCEF;color:#006644;">Performance</span>
+            <span class="issue-priority">🟡</span>
+            <div class="issue-assignee" style="background:#0052CC;">AL</div>
+            <span class="sp-pill">5</span>
+          </div>
+        </div>
+
+        <!-- Create Sprint placeholder -->
+        <div class="create-sprint-placeholder">
+          + Create Sprint
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="note">The "+ Create Sprint" button in the top-right opens the modal. The dashed placeholder at bottom also triggers creation.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     STATE 1 — CREATE SPRINT MODAL (empty / default)
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section-lbl">State 1 — Create Sprint modal (default / empty)</div>
+<div class="state-section">
+  <div class="modal-wrap">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Create Sprint</div>
+        <button class="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Sprint Name -->
+        <div class="field-group">
+          <label class="field-label">Sprint Name <span class="required">*</span></label>
+          <input type="text" class="field-input" value="Sprint 5" placeholder="e.g. Sprint 5"/>
+          <div class="field-hint">Auto-generated based on last sprint. You can change it.</div>
+        </div>
+
+        <!-- Duration chips -->
+        <div class="field-group">
+          <label class="field-label">Duration
+            <span class="help-icon">?</span>
+          </label>
+          <div class="duration-chips">
+            <div class="duration-chip">1 week</div>
+            <div class="duration-chip active">2 weeks</div>
+            <div class="duration-chip">3 weeks</div>
+            <div class="duration-chip">4 weeks</div>
+            <div class="duration-chip">Custom</div>
+          </div>
+          <div class="field-hint">Sets the end date automatically based on start date.</div>
+        </div>
+
+        <!-- Dates -->
+        <div class="field-group">
+          <div class="date-row">
+            <div>
+              <label class="field-label">Start Date <span class="required">*</span></label>
+              <input type="text" class="field-input" value="Apr 15, 2026"/>
+            </div>
+            <div class="date-sep">→</div>
+            <div>
+              <label class="field-label">End Date <span class="required">*</span></label>
+              <input type="text" class="field-input" value="Apr 28, 2026"/>
+            </div>
+          </div>
+          <div class="field-hint mt-4">Start date defaults to the day after the last sprint ends.</div>
+        </div>
+
+        <!-- Sprint Goal -->
+        <div class="field-group">
+          <label class="field-label">Sprint Goal</label>
+          <textarea class="field-input field-textarea"
+            placeholder="What does the team aim to achieve this sprint? (optional)"></textarea>
+          <div class="field-hint">A short statement that describes the purpose of this sprint.</div>
+        </div>
+
+        <!-- Capacity (collapsible) -->
+        <div class="accordion-trigger">
+          <span>⚡ Team Capacity (optional)</span>
+          <span class="accordion-chevron">▼</span>
+        </div>
+        <div style="padding:8px 0 4px;">
+          <div class="text-sm text-secondary" style="margin-bottom:10px;">
+            Set available days per member to estimate sprint capacity in story points.
+          </div>
+          <div class="member-row">
+            <div class="member-avatar" style="background:#0052CC;">AL</div>
+            <div class="member-name">Alice L.</div>
+            <div class="flex gap-8" style="align-items:center;">
+              <span class="text-sm text-secondary">Days:</span>
+              <input class="member-days-input" type="number" value="10"/>
+              <span class="member-sp-est">≈ 20 SP</span>
+            </div>
+          </div>
+          <div class="member-row">
+            <div class="member-avatar" style="background:#36B37E;">BO</div>
+            <div class="member-name">Bob O.</div>
+            <div class="flex gap-8" style="align-items:center;">
+              <span class="text-sm text-secondary">Days:</span>
+              <input class="member-days-input" type="number" value="8"/>
+              <span class="member-sp-est">≈ 16 SP</span>
+            </div>
+          </div>
+          <div class="member-row">
+            <div class="member-avatar" style="background:#FF5630;">CA</div>
+            <div class="member-name">Carol A.</div>
+            <div class="flex gap-8" style="align-items:center;">
+              <span class="text-sm text-secondary">Days:</span>
+              <input class="member-days-input" type="number" value="10"/>
+              <span class="member-sp-est">≈ 20 SP</span>
+            </div>
+          </div>
+          <div class="capacity-summary">
+            <div class="cap-stat">
+              <div class="cap-stat-val">28</div>
+              <div class="cap-stat-lbl">Team days</div>
+            </div>
+            <div class="cap-stat">
+              <div class="cap-stat-val" style="color:#0052CC;">56 SP</div>
+              <div class="cap-stat-lbl">Estimated capacity</div>
+            </div>
+            <div class="cap-stat">
+              <div class="cap-stat-val" style="color:#6B778C;">31 SP</div>
+              <div class="cap-stat-lbl">Avg velocity (last 3)</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /modal-body -->
+      <div class="modal-footer">
+        <button class="btn btn-link">Learn about sprints</button>
+        <div class="modal-footer-right">
+          <button class="btn btn-default">Cancel</button>
+          <button class="btn btn-primary">Create Sprint</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note">Duration chips auto-calculate End Date from Start Date. Capacity section is collapsible (closed by default).</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     STATE 2 — MODAL: Validation Error
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section-lbl">State 2 — Validation error (required fields missing)</div>
+<div class="state-section">
+  <div class="modal-wrap">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Create Sprint</div>
+        <button class="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="modal-error-banner">
+          <span class="error-icon">⚠</span>
+          <div>
+            <div style="font-weight:600;margin-bottom:2px;">Fix the following errors to continue</div>
+            <div>• Sprint Name is required<br>• Start Date is required</div>
+          </div>
+        </div>
+
+        <!-- Sprint Name — error state -->
+        <div class="field-group">
+          <label class="field-label">Sprint Name <span class="required">*</span></label>
+          <input type="text" class="field-input is-invalid" value="" placeholder="e.g. Sprint 5"/>
+          <div class="field-input-error show">Sprint Name is required.</div>
+        </div>
+
+        <!-- Duration chips -->
+        <div class="field-group">
+          <label class="field-label">Duration</label>
+          <div class="duration-chips">
+            <div class="duration-chip">1 week</div>
+            <div class="duration-chip active">2 weeks</div>
+            <div class="duration-chip">3 weeks</div>
+            <div class="duration-chip">4 weeks</div>
+            <div class="duration-chip">Custom</div>
+          </div>
+        </div>
+
+        <!-- Dates — start date error -->
+        <div class="field-group">
+          <div class="date-row">
+            <div>
+              <label class="field-label">Start Date <span class="required">*</span></label>
+              <input type="text" class="field-input is-invalid" value="" placeholder="Select date…"/>
+              <div class="field-input-error show">Start Date is required.</div>
+            </div>
+            <div class="date-sep">→</div>
+            <div>
+              <label class="field-label">End Date <span class="required">*</span></label>
+              <input type="text" class="field-input" style="background:#F4F5F7;color:#97A0AF;" value="" placeholder="Auto-calculated"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sprint Goal -->
+        <div class="field-group">
+          <label class="field-label">Sprint Goal</label>
+          <textarea class="field-input field-textarea"
+            placeholder="What does the team aim to achieve this sprint? (optional)"></textarea>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-link">Learn about sprints</button>
+        <div class="modal-footer-right">
+          <button class="btn btn-default">Cancel</button>
+          <button class="btn btn-primary">Create Sprint</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note">Error banner at top lists all issues. Each invalid field gets red border + inline error text. End Date disabled until Start Date is set.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     STATE 3 — MODAL: Filled & Ready to Submit
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section-lbl">State 3 — Modal filled in, ready to create</div>
+<div class="state-section">
+  <div class="modal-wrap">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Create Sprint</div>
+        <button class="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="field-group">
+          <label class="field-label">Sprint Name <span class="required">*</span></label>
+          <input type="text" class="field-input" style="border-color:#36B37E;" value="Sprint 5"/>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Duration</label>
+          <div class="duration-chips">
+            <div class="duration-chip">1 week</div>
+            <div class="duration-chip active">2 weeks</div>
+            <div class="duration-chip">3 weeks</div>
+            <div class="duration-chip">4 weeks</div>
+            <div class="duration-chip">Custom</div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="date-row">
+            <div>
+              <label class="field-label">Start Date <span class="required">*</span></label>
+              <input type="text" class="field-input" style="border-color:#36B37E;" value="Apr 15, 2026"/>
+            </div>
+            <div class="date-sep" style="color:#36B37E;">→</div>
+            <div>
+              <label class="field-label">End Date <span class="required">*</span></label>
+              <input type="text" class="field-input" style="border-color:#36B37E;" value="Apr 28, 2026"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Sprint Goal</label>
+          <textarea class="field-input field-textarea" style="border-color:#4C9AFF;">Complete user authentication module and fix all critical checkout bugs before release v2.1</textarea>
+        </div>
+
+        <!-- Summary preview card -->
+        <div style="background:#F4F5F7;border-radius:3px;padding:12px 14px;margin-top:4px;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;
+            letter-spacing:.5px;color:#6B778C;margin-bottom:8px;">Sprint Summary</div>
+          <div class="flex gap-12" style="flex-wrap:wrap;">
+            <div class="cap-stat">
+              <div class="cap-stat-val">Sprint 5</div>
+              <div class="cap-stat-lbl">Name</div>
+            </div>
+            <div class="cap-stat">
+              <div class="cap-stat-val">14 days</div>
+              <div class="cap-stat-lbl">Duration</div>
+            </div>
+            <div class="cap-stat">
+              <div class="cap-stat-val" style="color:#0052CC;">Apr 15</div>
+              <div class="cap-stat-lbl">Start date</div>
+            </div>
+            <div class="cap-stat">
+              <div class="cap-stat-val" style="color:#0052CC;">Apr 28</div>
+              <div class="cap-stat-lbl">End date</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-link">Learn about sprints</button>
+        <div class="modal-footer-right">
+          <button class="btn btn-default">Cancel</button>
+          <button class="btn btn-primary" style="background:#0747A6;">Create Sprint</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note">All fields valid (green borders). Summary preview card shows final values. "Create Sprint" button fully active.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     STATE 4 — SUCCESS CONFIRMATION
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section-lbl">State 4 — Sprint created successfully</div>
+<div class="state-section">
+  <div class="modal-wrap">
+    <div class="modal" style="width:480px;">
+      <div class="modal-header" style="padding-bottom:0;">
+        <div></div>
+        <button class="modal-close">✕</button>
+      </div>
+      <div class="success-modal-body">
+        <div class="success-icon">🚀</div>
+        <div class="success-title">Sprint 5 Created!</div>
+        <div class="success-subtitle">
+          Your sprint has been created and is ready for planning.<br>
+          Add issues from the backlog to get started.
+        </div>
+        <div class="success-sprint-card">
+          <div class="flex gap-8" style="align-items:center;margin-bottom:8px;">
+            <div class="sprint-badge"><span class="dot"></span>Draft</div>
+            <span style="font-size:13px;color:#6B778C;">Sprint 5</span>
+          </div>
+          <div class="success-sprint-name">Sprint 5</div>
+          <div class="success-sprint-meta">Apr 15 – Apr 28, 2026 · 14 days · 0 issues</div>
+          <div style="margin-top:8px;font-size:12px;color:#6B778C;font-style:italic;">
+            "Complete user authentication module and fix all critical checkout bugs"
+          </div>
+        </div>
+        <div class="flex gap-8" style="justify-content:center;">
+          <button class="btn btn-default">View Backlog</button>
+          <button class="btn btn-primary">Plan Sprint →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note">Success state offers two CTAs: "View Backlog" (continue adding issues) or "Plan Sprint" (opens sprint planning wizard).</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     STATE 5 — QUICK-CREATE INLINE (from backlog row)
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section-lbl">State 5 — Quick-create inline (compact form, no modal)</div>
+<div class="state-section">
+
+  <div style="background:#fff;border:1px solid #DFE1E6;border-radius:4px;overflow:hidden;max-width:860px;">
+    <!-- Backlog header row -->
+    <div style="display:flex;align-items:center;justify-content:space-between;
+      padding:10px 16px;border-bottom:1px solid #DFE1E6;background:#F4F5F7;">
+      <div style="font-weight:700;font-size:13px;">Backlog <span style="color:#6B778C;font-weight:400;">8 issues · 36 SP</span></div>
+    </div>
+    <!-- A couple of backlog items -->
+    <div class="backlog-item">
+      <div class="issue-type-icon" style="background:#0052CC;color:#fff;">📖</div>
+      <span class="issue-key">SCRUM-18</span>
+      <span class="issue-summary">Add two-factor authentication</span>
+      <span class="issue-priority">🟠</span>
+      <div class="issue-assignee" style="background:#FFAB00;color:#172B4D;">DA</div>
+      <span class="sp-pill">13</span>
+    </div>
+    <div class="backlog-item">
+      <div class="issue-type-icon" style="background:#36B37E;color:#fff;">⚡</div>
+      <span class="issue-key">SCRUM-17</span>
+      <span class="issue-summary">Improve search response time</span>
+      <span class="issue-priority">🟡</span>
+      <div class="issue-assignee" style="background:#0052CC;">AL</div>
+      <span class="sp-pill">5</span>
+    </div>
+
+    <!-- Inline create form (appears at bottom of backlog) -->
+    <div class="inline-create">
+      <div class="inline-create-title">
+        <span>➕ New Sprint</span>
+        <button class="btn btn-link" style="font-size:12px;">Full form →</button>
+      </div>
+      <div class="inline-create-row">
+        <div class="inline-field" style="flex:1;min-width:160px;">
+          <span class="inline-label">Name</span>
+          <input class="inline-input" type="text" value="Sprint 5"/>
+        </div>
+        <div class="inline-field">
+          <span class="inline-label">Start</span>
+          <input class="inline-input w-130" type="text" value="Apr 15, 2026"/>
+        </div>
+        <div class="inline-field">
+          <span class="inline-label">End</span>
+          <input class="inline-input w-130" type="text" value="Apr 28, 2026"/>
+        </div>
+        <div class="inline-field">
+          <span class="inline-label">Duration</span>
+          <select class="inline-input w-130" style="appearance:none;padding-right:20px;">
+            <option>2 weeks</option>
+            <option>1 week</option>
+            <option>3 weeks</option>
+            <option>Custom</option>
+          </select>
+        </div>
+        <div class="inline-field" style="padding-bottom:0;">
+          <span class="inline-label">&nbsp;</span>
+          <div class="flex gap-8">
+            <button class="btn btn-primary btn-sm">Save</button>
+            <button class="btn btn-default btn-sm">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="note">Quick-create shows inline at bottom of backlog. "Full form →" opens the modal with all options. Pressing Enter saves; Escape cancels.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     STATE 6 — SPRINT IN BACKLOG after creation (new sprint row)
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section-lbl">State 6 — Backlog after sprint creation (new sprint row visible)</div>
+<div class="state-section">
+  <div style="max-width:860px;">
+    <!-- Active sprint (collapsed) -->
+    <div class="sprint-section" style="margin-bottom:8px;">
+      <div class="sprint-section-header">
+        <div class="sprint-section-left">
+          <span class="sprint-toggle">▶</span>
+          <span class="sprint-name-label">Sprint 4</span>
+          <span class="sprint-dates-label">Apr 1 – Apr 14, 2026</span>
+          <span class="status-lozenge loz-active">Active</span>
+        </div>
+        <div class="sprint-actions-group">
+          <span class="sprint-stats-label">6 issues · 22 / 34 SP</span>
+          <button class="btn btn-default btn-sm">Complete Sprint</button>
+        </div>
+      </div>
+      <!-- collapsed, no items shown -->
+    </div>
+
+    <!-- NEW Sprint 5 (just created, Draft, 0 issues) — highlighted -->
+    <div class="sprint-section" style="border:2px solid #4C9AFF;margin-bottom:8px;">
+      <div class="sprint-section-header" style="background:#F0F7FF;">
+        <div class="sprint-section-left">
+          <span class="sprint-toggle">▼</span>
+          <span class="sprint-name-label">Sprint 5</span>
+          <span class="sprint-dates-label">Apr 15 – Apr 28, 2026</span>
+          <span class="status-lozenge loz-draft">Draft</span>
+          <span style="font-size:11px;background:#E3FCEF;color:#006644;
+            border-radius:3px;padding:1px 8px;font-weight:700;">✓ Just created</span>
+        </div>
+        <div class="sprint-actions-group">
+          <span class="sprint-stats-label text-secondary">0 issues · 0 SP</span>
+          <button class="btn btn-default btn-sm">Start Sprint</button>
+          <button class="btn btn-default btn-sm">⋯</button>
+        </div>
+      </div>
+      <!-- Empty sprint: drag issues here CTA -->
+      <div style="padding:24px;text-align:center;color:#97A0AF;font-size:13px;">
+        <div style="font-size:28px;margin-bottom:6px;">📋</div>
+        <div style="font-weight:500;color:#6B778C;margin-bottom:4px;">No issues in this sprint yet</div>
+        <div>Drag issues from the Backlog, or <button class="btn btn-link">create new issues</button> to add them.</div>
+      </div>
+    </div>
+
+    <!-- Backlog (unchanged) -->
+    <div class="sprint-section">
+      <div class="sprint-section-header">
+        <div class="sprint-section-left">
+          <span class="sprint-toggle">▼</span>
+          <span class="sprint-name-label">Backlog</span>
+        </div>
+        <span class="sprint-stats-label">8 issues · 36 SP</span>
+      </div>
+      <div class="backlog-item">
+        <div class="issue-type-icon" style="background:#0052CC;color:#fff;">📖</div>
+        <span class="issue-key">SCRUM-18</span>
+        <span class="issue-summary">Add two-factor authentication</span>
+        <span class="epic-lozenge" style="background:#EAE6FF;color:#6554C0;">Auth Epic</span>
+        <span class="issue-priority">🟠</span>
+        <div class="issue-assignee" style="background:#FFAB00;color:#172B4D;">DA</div>
+        <span class="sp-pill">13</span>
+      </div>
+      <div class="backlog-item">
+        <div class="issue-type-icon" style="background:#36B37E;color:#fff;">⚡</div>
+        <span class="issue-key">SCRUM-17</span>
+        <span class="issue-summary">Improve search response time</span>
+        <span class="epic-lozenge" style="background:#E3FCEF;color:#006644;">Performance</span>
+        <span class="issue-priority">🟡</span>
+        <div class="issue-assignee" style="background:#0052CC;">AL</div>
+        <span class="sp-pill">5</span>
+      </div>
+    </div>
+  </div>
+  <div class="note">New sprint row highlighted with blue border + "✓ Just created" badge. Empty state inside sprint prompts drag-and-drop or issue creation. Start Sprint button visible.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     INTERACTION & ACCESSIBILITY NOTES
+══════════════════════════════════════════════════════════════════════ -->
+<div class="section-lbl">Interaction &amp; Accessibility Notes</div>
+<div style="background:#fff;border:1px solid #DFE1E6;border-radius:4px;
+  padding:16px 20px;font-size:12px;line-height:2;color:#172B4D;max-width:860px;margin-bottom:48px;">
+  <p><strong>Trigger:</strong> "+ Create Sprint" button (top-right of Backlog header) OR dashed placeholder at bottom of backlog.</p>
+  <p><strong>Duration chips:</strong> Selecting a chip auto-calculates End Date = Start Date + N weeks (business days). Selecting "Custom" enables manual End Date input.</p>
+  <p><strong>Start Date default:</strong> Day after active sprint's end date. If no active sprint, defaults to today.</p>
+  <p><strong>Name auto-generation:</strong> "Sprint N" where N = last sprint number + 1. Editable.</p>
+  <p><strong>Capacity section:</strong> Collapsed by default. Expanding loads team members from project. SP estimate = (days × velocity_per_day). Read-only estimate, not stored.</p>
+  <p><strong>Validation:</strong> Sprint Name + Start Date required. End Date required but auto-filled. Goal is optional.</p>
+  <p><strong>Keyboard:</strong> Tab navigation through all fields. Enter submits form. Escape closes modal (with confirmation if dirty).</p>
+  <p><strong>After create:</strong> Modal closes → success toast "Sprint 5 created" → new sprint row appears in backlog with blue highlight (fades after 3s) + Draft badge.</p>
+  <p><strong>ARIA:</strong> <code>role="dialog"</code>, <code>aria-labelledby="modal-title"</code>, focus trapped inside modal, focus returns to trigger button on close.</p>
+  <p><strong>Overlap check:</strong> If start/end dates overlap with an existing draft sprint, show inline warning (not a hard block).</p>
+</div>
+
+</div><!-- /wireframe-page -->
+</body>
+</html>
