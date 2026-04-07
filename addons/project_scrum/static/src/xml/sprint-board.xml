@@ -94,6 +94,7 @@
                 <div class="o-sprint-board__filter-chips">
                     <button class="o-sprint-board__chip o-sprint-board__chip--active">All</button>
                     <button class="o-sprint-board__chip">My Issues</button>
+                    <button class="o-sprint-board__chip">Due Soon</button>
                     <button class="o-sprint-board__chip">Blocked</button>
                 </div>
 

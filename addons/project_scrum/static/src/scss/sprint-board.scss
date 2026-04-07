@@ -64,7 +64,7 @@
     padding: 4px 12px;
     border-radius: $badge-radius;
     border: 1px solid $border-color;
-    background: transparent;
+    background: $surface;
     color: $text-secondary;
     font-size: $font-size-sm;
     font-weight: 600;
@@ -131,8 +131,8 @@
 .o-sprint-board__columns {
     display: flex;
     flex: 1;
-    gap: $gap-sm;
-    padding: $gap-md;
+    gap: 10px;
+    padding: 12px $gap-md;
     overflow-x: auto;
     overflow-y: hidden;
     align-items: flex-start;
@@ -165,9 +165,7 @@
 .o-sprint-board__col-name {
     font-weight: 700;
     font-size: $font-size-sm;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: $text-secondary;
+    color: $text-primary;
 }
 
 .o-sprint-board__col-meta {
@@ -225,6 +223,7 @@
 // ── Column footer: create issue ───────────────────────────────────────────────
 .o-sprint-board__col-footer {
     padding: $gap-sm;
+    border-top: 1px solid $border-color;
 }
 
 .o-sprint-board__col-add-btn {
@@ -254,8 +253,8 @@
     background: $surface;
     border: 1px solid $border-color;
     border-radius: 8px;
-    padding: $gap-sm 10px;
-    cursor: grab;
+    padding: 10px 10px 8px;
+    cursor: pointer;
     user-select: none;
     box-shadow: $card-shadow;
     transition: box-shadow 200ms, transform 200ms;
@@ -269,8 +268,8 @@
     &--dragging {
         cursor: grabbing;
         opacity: 0.5;
+        border: 2px dashed $scrum-primary;
         box-shadow: none;
-        transform: rotate(2deg) scale(0.98);
     }
 
     // Red left border for blocked tasks
@@ -285,7 +284,7 @@
     display: flex;
     align-items: center;
     gap: $gap-xs;
-    margin-bottom: $gap-xs;
+    margin-bottom: 6px;
 }
 
 .o-sprint-board__priority-dot {
@@ -330,7 +329,7 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     color: $text-primary;
-    margin-bottom: $gap-xs;
+    margin-bottom: 6px;
 }
 
 // ── Blocked badge ─────────────────────────────────────────────────────────────
@@ -379,11 +378,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    font-size: $font-size-xs;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 10px;
+    font-size: 9px;
     font-weight: 700;
+    padding: 0 4px;
     background: $scrum-primary-lt;
     color: $scrum-primary;
     flex-shrink: 0;

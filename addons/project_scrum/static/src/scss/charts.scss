@@ -26,7 +26,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: $font-size-base;
+    font-size: 12px;
     font-weight: 700;
     color: $text-primary;
 }
@@ -137,7 +137,7 @@
 
 .o-scrum-chart__stat-val {
     font-size: $font-dash-stat;
-    font-weight: 700;
+    font-weight: 800;
     color: $text-primary;
     line-height: 1.2;
 
@@ -148,6 +148,9 @@
 
 .o-scrum-chart__stat-lbl {
     font-size: $font-size-xs;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     color: $text-secondary;
 }
 

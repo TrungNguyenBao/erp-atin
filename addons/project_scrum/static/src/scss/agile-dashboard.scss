@@ -86,8 +86,8 @@
 .o-agile-dashboard__grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: $gap-md;
-    padding: $gap-md;
+    gap: 14px;
+    padding: 20px;
 
     // Sprint hero = full-width row 1
     .o-agile-dashboard__card--sprint { grid-column: 1 / -1; }
@@ -100,12 +100,18 @@
     background: $surface;
     border: 1px solid $border-color;
     border-radius: $card-radius;
-    padding: $gap-md;
+    padding: 14px;
     display: flex;
     flex-direction: column;
     gap: $gap-sm;
     min-height: 160px;
     box-shadow: $card-shadow;
+    transition: box-shadow 200ms, transform 200ms;
+
+    &:hover {
+        box-shadow: $card-shadow-hover;
+        transform: translateY(-2px);
+    }
 }
 
 .o-agile-dashboard__card-header {
@@ -123,7 +129,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: $text-secondary;
+    color: $text-primary;
 }
 
 .o-agile-dashboard__card-subtitle {
@@ -143,15 +149,16 @@
 .o-agile-dashboard__sprint-hero {
     background: linear-gradient(135deg, #2563EB, #1D4ED8);
     border-radius: $card-radius;
-    padding: $gap-lg $gap-lg $gap-md;
+    padding: 18px 20px;
     color: #fff;
 }
 
 .o-agile-dashboard__sprint-hero-label {
     font-size: $font-size-sm;
+    font-weight: 600;
     opacity: 0.7;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     margin-bottom: $gap-xs;
 }
 
@@ -165,24 +172,26 @@
 .o-agile-dashboard__sprint-hero-dates {
     font-size: $font-size-sm;
     opacity: 0.7;
-    margin-bottom: $gap-md;
+    margin-bottom: 14px;
 }
 
 .o-agile-dashboard__sprint-hero-stats {
     display: flex;
     gap: 20px;
-    margin-bottom: $gap-sm;
+    margin-bottom: 14px;
 }
 
 .o-agile-dashboard__sprint-hero-stat {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 2px;
+    text-align: center;
 }
 
 .o-agile-dashboard__sprint-hero-stat-val {
     font-size: $font-size-xl;
-    font-weight: 700;
+    font-weight: 800;
     color: #fff;
     line-height: 1.2;
 }
@@ -265,7 +274,7 @@
 
 .o-agile-dashboard__workload-bar {
     flex: 1;
-    height: 6px;
+    height: 5px;
     background: $border-color;
     border-radius: 100px;
     overflow: hidden;
@@ -337,7 +346,7 @@
     align-items: flex-start;
     gap: $gap-sm;
     padding: $gap-xs 0;
-    border-bottom: 1px solid rgba($border-color, 0.5);
+    border-bottom: 1px solid $bg;
 
     &:last-child { border-bottom: none; }
 }
