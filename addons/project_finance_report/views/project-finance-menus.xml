@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top menu under Accounting -->
+    <menuitem id="menu_project_finance_root"
+              name="Project Finance"
+              parent="account.menu_finance"
+              sequence="50"/>
+
+    <!-- Revenue report -->
+    <menuitem id="menu_revenue_report"
+              name="Revenue by Project"
+              parent="menu_project_finance_root"
+              action="action_revenue_report"
+              sequence="10"/>
+
+    <!-- Receivable report -->
+    <menuitem id="menu_receivable_report"
+              name="Receivable by Project"
+              parent="menu_project_finance_root"
+              action="action_receivable_report"
+              sequence="20"/>
+
+    <!-- Payable report -->
+    <menuitem id="menu_payable_report"
+              name="Payable by Project"
+              parent="menu_project_finance_root"
+              action="action_payable_report"
+              sequence="30"/>
+
+    <!-- Wizard filter -->
+    <menuitem id="menu_finance_wizard"
+              name="Report Filter"
+              parent="menu_project_finance_root"
+              action="action_project_finance_wizard"
+              sequence="40"/>
+
+    <!-- Dashboard -->
+    <menuitem id="menu_finance_dashboard"
+              name="Financial Dashboard"
+              parent="menu_project_finance_root"
+              action="action_finance_dashboard"
+              sequence="5"/>
+</odoo>

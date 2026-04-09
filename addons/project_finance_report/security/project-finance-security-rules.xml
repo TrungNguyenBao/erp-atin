@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Salesperson: see only own SO-based revenue -->
+    <record id="rule_revenue_own_salesperson" model="ir.rule">
+        <field name="name">Revenue: salesperson sees own deals</field>
+        <field name="model_id" ref="model_project_revenue_report"/>
+        <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- Sales Manager: see all revenue (no restriction) -->
+    <record id="rule_revenue_all_sales_manager" model="ir.rule">
+        <field name="name">Revenue: sales manager sees all</field>
+        <field name="model_id" ref="model_project_revenue_report"/>
+        <field name="groups" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- Salesperson: see only own customer receivables via invoice_user_id -->
+    <record id="rule_receivable_own_salesperson" model="ir.rule">
+        <field name="name">Receivable: salesperson sees own customers</field>
+        <field name="model_id" ref="model_project_receivable_report"/>
+        <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="domain_force">[('invoice_user_id', '=', user.id)]</field>
+    </record>
+
+    <!-- Multi-company rules -->
+    <record id="rule_revenue_company" model="ir.rule">
+        <field name="name">Revenue: multi-company</field>
+        <field name="model_id" ref="model_project_revenue_report"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_receivable_company" model="ir.rule">
+        <field name="name">Receivable: multi-company</field>
+        <field name="model_id" ref="model_project_receivable_report"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_payable_company" model="ir.rule">
+        <field name="name">Payable: multi-company</field>
+        <field name="model_id" ref="model_project_payable_report"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

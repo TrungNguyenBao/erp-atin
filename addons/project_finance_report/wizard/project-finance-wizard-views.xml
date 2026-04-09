@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_finance_wizard_form" model="ir.ui.view">
+        <field name="name">project.finance.wizard.form</field>
+        <field name="model">project.finance.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Project Finance Report">
+                <group>
+                    <group>
+                        <field name="report_type"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="project_ids" widget="many2many_tags"/>
+                        <field name="partner_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_view_report" type="object"
+                            string="View Report" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_project_finance_wizard" model="ir.actions.act_window">
+        <field name="name">Project Finance Filter</field>
+        <field name="res_model">project.finance.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

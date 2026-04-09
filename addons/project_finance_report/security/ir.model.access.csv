@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_revenue_accountant,revenue.accountant,model_project_revenue_report,account.group_account_readonly,1,0,0,0
+access_revenue_sales,revenue.sales,model_project_revenue_report,sales_team.group_sale_salesman,1,0,0,0
+access_receivable_accountant,receivable.accountant,model_project_receivable_report,account.group_account_readonly,1,0,0,0
+access_receivable_sales,receivable.sales,model_project_receivable_report,sales_team.group_sale_salesman,1,0,0,0
+access_payable_accountant,payable.accountant,model_project_payable_report,account.group_account_readonly,1,0,0,0
+access_payable_purchase,payable.purchase,model_project_payable_report,purchase.group_purchase_user,1,0,0,0
+access_wizard_accountant,wizard.accountant,model_project_finance_wizard,account.group_account_readonly,1,1,1,1
+access_wizard_sales,wizard.sales,model_project_finance_wizard,sales_team.group_sale_salesman,1,1,1,1
+access_wizard_purchase,wizard.purchase,model_project_finance_wizard,purchase.group_purchase_user,1,1,1,1

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree view -->
+    <record id="payable_report_tree" model="ir.ui.view">
+        <field name="name">project.payable.report.tree</field>
+        <field name="model">project.payable.report</field>
+        <field name="arch" type="xml">
+            <list string="Payable by Project" create="false" edit="false" delete="false">
+                <field name="invoice_number"/>
+                <field name="project_id"/>
+                <field name="partner_id" string="Supplier"/>
+                <field name="invoice_origin" string="PO"/>
+                <field name="invoice_date"/>
+                <field name="invoice_date_due"/>
+                <field name="amount_total" sum="Total"/>
+                <field name="amount_paid" sum="Total Paid"/>
+                <field name="amount_residual" sum="Total Due"
+                       decoration-danger="amount_residual &gt; 0"/>
+                <field name="days_overdue"/>
+                <field name="not_due" sum="Not Due"/>
+                <field name="overdue_1_30" sum="1-30d"/>
+                <field name="overdue_31_60" sum="31-60d"/>
+                <field name="overdue_61_90" sum="61-90d"/>
+                <field name="overdue_91_plus" sum="91+d"
+                       decoration-danger="overdue_91_plus &gt; 0"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Pivot view -->
+    <record id="payable_report_pivot" model="ir.ui.view">
+        <field name="name">project.payable.report.pivot</field>
+        <field name="model">project.payable.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Payable Aging">
+                <field name="partner_id" type="row"/>
+                <field name="not_due" type="measure"/>
+                <field name="overdue_1_30" type="measure"/>
+                <field name="overdue_31_60" type="measure"/>
+                <field name="overdue_61_90" type="measure"/>
+                <field name="overdue_91_plus" type="measure"/>
+                <field name="amount_residual" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph view -->
+    <record id="payable_report_graph" model="ir.ui.view">
+        <field name="name">project.payable.report.graph</field>
+        <field name="model">project.payable.report</field>
+        <field name="arch" type="xml">
+            <graph string="Payable by Supplier" type="bar" stacked="True">
+                <field name="partner_id"/>
+                <field name="not_due" type="measure"/>
+                <field name="overdue_1_30" type="measure"/>
+                <field name="overdue_31_60" type="measure"/>
+                <field name="overdue_61_90" type="measure"/>
+                <field name="overdue_91_plus" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Search view -->
+    <record id="payable_report_search" model="ir.ui.view">
+        <field name="name">project.payable.report.search</field>
+        <field name="model">project.payable.report</field>
+        <field name="arch" type="xml">
+            <search string="Payable Report">
+                <field name="project_id"/>
+                <field name="partner_id" string="Supplier"/>
+                <field name="invoice_origin" string="Source PO"/>
+                <filter name="overdue" string="Overdue"
+                        domain="[('days_overdue', '&gt;', 0)]"/>
+                <filter name="overdue_60" string="Overdue &gt; 60 days"
+                        domain="[('days_overdue', '&gt;', 60)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_project" string="Project"
+                            context="{'group_by': 'project_id'}"/>
+                    <filter name="group_partner" string="Supplier"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_due_month" string="Due Month"
+                            context="{'group_by': 'invoice_date_due:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_payable_report" model="ir.actions.act_window">
+        <field name="name">Payable by Project</field>
+        <field name="res_model">project.payable.report</field>
+        <field name="view_mode">tree,pivot,graph</field>
+        <field name="search_view_id" ref="payable_report_search"/>
+    </record>
+</odoo>
