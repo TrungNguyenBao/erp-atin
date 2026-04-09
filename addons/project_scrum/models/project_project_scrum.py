@@ -39,6 +39,11 @@ class ProjectProjectScrum(models.Model):
         groups='project_scrum.group_project_scrum',
         help='Predicted next sprint capacity based on 3-sprint rolling average')
 
+    wip_limit = fields.Integer(
+        string='WIP Limit', default=0,
+        groups='project_scrum.group_project_scrum',
+        help='Maximum tasks per stage column on Sprint Board. 0 = no limit.')
+
     # Phase 3: standup digest toggle
     enable_standup_digest = fields.Boolean(
         string='Daily Standup Digest',

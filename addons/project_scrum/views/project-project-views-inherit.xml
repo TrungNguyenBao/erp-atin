@@ -20,6 +20,12 @@
                     <field name="enable_standup_digest"
                            invisible="methodology != 'scrum'"/>
                 </setting>
+                <setting class="col-lg-12" id="project_wip_limit_setting"
+                         help="Maximum tasks per column on Sprint Board (0 = no limit)"
+                         groups="project_scrum.group_project_scrum">
+                    <field name="wip_limit"
+                           invisible="methodology != 'scrum'"/>
+                </setting>
             </xpath>
             <!-- Add sprint count stat button in button_box -->
             <xpath expr="//div[@name='button_box']" position="inside">

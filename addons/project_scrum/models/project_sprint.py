@@ -29,6 +29,11 @@ class ProjectSprint(models.Model):
         'project.project', required=True, ondelete='cascade',
         tracking=True, index=True)
     goal = fields.Text(string='Sprint Goal', tracking=True)
+    scrum_master_id = fields.Many2one(
+        'res.users', string='Scrum Master',
+        tracking=True,
+        groups='project_scrum.group_project_scrum',
+        help='Scrum Master responsible for this sprint')
     start_date = fields.Date(required=True, tracking=True)
     end_date = fields.Date(required=True, tracking=True)
     state = fields.Selection(
@@ -235,6 +240,7 @@ class ProjectSprint(models.Model):
     def get_board_data(self):
         """Return sprint board data grouped by stage for OWL Sprint Board."""
         self.ensure_one()
+        wip_limit = self.project_id.wip_limit or 0
         stages = self.project_id.type_ids.sorted('sequence')
         result = []
         for stage in stages:
@@ -258,15 +264,21 @@ class ProjectSprint(models.Model):
                     'is_blocked': t.is_blocked,
                     'blocker_description': t.blocker_description or '',
                 })
+            task_count = len(task_data)
             result.append({
                 'stage_id': stage.id,
                 'stage_name': stage.name,
                 'is_closed': stage.fold,
                 'tasks': task_data,
-                'task_count': len(task_data),
+                'task_count': task_count,
                 'total_sp': sum(t['story_points'] for t in task_data),
+                'wip_exceeded': wip_limit > 0 and task_count > wip_limit,
             })
-        return result
+        return {
+            'columns': result,
+            'wip_limit': wip_limit,
+            'scrum_master': self.scrum_master_id.name or '',
+        }
 
     def get_backlog_tasks(self):
         """Return unassigned backlog tasks for the sprint board sidebar."""

@@ -110,14 +110,16 @@ class TestSprintLifecycle(ScrumTestCommon):
         self.assertIn('Sprint Display', sprint.display_name)
 
     def test_get_board_data_structure(self):
-        """get_board_data returns list of stage dicts with tasks."""
+        """get_board_data returns dict with columns, wip_limit, scrum_master."""
         sprint = self._create_sprint('Board Data Sprint', state='active')
         self._create_task('Board Task', sprint=sprint, story_points=3,
                           stage=self.stage_todo)
         data = sprint.get_board_data()
-        self.assertIsInstance(data, list)
+        self.assertIsInstance(data, dict)
+        self.assertIn('columns', data)
+        self.assertIn('wip_limit', data)
         # At least one column must have our task
-        all_tasks = [t for col in data for t in col['tasks']]
+        all_tasks = [t for col in data['columns'] for t in col['tasks']]
         task_names = [t['name'] for t in all_tasks]
         self.assertIn('Board Task', task_names)
 
@@ -127,7 +129,7 @@ class TestSprintLifecycle(ScrumTestCommon):
         self._create_task('Field Task', sprint=sprint, story_points=2,
                           stage=self.stage_todo)
         data = sprint.get_board_data()
-        for col in data:
+        for col in data['columns']:
             for task in col['tasks']:
                 for key in ('id', 'name', 'story_points', 'task_type',
                             'is_blocked', 'user_id', 'user_name'):

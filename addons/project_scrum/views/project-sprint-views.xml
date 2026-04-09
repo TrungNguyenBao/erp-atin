@@ -54,6 +54,7 @@
                             <field name="project_id"
                                    options="{'no_create': True}"
                                    readonly="state != 'draft'"/>
+                            <field name="scrum_master_id"/>
                             <field name="start_date"/>
                             <field name="end_date"/>
                         </group>

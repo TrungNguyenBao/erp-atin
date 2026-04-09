@@ -72,12 +72,14 @@ class SprintBoard extends Component {
     async _loadBoardData(sprintId) {
         this.state.loading = true;
         try {
-            const [columns, backlogTasks] = await Promise.all([
+            const [boardData, backlogTasks] = await Promise.all([
                 this.orm.call("project.sprint", "get_board_data", [[sprintId]]),
                 this.orm.call("project.sprint", "get_backlog_tasks", [[sprintId]]),
             ]);
-            this.state.columns      = columns;
+            this.state.columns      = boardData.columns || boardData;
             this.state.backlogTasks = backlogTasks;
+            this.state.wipLimit     = boardData.wip_limit || 0;
+            this.state.scrumMaster  = boardData.scrum_master || '';
         } catch (e) {
             this.notification.add("Failed to load board data.", { type: "danger" });
         } finally {
