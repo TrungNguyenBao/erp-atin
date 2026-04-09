@@ -96,7 +96,7 @@
     <record id="action_revenue_report" model="ir.actions.act_window">
         <field name="name">Revenue by Project</field>
         <field name="res_model">project.revenue.report</field>
-        <field name="view_mode">pivot,tree,graph</field>
+        <field name="view_mode">pivot,list,graph</field>
         <field name="search_view_id" ref="revenue_report_search"/>
         <field name="context">{'group_by': ['project_id']}</field>
     </record>

@@ -55,7 +55,7 @@ class ProjectFinanceWizard(models.TransientModel):
             'type': 'ir.actions.act_window',
             'name': cfg['name'],
             'res_model': cfg['model'],
-            'view_mode': 'pivot,tree,graph',
+            'view_mode': 'pivot,list,graph',
             'domain': domain,
             'target': 'current',
             'context': {'group_by': ['project_id']},
