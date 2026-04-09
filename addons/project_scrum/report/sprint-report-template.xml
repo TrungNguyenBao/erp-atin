@@ -80,7 +80,7 @@
                                         <th>Completion</th>
                                         <td><t t-esc="'%.1f%%' % sprint.completion_percentage"/></td>
                                     </tr>
-                                    <t t-if="sprint.state == 'closed'">
+                                    <t t-if="sprint.state == 'done'">
                                         <tr>
                                             <th>Velocity (Final)</th>
                                             <td><t t-esc="sprint.velocity"/> SP</td>

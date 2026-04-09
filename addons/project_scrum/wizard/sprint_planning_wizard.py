@@ -49,7 +49,7 @@ class SprintPlanningWizard(models.TransientModel):
         if not self.backlog_task_ids:
             raise UserError(_('Please select at least one task to assign.'))
         # H4 fix: server-side state validation
-        if self.sprint_id.state == 'closed':
-            raise UserError(_('Cannot assign tasks to a closed sprint.'))
+        if self.sprint_id.state in ('done', 'cancelled'):
+            raise UserError(_('Cannot assign tasks to a completed or cancelled sprint.'))
         self.backlog_task_ids.write({'sprint_id': self.sprint_id.id})
         return {'type': 'ir.actions.act_window_close'}

@@ -85,8 +85,8 @@ class ScrumTestCommon(TransactionCase):
         })
         if state == 'active':
             sprint.write({'state': 'active'})
-        elif state == 'closed':
-            sprint.write({'state': 'closed'})
+        elif state == 'done':
+            sprint.write({'state': 'done'})
         return sprint
 
     @classmethod

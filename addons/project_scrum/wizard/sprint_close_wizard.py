@@ -13,7 +13,7 @@ class SprintCloseWizard(models.TransientModel):
 
     sprint_id = fields.Many2one(
         'project.sprint', required=True, string='Sprint',
-        domain="[('state', '=', 'active')]",
+        domain="[('state', 'in', ['active', 'review'])]",
         default=lambda self: self.env.context.get('default_sprint_id'))
     project_id = fields.Many2one(
         related='sprint_id.project_id', readonly=True)
@@ -50,8 +50,8 @@ class SprintCloseWizard(models.TransientModel):
         """Close the sprint: snapshot velocity, handle incomplete tasks."""
         self.ensure_one()
         sprint = self.sprint_id
-        if sprint.state != 'active':
-            raise UserError(_('Only active sprints can be closed.'))
+        if sprint.state not in ('active', 'review'):
+            raise UserError(_('Only active or in-review sprints can be closed.'))
 
         # Snapshot velocity before moving tasks
         sprint.velocity = sprint.completed_points
@@ -65,5 +65,5 @@ class SprintCloseWizard(models.TransientModel):
                 self.incomplete_task_ids.write({'sprint_id': False})
 
         # Close the sprint
-        sprint.write({'state': 'closed'})
+        sprint.write({'state': 'done'})
         return {'type': 'ir.actions.act_window_close'}

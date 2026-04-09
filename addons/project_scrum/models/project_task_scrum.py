@@ -8,7 +8,7 @@ class ProjectTaskScrum(models.Model):
 
     sprint_id = fields.Many2one(
         'project.sprint', string='Sprint',
-        domain="[('project_id', '=', project_id), ('state', '!=', 'closed')]",
+        domain="[('project_id', '=', project_id), ('state', 'not in', ['done', 'cancelled'])]",
         tracking=True, index=True,
         groups='project_scrum.group_project_scrum')
     story_points = fields.Integer(

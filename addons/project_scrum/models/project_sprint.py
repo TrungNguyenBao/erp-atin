@@ -10,7 +10,9 @@ from odoo.addons.project.models.project_task import CLOSED_STATES
 SPRINT_STATES = [
     ('draft', 'Draft'),
     ('active', 'Active'),
-    ('closed', 'Closed'),
+    ('review', 'In Review'),
+    ('done', 'Done'),
+    ('cancelled', 'Cancelled'),
 ]
 
 
@@ -152,6 +154,14 @@ class ProjectSprint(models.Model):
             raise ValidationError(_('Only draft sprints can be started.'))
         self.write({'state': 'active'})
 
+    def action_review_sprint(self):
+        """Transition sprint from active to review."""
+        self.ensure_one()
+        if self.state != 'active':
+            raise ValidationError(
+                _('Only active sprints can be moved to review.'))
+        self.write({'state': 'review'})
+
     def action_close_sprint(self):
         """Open the sprint close wizard."""
         self.ensure_one()
@@ -163,6 +173,15 @@ class ProjectSprint(models.Model):
             'target': 'new',
             'context': {'default_sprint_id': self.id},
         }
+
+    def action_cancel_sprint(self):
+        """Cancel sprint: return all tasks to backlog."""
+        self.ensure_one()
+        if self.state not in ('draft', 'active'):
+            raise ValidationError(
+                _('Only draft or active sprints can be cancelled.'))
+        self.task_ids.write({'sprint_id': False})
+        self.write({'state': 'cancelled'})
 
     # -------------------------------------------------------------------------
     # Display

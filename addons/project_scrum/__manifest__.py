@@ -2,7 +2,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '18.0.5.0.0',
+    'version': '18.0.6.0.0',
     'category': 'Services/Project',
     'summary': 'Scrum/Agile workflow: sprints, story points, velocity tracking',
     'description': """

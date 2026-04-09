@@ -37,6 +37,6 @@ class SprintVelocityReport(models.Model):
                         ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
                     ) AS rolling_avg_3
                 FROM project_sprint s
-                WHERE s.state = 'closed' AND s.velocity > 0
+                WHERE s.state = 'done' AND s.velocity > 0
             )
         """ % self._table)

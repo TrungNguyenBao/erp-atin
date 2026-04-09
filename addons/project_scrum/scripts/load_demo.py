@@ -47,7 +47,7 @@ with registry.cursor() as cr:
         'name': 'Sprint 1 - Foundation', 'project_id': project.id,
         'goal': 'Set up infrastructure and core authentication',
         'start_date': today - timedelta(weeks=4), 'end_date': today - timedelta(weeks=2),
-        'state': 'closed', 'capacity_points': 21, 'velocity': 18,
+        'state': 'done', 'capacity_points': 21, 'velocity': 18,
         'review_notes': '<p>Completed core auth. OAuth deferred.</p>',
         'retro_went_well': '<p>Good collaboration. CI/CD set up early.</p>',
         'retro_went_wrong': '<p>Underestimated OAuth complexity.</p>',

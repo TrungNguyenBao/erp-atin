@@ -82,7 +82,7 @@ class ProjectProjectScrum(models.Model):
         for project in self:
             closed_sprints = self.env['project.sprint'].search([
                 ('project_id', '=', project.id),
-                ('state', '=', 'closed'),
+                ('state', '=', 'done'),
                 ('velocity', '>', 0),
             ], order='end_date desc', limit=3)
             if closed_sprints:
@@ -185,7 +185,7 @@ class ProjectProjectScrum(models.Model):
         """Return velocity chart data for OWL VelocityChart widget."""
         self.ensure_one()
         closed_sprints = self.env['project.sprint'].search(
-            [('project_id', '=', self.id), ('state', '=', 'closed')],
+            [('project_id', '=', self.id), ('state', '=', 'done')],
             order='end_date asc',
             limit=limit,
         )

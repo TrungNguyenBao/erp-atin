@@ -17,7 +17,7 @@ class TestVelocity(ScrumTestCommon):
     # -------------------------------------------------------------------------
 
     def test_velocity_forecast_no_sprints(self):
-        """Project with no closed sprints has velocity_forecast=0."""
+        """Project with no done sprints has velocity_forecast=0."""
         project = self.env['project.project'].create({
             'name': 'Velocity No Sprint Project',
             'methodology': 'scrum',
@@ -26,7 +26,7 @@ class TestVelocity(ScrumTestCommon):
         self.assertEqual(project.velocity_forecast, 0)
 
     def test_velocity_forecast_single_sprint(self):
-        """Forecast equals single closed sprint's velocity."""
+        """Forecast equals single done sprint's velocity."""
         project = self.env['project.project'].create({
             'name': 'Single Sprint Project',
             'methodology': 'scrum',
@@ -37,14 +37,14 @@ class TestVelocity(ScrumTestCommon):
             'start_date': self.today - timedelta(days=14),
             'end_date': self.today - timedelta(days=1),
             'capacity_points': 20,
-            'state': 'closed',
+            'state': 'done',
             'velocity': 18,
         })
         project._compute_velocity_forecast()
         self.assertEqual(project.velocity_forecast, 18.0)
 
     def test_velocity_forecast_rolling_average(self):
-        """Forecast is rolling average of last 3 closed sprints."""
+        """Forecast is rolling average of last 3 done sprints."""
         project = self.env['project.project'].create({
             'name': 'Rolling Avg Project',
             'methodology': 'scrum',
@@ -56,7 +56,7 @@ class TestVelocity(ScrumTestCommon):
                 'project_id': project.id,
                 'start_date': self.today - timedelta(days=(3 - i) * 14),
                 'end_date': self.today - timedelta(days=(2 - i) * 14 + 1),
-                'state': 'closed',
+                'state': 'done',
                 'velocity': v,
             })
         project._compute_velocity_forecast()
@@ -74,7 +74,7 @@ class TestVelocity(ScrumTestCommon):
             'project_id': project.id,
             'start_date': self.today - timedelta(days=14),
             'end_date': self.today - timedelta(days=1),
-            'state': 'closed',
+            'state': 'done',
             'velocity': 0,
         })
         project._compute_velocity_forecast()
@@ -84,8 +84,8 @@ class TestVelocity(ScrumTestCommon):
     # get_velocity_data
     # -------------------------------------------------------------------------
 
-    def test_get_velocity_data_no_closed_sprints(self):
-        """get_velocity_data returns empty lists when no closed sprints."""
+    def test_get_velocity_data_no_done_sprints(self):
+        """get_velocity_data returns empty lists when no done sprints."""
         project = self.env['project.project'].create({
             'name': 'Empty Velocity Project',
             'methodology': 'scrum',
@@ -113,7 +113,7 @@ class TestVelocity(ScrumTestCommon):
             'project_id': project.id,
             'start_date': self.today - timedelta(days=28),
             'end_date': self.today - timedelta(days=15),
-            'state': 'closed',
+            'state': 'done',
             'velocity': 15,
         })
         data = project.get_velocity_data()
@@ -133,7 +133,7 @@ class TestVelocity(ScrumTestCommon):
                 'project_id': project.id,
                 'start_date': self.today - timedelta(days=(4 - i) * 14),
                 'end_date': self.today - timedelta(days=(3 - i) * 14 + 1),
-                'state': 'closed',
+                'state': 'done',
                 'velocity': 10 + i * 5,
             })
         data = project.get_velocity_data()
@@ -235,9 +235,9 @@ class TestVelocity(ScrumTestCommon):
         ])
         self.assertEqual(count, 0)
 
-    def test_daily_log_cron_skips_closed_sprints(self):
-        """Cron does not create snapshots for closed sprints."""
-        sprint = self._create_sprint('Closed Cron Sprint', state='closed')
+    def test_daily_log_cron_skips_done_sprints(self):
+        """Cron does not create snapshots for done sprints."""
+        sprint = self._create_sprint('Done Cron Sprint', state='done')
         self.env['project.sprint.daily.log']._cron_create_daily_snapshots()
         count = self.env['project.sprint.daily.log'].search_count([
             ('sprint_id', '=', sprint.id),
