@@ -61,6 +61,17 @@
 
         <!-- Dashboard grid -->
         <t t-else="">
+
+            <!-- KPI Cards Row -->
+            <div class="o-agile-dashboard__kpi-row">
+                <t t-foreach="kpiCards" t-as="kpi" t-key="kpi.key">
+                    <div t-attf-class="o-agile-dashboard__kpi-card o-agile-dashboard__kpi-card--{{kpi.key}}">
+                        <div class="o-agile-dashboard__kpi-val" t-esc="kpi.value"/>
+                        <div class="o-agile-dashboard__kpi-label" t-esc="kpi.label"/>
+                    </div>
+                </t>
+            </div>
+
             <div class="o-agile-dashboard__grid">
 
                 <!-- ── Widget 1: Sprint Hero (gradient) ────────────────────── -->
@@ -208,7 +219,24 @@
                     </div>
                 </div>
 
-                <!-- ── Widget 5: Velocity Trend (full-width) ───────────────── -->
+                <!-- ── Widget 5: Task Distribution Pie ─────────────────────── -->
+                <div class="o-agile-dashboard__card o-agile-dashboard__card--pie">
+                    <div class="o-agile-dashboard__card-header">
+                        <span class="o-agile-dashboard__card-title">Task Distribution</span>
+                    </div>
+                    <t t-if="taskDistribution.length > 0">
+                        <div class="o-agile-dashboard__pie-wrap">
+                            <canvas t-ref="pieChart" height="200"/>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="o-agile-dashboard__widget-empty">
+                            No tasks to display.
+                        </div>
+                    </t>
+                </div>
+
+                <!-- ── Widget 6: Velocity Trend (full-width) ───────────────── -->
                 <div class="o-agile-dashboard__card o-agile-dashboard__card--velocity">
                     <t t-if="state.data">
                         <VelocityChart projectId="state.data.project_id" height="'200px'"/>

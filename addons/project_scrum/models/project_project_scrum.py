@@ -117,12 +117,14 @@ class ProjectProjectScrum(models.Model):
                 'done_tasks':     len(active_sprint.task_ids.filtered(lambda t: t.stage_id.fold)),
             }
         return {
-            'project_id':      self.id,
-            'project_name':    self.name,
-            'sprint':          sprint_data,
-            'team_workload':   self._get_team_workload(active_sprint),
-            'backlog_health':  self._get_backlog_health(),
-            'recent_activity': self._get_recent_activity(limit=8),
+            'project_id':         self.id,
+            'project_name':       self.name,
+            'sprint':             sprint_data,
+            'team_workload':      self._get_team_workload(active_sprint),
+            'backlog_health':     self._get_backlog_health(),
+            'recent_activity':    self._get_recent_activity(limit=8),
+            'kpi':                self._get_kpi_data(active_sprint, sprint_data),
+            'task_distribution':  self._get_task_distribution(active_sprint),
         }
 
     def _get_team_workload(self, sprint=None):
@@ -161,6 +163,36 @@ class ProjectProjectScrum(models.Model):
             'high_prio':   high_prio,
             'total_sp':    total_sp,
         }
+
+    def _get_kpi_data(self, active_sprint, sprint_data):
+        """Return KPI card data for dashboard."""
+        from odoo.addons.project.models.project_task import CLOSED_STATES
+        overdue_domain = [
+            ('project_id', '=', self.id),
+            ('date_deadline', '<', fields.Date.today()),
+            ('state', 'not in', list(CLOSED_STATES)),
+        ]
+        if active_sprint:
+            overdue_domain.append(('sprint_id', '=', active_sprint.id))
+        return {
+            'total_projects': self.env['project.project'].search_count(
+                [('enable_scrum', '=', True)]),
+            'active_sprints': self.env['project.sprint'].search_count(
+                [('project_id', '=', self.id), ('state', '=', 'active')]),
+            'completion_rate': sprint_data['completion_pct'] if sprint_data else 0,
+            'team_velocity': self.velocity_forecast,
+            'overdue_tasks': self.env['project.task'].search_count(overdue_domain),
+        }
+
+    def _get_task_distribution(self, sprint=None):
+        """Return task counts grouped by stage for pie chart."""
+        domain = [('project_id', '=', self.id)]
+        if sprint:
+            domain.append(('sprint_id', '=', sprint.id))
+        groups = self.env['project.task']._read_group(
+            domain, ['stage_id'], ['__count'])
+        return [{'stage': stage.name, 'count': count}
+                for stage, count in groups if count > 0]
 
     def _get_recent_activity(self, limit=8):
         """Return recent task stage changes for the activity feed."""

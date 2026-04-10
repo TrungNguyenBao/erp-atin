@@ -12,7 +12,8 @@
  *  - Recent activity feed
  */
 
-import { Component, useState, onWillStart } from "@odoo/owl";
+import { Component, useState, useRef, onWillStart, onMounted, onPatched, onWillUnmount } from "@odoo/owl";
+import { loadJS } from "@web/core/assets";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { BurndownChart } from "./burndown-chart";
@@ -26,6 +27,8 @@ class AgileDashboard extends Component {
     setup() {
         this.orm          = useService("orm");
         this.actionService = useService("action");
+        this.pieChartRef   = useRef("pieChart");
+        this._pieChart     = null;
 
         this.state = useState({
             loadingProjects: true,
@@ -35,7 +38,12 @@ class AgileDashboard extends Component {
             data:            null,   // get_dashboard_data() result
         });
 
-        onWillStart(() => this._loadProjects());
+        onWillStart(async () => {
+            await loadJS("/web/static/lib/Chart/Chart.js");
+            await this._loadProjects();
+        });
+        onPatched(() => this._renderPieChart());
+        onWillUnmount(() => this._destroyPieChart());
     }
 
     // ── Data loading ──────────────────────────────────────────────────────────
@@ -104,6 +112,53 @@ class AgileDashboard extends Component {
 
     get recentActivity() {
         return (this.state.data && this.state.data.recent_activity) || [];
+    }
+
+    get kpiCards() {
+        const kpi = (this.state.data && this.state.data.kpi) || {};
+        return [
+            { key: 'projects', label: 'Scrum Projects', value: kpi.total_projects || 0, icon: 'folder' },
+            { key: 'sprints', label: 'Active Sprints', value: kpi.active_sprints || 0, icon: 'refresh' },
+            { key: 'rate', label: 'Completion', value: (kpi.completion_rate || 0) + '%', icon: 'check' },
+            { key: 'velocity', label: 'Velocity', value: kpi.team_velocity || 0, icon: 'bolt' },
+            { key: 'overdue', label: 'Overdue', value: kpi.overdue_tasks || 0, icon: 'warning' },
+        ];
+    }
+
+    get taskDistribution() {
+        return (this.state.data && this.state.data.task_distribution) || [];
+    }
+
+    // ── Pie chart ────────────────────────────────────────────────────────────
+
+    _renderPieChart() {
+        const ctx = this.pieChartRef.el;
+        if (!ctx || this.taskDistribution.length === 0) return;
+        this._destroyPieChart();
+        const colors = ['#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f',
+                        '#edc948', '#b07aa1', '#ff9da7', '#9c755f', '#bab0ac'];
+        this._pieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: this.taskDistribution.map(d => d.stage),
+                datasets: [{
+                    data: this.taskDistribution.map(d => d.count),
+                    backgroundColor: colors.slice(0, this.taskDistribution.length),
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: { position: 'bottom', labels: { fontSize: 11 } },
+            },
+        });
+    }
+
+    _destroyPieChart() {
+        if (this._pieChart) {
+            this._pieChart.destroy();
+            this._pieChart = null;
+        }
     }
 }
 

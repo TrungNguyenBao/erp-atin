@@ -438,6 +438,48 @@
     100% { background-position:  200% 0; }
 }
 
+// ── KPI Cards Row ────────────────────────────────────────────────────────────
+.o-agile-dashboard__kpi-row {
+    display: flex;
+    gap: $gap-md;
+    margin: 0 $gap-lg $gap-md;
+    flex-wrap: wrap;
+}
+
+.o-agile-dashboard__kpi-card {
+    flex: 1;
+    min-width: 140px;
+    background: $surface;
+    border-radius: $card-radius;
+    padding: $gap-md;
+    box-shadow: $card-shadow;
+    text-align: center;
+    border-top: 3px solid $scrum-primary;
+
+    &--overdue { border-top-color: $scrum-danger; }
+    &--velocity { border-top-color: $scrum-success; }
+}
+
+.o-agile-dashboard__kpi-val {
+    font-size: 24px;
+    font-weight: 700;
+    color: $text;
+}
+
+.o-agile-dashboard__kpi-label {
+    font-size: 11px;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+}
+
+// ── Pie chart widget ─────────────────────────────────────────────────────────
+.o-agile-dashboard__pie-wrap {
+    padding: $gap-sm;
+    canvas { max-height: 200px; }
+}
+
 .o-agile-dashboard__skeleton-card {
     background: linear-gradient(90deg, $border-color 25%, $bg 50%, $border-color 75%);
     background-size: 200% 100%;
