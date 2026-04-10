@@ -494,7 +494,7 @@
 .o-sprint-board__due-badge {
     display: inline-block;
     font-size: 10px;
-    color: $text-muted;
+    color: $text-secondary;
     padding: 1px 6px;
     border-radius: 8px;
     background: rgba($border-color, 0.5);
@@ -545,9 +545,9 @@
     border: none;
     font-size: 16px;
     cursor: pointer;
-    color: $text-muted;
+    color: $text-secondary;
     padding: 2px 6px;
-    &:hover { color: $text; }
+    &:hover { color: $text-primary; }
 }
 
 .o-sprint-board__modal-body {
@@ -565,7 +565,7 @@
     label {
         font-size: 11px;
         text-transform: uppercase;
-        color: $text-muted;
+        color: $text-secondary;
         letter-spacing: 0.3px;
     }
 
@@ -610,7 +610,7 @@
     padding: 0 2px;
     font-size: 8px;
     line-height: 1;
-    color: $text-muted;
+    color: $text-secondary;
     cursor: pointer;
     opacity: 0.5;
 

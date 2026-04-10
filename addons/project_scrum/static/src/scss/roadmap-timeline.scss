@@ -19,7 +19,7 @@
 .o-roadmap__title {
     font-size: 20px;
     font-weight: 700;
-    color: $text;
+    color: $text-primary;
 }
 
 .o-roadmap__controls {
@@ -56,7 +56,7 @@
     font-weight: 600;
     font-size: 11px;
     text-transform: uppercase;
-    color: $text-muted;
+    color: $text-secondary;
     background: $bg;
     position: sticky;
     left: 0;
@@ -69,7 +69,7 @@
     grid-row: 1;
     padding: $gap-xs $gap-sm;
     font-size: 11px;
-    color: $text-muted;
+    color: $text-secondary;
     text-align: center;
     background: $bg;
     border-bottom: 1px solid $border-color;
@@ -94,7 +94,7 @@
 
 .o-roadmap__epic-meta {
     font-size: 10px;
-    color: $text-muted;
+    color: $text-secondary;
     font-weight: 400;
 }
 
@@ -148,7 +148,7 @@
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
-    color: $text-muted;
+    color: $text-secondary;
     margin-bottom: $gap-xs;
 }
 
@@ -161,7 +161,7 @@
 .o-roadmap__empty,
 .o-roadmap__loading {
     text-align: center;
-    color: $text-muted;
+    color: $text-secondary;
     padding: $gap-xl;
 }
 

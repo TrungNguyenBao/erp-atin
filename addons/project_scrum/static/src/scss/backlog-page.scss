@@ -19,7 +19,7 @@
 .o-backlog-page__title {
     font-size: 20px;
     font-weight: 700;
-    color: $text;
+    color: $text-primary;
 }
 
 .o-backlog-page__project-selector {
@@ -35,7 +35,7 @@
     gap: $gap-lg;
     margin-bottom: $gap-md;
     font-size: 13px;
-    color: $text-muted;
+    color: $text-secondary;
 }
 
 .o-backlog-page__stat--warn strong {
@@ -72,7 +72,7 @@
 }
 
 .o-backlog-page__group-count {
-    color: $text-muted;
+    color: $text-secondary;
     font-size: 12px;
 }
 
@@ -91,7 +91,7 @@
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        color: $text-muted;
+        color: $text-secondary;
         padding: $gap-sm $gap-md;
         border-bottom: 1px solid $border-color;
         position: sticky;
@@ -114,7 +114,7 @@
 }
 
 .o-backlog-page__cell--id {
-    color: $text-muted;
+    color: $text-secondary;
     font-size: 12px;
 }
 
@@ -174,7 +174,7 @@
 .o-backlog-page__empty,
 .o-backlog-page__loading {
     text-align: center;
-    color: $text-muted;
+    color: $text-secondary;
     padding: $gap-xl;
     font-size: 14px;
 }

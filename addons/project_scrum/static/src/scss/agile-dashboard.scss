@@ -463,12 +463,12 @@
 .o-agile-dashboard__kpi-val {
     font-size: 24px;
     font-weight: 700;
-    color: $text;
+    color: $text-primary;
 }
 
 .o-agile-dashboard__kpi-label {
     font-size: 11px;
-    color: $text-muted;
+    color: $text-secondary;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-top: 2px;

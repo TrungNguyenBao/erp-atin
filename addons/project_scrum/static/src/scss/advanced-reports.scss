@@ -19,7 +19,7 @@
 .o-adv-report__title {
     font-size: 20px;
     font-weight: 700;
-    color: $text;
+    color: $text-primary;
 }
 
 .o-adv-report__selector {
@@ -63,14 +63,14 @@
 
 .o-adv-report__summary-lbl {
     font-size: 11px;
-    color: $text-muted;
+    color: $text-secondary;
     text-transform: uppercase;
 }
 
 .o-adv-report__empty,
 .o-adv-report__loading {
     text-align: center;
-    color: $text-muted;
+    color: $text-secondary;
     padding: $gap-xl;
     font-size: 14px;
 }
