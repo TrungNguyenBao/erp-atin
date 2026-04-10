@@ -490,6 +490,74 @@
     }
 }
 
+// ── Backlog reorder buttons ──────────────────────────────────────────────────
+.o-sprint-board__reorder-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin-right: 4px;
+}
+
+.o-sprint-board__reorder-btn {
+    background: none;
+    border: none;
+    padding: 0 2px;
+    font-size: 8px;
+    line-height: 1;
+    color: $text-muted;
+    cursor: pointer;
+    opacity: 0.5;
+
+    &:hover { opacity: 1; color: $scrum-primary; }
+}
+
+// ── Backlog quick create ────────────────────────────────────────────────────
+.o-sprint-board__backlog-footer {
+    padding: $gap-xs $gap-sm;
+    border-top: 1px solid $border-color;
+}
+
+.o-sprint-board__quick-toggle {
+    background: none;
+    border: none;
+    color: $scrum-primary;
+    font-size: 13px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    padding: $gap-xs 0;
+
+    &:hover { text-decoration: underline; }
+}
+
+.o-sprint-board__quick-create {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-xs;
+}
+
+.o-sprint-board__quick-input {
+    border: 1px solid $border-color;
+    border-radius: $btn-radius;
+    padding: 4px 8px;
+    font-size: 13px;
+    width: 100%;
+}
+
+.o-sprint-board__quick-sp {
+    border: 1px solid $border-color;
+    border-radius: $btn-radius;
+    padding: 4px 8px;
+    font-size: 13px;
+    width: 60px;
+}
+
+.o-sprint-board__quick-actions {
+    display: flex;
+    gap: $gap-xs;
+    align-items: center;
+}
+
 // ── Loading skeleton ──────────────────────────────────────────────────────────
 @keyframes skeleton-shimmer {
     0%   { background-position: -200% 0; }

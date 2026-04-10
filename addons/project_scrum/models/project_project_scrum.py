@@ -222,6 +222,13 @@ class ProjectProjectScrum(models.Model):
         }
 
     # M4 fix: action method filtering sprints by current project
+    def action_print_velocity_report(self):
+        """Generate Velocity PDF report."""
+        self.ensure_one()
+        return self.env.ref(
+            'project_scrum.action_report_velocity'
+        ).report_action(self)
+
     def action_view_project_sprints(self):
         """Open sprints for this project."""
         self.ensure_one()

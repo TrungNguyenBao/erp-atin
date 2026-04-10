@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Report action -->
+    <record id="action_report_velocity" model="ir.actions.report">
+        <field name="name">Velocity Report</field>
+        <field name="model">project.project</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">project_scrum.report_velocity</field>
+        <field name="report_file">project_scrum.report_velocity</field>
+    </record>
+
+    <!-- QWeb PDF template -->
+    <template id="report_velocity">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="project">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Velocity Report</h2>
+                        <h4><t t-esc="project.name"/></h4>
+                        <p class="text-muted">
+                            Generated: <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                        </p>
+
+                        <t t-set="sprints" t-value="project.sprint_ids.filtered(lambda s: s.state == 'done').sorted('end_date')"/>
+
+                        <t t-if="len(sprints) == 0">
+                            <p class="text-muted mt-4">No completed sprints found for this project.</p>
+                        </t>
+                        <t t-else="">
+                            <table class="table table-sm table-bordered mt-4">
+                                <thead>
+                                    <tr class="bg-200">
+                                        <th>Sprint</th>
+                                        <th class="text-center">Start</th>
+                                        <th class="text-center">End</th>
+                                        <th class="text-end">Committed SP</th>
+                                        <th class="text-end">Completed SP</th>
+                                        <th class="text-end">Velocity</th>
+                                        <th class="text-end">Completion %</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="sprints" t-as="sprint">
+                                        <tr>
+                                            <td t-esc="sprint.name"/>
+                                            <td class="text-center" t-esc="sprint.start_date"/>
+                                            <td class="text-center" t-esc="sprint.end_date"/>
+                                            <td class="text-end" t-esc="sprint.committed_points"/>
+                                            <td class="text-end" t-esc="sprint.completed_points"/>
+                                            <td class="text-end"><strong t-esc="sprint.velocity"/></td>
+                                            <td class="text-end">
+                                                <t t-esc="'%.1f%%' % sprint.completion_percentage"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="fw-bold bg-100">
+                                        <td colspan="3">Average</td>
+                                        <td class="text-end">
+                                            <t t-esc="'%.0f' % (sum(sprints.mapped('committed_points')) / len(sprints))"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <t t-esc="'%.0f' % (sum(sprints.mapped('completed_points')) / len(sprints))"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <t t-esc="'%.1f' % (sum(sprints.mapped('velocity')) / len(sprints))"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <t t-set="avg_pct" t-value="sum(sprints.mapped('completion_percentage')) / len(sprints)"/>
+                                            <t t-esc="'%.1f%%' % avg_pct"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" class="text-end">Forecasted Velocity (3-sprint avg)</td>
+                                        <td class="text-end fw-bold" t-esc="project.velocity_forecast"/>
+                                        <td/>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <p class="text-muted small mt-2">
+                                Based on <t t-esc="len(sprints)"/> completed sprint(s).
+                            </p>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

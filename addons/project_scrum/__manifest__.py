@@ -33,6 +33,7 @@
         'report/sprint-burndown-report-views.xml',
         'report/sprint-velocity-report-views.xml',
         'report/sprint-report-template.xml',
+        'report/velocity-report-template.xml',
         # Views
         'views/project-sprint-views.xml',
         'views/project-sprint-board-views.xml',

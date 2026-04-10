@@ -194,6 +194,14 @@
                                         <span t-esc="task.name"/>
                                     </div>
                                     <div class="o-sprint-board__backlog-item-footer">
+                                        <div class="o-sprint-board__reorder-btns">
+                                            <button class="o-sprint-board__reorder-btn"
+                                                    t-on-click="() => onBacklogReorder(task.id, 'up')"
+                                                    title="Move up">▲</button>
+                                            <button class="o-sprint-board__reorder-btn"
+                                                    t-on-click="() => onBacklogReorder(task.id, 'down')"
+                                                    title="Move down">▼</button>
+                                        </div>
                                         <span
                                             class="o-sprint-board__sp-badge"
                                             t-att-data-sp="task.story_points"
@@ -207,6 +215,34 @@
                                         >+ Sprint</button>
                                     </div>
                                 </div>
+                            </t>
+                        </div>
+                        <!-- Quick create form -->
+                        <div class="o-sprint-board__backlog-footer">
+                            <t t-if="state.showQuickCreate">
+                                <div class="o-sprint-board__quick-create">
+                                    <input type="text" class="o-sprint-board__quick-input"
+                                           placeholder="User Story title..."
+                                           t-att-value="state.quickCreateName"
+                                           t-on-input="onQuickCreateNameChange"
+                                           t-on-keydown="(ev) => ev.key === 'Enter' and onQuickCreateSubmit()"/>
+                                    <input type="number" class="o-sprint-board__quick-sp"
+                                           placeholder="SP" min="0" max="100"
+                                           t-att-value="state.quickCreateSP"
+                                           t-on-input="onQuickCreateSPChange"/>
+                                    <div class="o-sprint-board__quick-actions">
+                                        <button class="btn btn-sm btn-primary"
+                                                t-on-click="onQuickCreateSubmit">Create</button>
+                                        <button class="btn btn-sm btn-link"
+                                                t-on-click="toggleQuickCreate">Cancel</button>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <button class="o-sprint-board__quick-toggle"
+                                        t-on-click="toggleQuickCreate">
+                                    + New Story
+                                </button>
                             </t>
                         </div>
                     </div>

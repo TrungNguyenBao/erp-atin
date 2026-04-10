@@ -40,6 +40,9 @@ class SprintBoard extends Component {
             backlogTasks:  [],       // [{id, name, story_points, ...}]
             showBacklog:   true,
             dragging:      null,     // {taskId, fromStageId}
+            showQuickCreate: false,
+            quickCreateName: '',
+            quickCreateSP: 0,
         });
 
         onWillStart(() => this._loadSprints());
@@ -182,6 +185,64 @@ class SprintBoard extends Component {
             views: [[false, "form"]],
             target: "current",
         });
+    }
+
+    // ── Backlog quick create ─────────────────────────────────────────────
+
+    toggleQuickCreate() {
+        this.state.showQuickCreate = !this.state.showQuickCreate;
+        this.state.quickCreateName = '';
+        this.state.quickCreateSP = 0;
+    }
+
+    onQuickCreateNameChange(ev) {
+        this.state.quickCreateName = ev.target.value;
+    }
+
+    onQuickCreateSPChange(ev) {
+        this.state.quickCreateSP = parseInt(ev.target.value, 10) || 0;
+    }
+
+    async onQuickCreateSubmit() {
+        const name = this.state.quickCreateName.trim();
+        if (!name || !this.state.sprintId) return;
+        try {
+            const task = await this.orm.call(
+                "project.sprint", "quick_create_backlog_task",
+                [[this.state.sprintId], { name, story_points: this.state.quickCreateSP }]
+            );
+            this.state.backlogTasks.push(task);
+            this.state.quickCreateName = '';
+            this.state.quickCreateSP = 0;
+            this.state.showQuickCreate = false;
+        } catch (e) {
+            this.notification.add("Failed to create task.", { type: "danger" });
+        }
+    }
+
+    // ── Backlog reorder ───────────────────────────────────────────────────
+
+    async onBacklogReorder(taskId, direction) {
+        const tasks = this.state.backlogTasks;
+        const idx = tasks.findIndex(t => t.id === taskId);
+        if (idx === -1) return;
+        const swapIdx = direction === 'up' ? idx - 1 : idx + 1;
+        if (swapIdx < 0 || swapIdx >= tasks.length) return;
+
+        // Swap in UI
+        [tasks[idx], tasks[swapIdx]] = [tasks[swapIdx], tasks[idx]];
+
+        // Persist new sequences
+        const newSeq = (swapIdx + 1) * 10;
+        try {
+            await this.orm.call(
+                "project.sprint", "reorder_backlog_task",
+                [[this.state.sprintId], taskId, newSeq]
+            );
+        } catch (e) {
+            // Revert swap on failure
+            [tasks[idx], tasks[swapIdx]] = [tasks[swapIdx], tasks[idx]];
+        }
     }
 
     // ── Internal helpers ──────────────────────────────────────────────────────

@@ -242,13 +242,21 @@ class ProjectSprint(models.Model):
         self.ensure_one()
         wip_limit = self.project_id.wip_limit or 0
         stages = self.project_id.type_ids.sorted('sequence')
+
+        # Prefetch all leaf tasks + user_ids in one batch
+        all_tasks = self.task_ids.filtered(lambda t: not t.child_ids)
+        all_tasks.mapped('user_ids')  # prefetch users in single query
+
+        # Group tasks by stage_id
+        task_by_stage = {}
+        for t in all_tasks:
+            task_by_stage.setdefault(t.stage_id.id, []).append(t)
+
         result = []
         for stage in stages:
-            tasks = self.task_ids.filtered(
-                lambda t: t.stage_id == stage and not t.child_ids
-            )
+            stage_tasks = task_by_stage.get(stage.id, [])
             task_data = []
-            for t in tasks:
+            for t in stage_tasks:
                 assignee = t.user_ids[:1]
                 task_data.append({
                     'id': t.id,
@@ -288,7 +296,7 @@ class ProjectSprint(models.Model):
             ('sprint_id', '=', False),
             ('child_ids', '=', False),
         ]
-        tasks = self.env['project.task'].search(domain, limit=50, order='priority desc, id desc')
+        tasks = self.env['project.task'].search(domain, limit=50, order='sequence asc, priority desc, id desc')
         result = []
         for t in tasks:
             assignee = t.user_ids[:1]
@@ -307,6 +315,29 @@ class ProjectSprint(models.Model):
         self.ensure_one()
         task = self.env['project.task'].browse(task_id)
         task.write({'sprint_id': self.id})
+
+    def reorder_backlog_task(self, task_id, new_sequence):
+        """Update sequence of a backlog task for priority reorder."""
+        task = self.env['project.task'].browse(task_id)
+        if task.exists() and not task.sprint_id:
+            task.write({'sequence': new_sequence})
+
+    def quick_create_backlog_task(self, values):
+        """Create a new backlog task from Sprint Board quick-create form."""
+        self.ensure_one()
+        defaults = {
+            'project_id': self.project_id.id,
+            'sprint_id': False,
+            'task_type': 'story',
+        }
+        defaults.update(values)
+        task = self.env['project.task'].create(defaults)
+        return {
+            'id': task.id,
+            'name': task.name,
+            'story_points': task.story_points or 0,
+            'task_type': task.task_type or 'story',
+        }
 
     def get_burndown_data(self):
         """Return burndown chart data for OWL BurndownChart widget."""

@@ -37,6 +37,13 @@
                     <field name="sprint_count" string="Sprints"
                            widget="statinfo"/>
                 </button>
+                <button class="oe_stat_button" type="object"
+                        name="action_print_velocity_report"
+                        icon="fa-line-chart"
+                        invisible="methodology != 'scrum'"
+                        groups="project_scrum.group_project_scrum"
+                        string="Velocity PDF"/>
+
             </xpath>
         </field>
     </record>

@@ -6,3 +6,4 @@ from . import test_backlog
 from . import test_velocity
 from . import test_ceremony
 from . import test_security
+from . import test_integration
