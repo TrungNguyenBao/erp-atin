@@ -14,7 +14,7 @@ const MS_PER_DAY = 86400000;
 
 class RoadmapTimeline extends Component {
     static template = "project_scrum.RoadmapTimeline";
-    static props = { action: Object };
+    static props = { action: { type: Object, optional: true }, "*": true };
 
     setup() {
         this.orm = useService("orm");

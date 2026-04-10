@@ -15,7 +15,7 @@ const COLORS = ['#4e79a7', '#f28e2b', '#e15759', '#76b7b2', '#59a14f',
 
 class CfdChart extends Component {
     static template = "project_scrum.CfdChart";
-    static props = { action: Object };
+    static props = { action: { type: Object, optional: true }, "*": true };
 
     setup() {
         this.orm = useService("orm");

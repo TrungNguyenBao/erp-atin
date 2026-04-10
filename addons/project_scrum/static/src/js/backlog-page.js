@@ -21,7 +21,7 @@ const TASK_TYPE_LABEL = {
 
 class BacklogPage extends Component {
     static template = "project_scrum.BacklogPage";
-    static props = { action: Object };
+    static props = { action: { type: Object, optional: true }, "*": true };
 
     setup() {
         this.orm = useService("orm");

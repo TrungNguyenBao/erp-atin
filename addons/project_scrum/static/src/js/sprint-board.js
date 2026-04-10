@@ -27,7 +27,7 @@ const TASK_TYPE_ICON = {
 // ── Main Sprint Board component ───────────────────────────────────────────────
 class SprintBoard extends Component {
     static template = "project_scrum.SprintBoard";
-    static props = { action: Object };
+    static props = { action: { type: Object, optional: true }, "*": true };
     static components = { SprintBoardQuickEdit };
 
     setup() {

@@ -21,7 +21,7 @@ import { VelocityChart } from "./velocity-chart";
 
 class AgileDashboard extends Component {
     static template = "project_scrum.AgileDashboard";
-    static props    = { action: Object };
+    static props    = { action: { type: Object, optional: true }, "*": true };
     static components = { BurndownChart, VelocityChart };
 
     setup() {

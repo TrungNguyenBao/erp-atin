@@ -12,7 +12,7 @@ import { loadJS } from "@web/core/assets";
 
 class LeadCycleTimeChart extends Component {
     static template = "project_scrum.LeadCycleTimeChart";
-    static props = { action: Object };
+    static props = { action: { type: Object, optional: true }, "*": true };
 
     setup() {
         this.orm = useService("orm");
