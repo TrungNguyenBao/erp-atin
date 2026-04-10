@@ -1,0 +1,172 @@
+// Roadmap Timeline SCSS
+@import "scrum-design-tokens";
+
+.o-roadmap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: $bg;
+    padding: $gap-lg;
+}
+
+.o-roadmap__topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $gap-md;
+}
+
+.o-roadmap__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: $text;
+}
+
+.o-roadmap__controls {
+    display: flex;
+    gap: $gap-sm;
+    align-items: center;
+}
+
+.o-roadmap__project-selector {
+    border: 1px solid $border-color;
+    border-radius: $btn-radius;
+    padding: 4px 12px;
+    font-size: 13px;
+}
+
+// ── Timeline grid ────────────────────────────────────────────────────────────
+.o-roadmap__scroll {
+    overflow-x: auto;
+    flex: 1;
+    border: 1px solid $border-color;
+    border-radius: $card-radius;
+    background: $surface;
+}
+
+.o-roadmap__grid {
+    display: grid;
+    min-width: max-content;
+}
+
+.o-roadmap__corner {
+    grid-row: 1;
+    grid-column: 1;
+    padding: $gap-sm $gap-md;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: $text-muted;
+    background: $bg;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    border-bottom: 1px solid $border-color;
+    border-right: 1px solid $border-color;
+}
+
+.o-roadmap__col-header {
+    grid-row: 1;
+    padding: $gap-xs $gap-sm;
+    font-size: 11px;
+    color: $text-muted;
+    text-align: center;
+    background: $bg;
+    border-bottom: 1px solid $border-color;
+}
+
+// ── Epic rows ────────────────────────────────────────────────────────────────
+.o-roadmap__epic-name {
+    grid-column: 1;
+    padding: $gap-xs $gap-md;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: sticky;
+    left: 0;
+    background: $surface;
+    z-index: 1;
+    border-right: 1px solid $border-color;
+    border-bottom: 1px solid rgba($border-color, 0.5);
+}
+
+.o-roadmap__epic-meta {
+    font-size: 10px;
+    color: $text-muted;
+    font-weight: 400;
+}
+
+.o-roadmap__epic-bar {
+    height: 28px;
+    border-radius: 14px;
+    margin: 6px 4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    color: white;
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: var(--progress);
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: inherit;
+    }
+}
+
+.o-roadmap__bar-label {
+    position: relative;
+    z-index: 1;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 0 10px;
+    white-space: nowrap;
+}
+
+// ── Sprint markers ───────────────────────────────────────────────────────────
+.o-roadmap__sprint-line {
+    border-left: 2px dashed rgba($scrum-primary, 0.3);
+    pointer-events: none;
+}
+
+// ── Unscheduled section ──────────────────────────────────────────────────────
+.o-roadmap__unscheduled {
+    margin-top: $gap-md;
+    padding: $gap-sm $gap-md;
+    background: $surface;
+    border-radius: $card-radius;
+    border: 1px solid $border-color;
+}
+
+.o-roadmap__unscheduled-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: $text-muted;
+    margin-bottom: $gap-xs;
+}
+
+.o-roadmap__unscheduled-item {
+    font-size: 13px;
+    padding: 2px 0;
+}
+
+// ── Empty / Loading ──────────────────────────────────────────────────────────
+.o-roadmap__empty,
+.o-roadmap__loading {
+    text-align: center;
+    color: $text-muted;
+    padding: $gap-xl;
+}
+
+.o-roadmap__empty-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: $gap-xs;
+}

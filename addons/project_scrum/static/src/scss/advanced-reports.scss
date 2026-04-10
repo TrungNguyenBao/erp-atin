@@ -1,0 +1,76 @@
+// Advanced Reports shared SCSS
+@import "scrum-design-tokens";
+
+.o-adv-report {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: $bg;
+    padding: $gap-lg;
+}
+
+.o-adv-report__topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $gap-md;
+}
+
+.o-adv-report__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: $text;
+}
+
+.o-adv-report__selector {
+    border: 1px solid $border-color;
+    border-radius: $btn-radius;
+    padding: 4px 12px;
+    font-size: 13px;
+}
+
+.o-adv-report__chart-wrap {
+    flex: 1;
+    background: $surface;
+    border-radius: $card-radius;
+    box-shadow: $card-shadow;
+    padding: $gap-md;
+
+    canvas { max-height: 400px; }
+}
+
+.o-adv-report__summary {
+    display: flex;
+    gap: $gap-md;
+    margin-bottom: $gap-md;
+}
+
+.o-adv-report__summary-card {
+    flex: 1;
+    background: $surface;
+    border-radius: $card-radius;
+    box-shadow: $card-shadow;
+    padding: $gap-md;
+    text-align: center;
+}
+
+.o-adv-report__summary-val {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    color: $scrum-primary;
+}
+
+.o-adv-report__summary-lbl {
+    font-size: 11px;
+    color: $text-muted;
+    text-transform: uppercase;
+}
+
+.o-adv-report__empty,
+.o-adv-report__loading {
+    text-align: center;
+    color: $text-muted;
+    padding: $gap-xl;
+    font-size: 14px;
+}

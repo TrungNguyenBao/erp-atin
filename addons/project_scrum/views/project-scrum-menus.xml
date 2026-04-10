@@ -47,6 +47,16 @@
         sequence="3"
     />
 
+    <!-- Roadmap -->
+    <menuitem
+        name="Roadmap"
+        id="menu_roadmap"
+        parent="menu_project_scrum"
+        action="action_roadmap_timeline"
+        sequence="4"
+        groups="project_scrum.group_project_scrum"
+    />
+
     <!-- All Sprints -->
     <menuitem
         name="Sprints"
@@ -106,6 +116,22 @@
         parent="menu_scrum_reporting"
         action="action_sprint_velocity_report"
         sequence="2"
+    />
+
+    <menuitem
+        name="Cumulative Flow"
+        id="menu_cfd_chart"
+        parent="menu_scrum_reporting"
+        action="action_cfd_chart"
+        sequence="3"
+    />
+
+    <menuitem
+        name="Lead &amp; Cycle Time"
+        id="menu_lead_cycle_time"
+        parent="menu_scrum_reporting"
+        action="action_lead_cycle_time"
+        sequence="4"
     />
 
 </odoo>

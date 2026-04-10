@@ -254,6 +254,47 @@ class ProjectProjectScrum(models.Model):
         }
 
     # M4 fix: action method filtering sprints by current project
+    def get_cycle_time_data(self, sprint_id=False):
+        """Return lead/cycle time data for completed tasks."""
+        self.ensure_one()
+        from odoo.addons.project.models.project_task import CLOSED_STATES
+        domain = [
+            ('project_id', '=', self.id),
+            ('state', 'in', list(CLOSED_STATES)),
+        ]
+        if sprint_id:
+            domain.append(('sprint_id', '=', sprint_id))
+        tasks = self.env['project.task'].search(domain, limit=100, order='write_date desc')
+
+        task_data = []
+        total_lead = 0
+        total_cycle = 0
+        for t in tasks:
+            # Lead time: create_date to write_date (last state change)
+            lead_days = (t.write_date.date() - t.create_date.date()).days
+            # Cycle time approximation: lead time (without tracking history parsing)
+            cycle_days = max(lead_days - 1, 0)  # simplified
+            task_data.append({
+                'id': t.id,
+                'name': t.name,
+                'lead_time': lead_days,
+                'cycle_time': cycle_days,
+                'story_points': t.story_points,
+                'completed_date': t.write_date.date().isoformat(),
+            })
+            total_lead += lead_days
+            total_cycle += cycle_days
+
+        count = len(task_data) or 1
+        return {
+            'tasks': task_data,
+            'averages': {
+                'lead': round(total_lead / count, 1),
+                'cycle': round(total_cycle / count, 1),
+            },
+            'count': len(task_data),
+        }
+
     def action_print_velocity_report(self):
         """Generate Velocity PDF report."""
         self.ensure_one()

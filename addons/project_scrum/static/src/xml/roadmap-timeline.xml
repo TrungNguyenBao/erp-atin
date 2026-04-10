@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="project_scrum.RoadmapTimeline">
+    <div class="o-roadmap">
+
+        <!-- Topbar -->
+        <div class="o-roadmap__topbar">
+            <span class="o-roadmap__title">Roadmap</span>
+            <div class="o-roadmap__controls">
+                <select class="o-roadmap__project-selector" t-on-change="onProjectChange">
+                    <t t-foreach="state.projects" t-as="project" t-key="project.id">
+                        <option t-att-value="project.id"
+                                t-att-selected="project.id === state.projectId"
+                                t-esc="project.name"/>
+                    </t>
+                </select>
+                <button class="btn btn-sm btn-outline-secondary" t-on-click="toggleZoom">
+                    <t t-esc="state.zoom === 'week' ? 'Month view' : 'Week view'"/>
+                </button>
+            </div>
+        </div>
+
+        <t t-if="state.loading">
+            <div class="o-roadmap__loading">Loading roadmap...</div>
+        </t>
+
+        <t t-elif="!hasTimeline">
+            <div class="o-roadmap__empty">
+                <div class="o-roadmap__empty-title">No timeline data</div>
+                <div class="o-roadmap__empty-msg">
+                    Create sprints and assign tasks to epics to see the roadmap.
+                </div>
+            </div>
+        </t>
+
+        <t t-else="">
+            <!-- Timeline grid -->
+            <div class="o-roadmap__scroll">
+                <div class="o-roadmap__grid"
+                     t-attf-style="grid-template-columns: 180px repeat({{gridColCount}}, minmax(60px, 1fr))">
+
+                    <!-- Header row: empty corner + week/month labels -->
+                    <div class="o-roadmap__corner">Epic</div>
+                    <t t-foreach="columnHeaders" t-as="col" t-key="col.col">
+                        <div class="o-roadmap__col-header"
+                             t-attf-style="grid-column: {{col.col}}"
+                             t-esc="col.label"/>
+                    </t>
+
+                    <!-- Epic rows with bars -->
+                    <t t-foreach="epicBars" t-as="epic" t-key="epic.id">
+                        <!-- Epic name (sticky left) -->
+                        <div class="o-roadmap__epic-name"
+                             t-attf-style="grid-row: {{epic.row}}">
+                            <span t-esc="epic.name"/>
+                            <span class="o-roadmap__epic-meta">
+                                <t t-esc="epic.task_count"/> tasks · <t t-esc="epic.total_points"/> SP
+                            </span>
+                        </div>
+                        <!-- Epic bar -->
+                        <div class="o-roadmap__epic-bar"
+                             t-attf-style="grid-row: {{epic.row}}; grid-column: {{epic.colStart}} / {{epic.colEnd}}; background: {{epic.color}}; --progress: {{epic.progress}}%">
+                            <span class="o-roadmap__bar-label">
+                                <t t-esc="Math.round(epic.progress)"/>%
+                            </span>
+                        </div>
+                    </t>
+
+                    <!-- Sprint boundary markers -->
+                    <t t-foreach="sprintMarkers" t-as="sprint" t-key="sprint.id">
+                        <div class="o-roadmap__sprint-line"
+                             t-attf-style="grid-column: {{sprint.col}}; grid-row: 1 / -1"
+                             t-att-title="sprint.name"/>
+                    </t>
+                </div>
+            </div>
+
+            <!-- Unscheduled epics -->
+            <t t-if="unscheduledEpics.length > 0">
+                <div class="o-roadmap__unscheduled">
+                    <div class="o-roadmap__unscheduled-title">Unscheduled</div>
+                    <t t-foreach="unscheduledEpics" t-as="epic" t-key="epic.id">
+                        <div class="o-roadmap__unscheduled-item">
+                            <span t-esc="epic.name"/>
+                            <span class="text-muted">(<t t-esc="epic.task_count"/> tasks)</span>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </div>
+</t>
+
+</templates>

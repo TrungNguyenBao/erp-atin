@@ -13,6 +13,24 @@
         <field name="tag">agile_dashboard_action</field>
     </record>
 
+    <!-- Roadmap Timeline: OWL Gantt-style view -->
+    <record id="action_roadmap_timeline" model="ir.actions.client">
+        <field name="name">Roadmap</field>
+        <field name="tag">roadmap_timeline_action</field>
+    </record>
+
+    <!-- Cumulative Flow Diagram -->
+    <record id="action_cfd_chart" model="ir.actions.client">
+        <field name="name">Cumulative Flow</field>
+        <field name="tag">cfd_chart_action</field>
+    </record>
+
+    <!-- Lead / Cycle Time -->
+    <record id="action_lead_cycle_time" model="ir.actions.client">
+        <field name="name">Lead &amp; Cycle Time</field>
+        <field name="tag">lead_cycle_time_action</field>
+    </record>
+
     <!-- Daily Standup: active sprint tasks grouped by assignee -->
     <record id="action_daily_standup" model="ir.actions.act_window">
         <field name="name">Daily Standup</field>

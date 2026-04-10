@@ -2,7 +2,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '18.0.6.0.0',
+    'version': '18.0.7.0.0',
     'category': 'Services/Project',
     'summary': 'Scrum/Agile workflow: sprints, story points, velocity tracking',
     'description': """
@@ -75,6 +75,16 @@
             'project_scrum/static/src/scss/agile-dashboard.scss',
             'project_scrum/static/src/xml/agile-dashboard.xml',
             'project_scrum/static/src/js/agile-dashboard.js',
+            # Roadmap Timeline OWL component
+            'project_scrum/static/src/scss/roadmap-timeline.scss',
+            'project_scrum/static/src/xml/roadmap-timeline.xml',
+            'project_scrum/static/src/js/roadmap-timeline.js',
+            # Advanced Reports OWL components
+            'project_scrum/static/src/scss/advanced-reports.scss',
+            'project_scrum/static/src/xml/cfd-chart.xml',
+            'project_scrum/static/src/js/cfd-chart.js',
+            'project_scrum/static/src/xml/lead-cycle-time-chart.xml',
+            'project_scrum/static/src/js/lead-cycle-time-chart.js',
             # Backlog Page OWL component
             'project_scrum/static/src/scss/backlog-page.scss',
             'project_scrum/static/src/xml/backlog-page.xml',

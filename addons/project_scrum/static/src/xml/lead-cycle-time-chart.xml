@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="project_scrum.LeadCycleTimeChart">
+    <div class="o-adv-report">
+        <div class="o-adv-report__topbar">
+            <span class="o-adv-report__title">Lead &amp; Cycle Time</span>
+            <select class="o-adv-report__selector" t-on-change="onProjectChange">
+                <t t-foreach="state.projects" t-as="project" t-key="project.id">
+                    <option t-att-value="project.id"
+                            t-att-selected="project.id === state.projectId"
+                            t-esc="project.name"/>
+                </t>
+            </select>
+        </div>
+        <t t-if="state.loading">
+            <div class="o-adv-report__loading">Loading...</div>
+        </t>
+        <t t-elif="taskCount > 0">
+            <!-- Summary cards -->
+            <div class="o-adv-report__summary">
+                <div class="o-adv-report__summary-card">
+                    <span class="o-adv-report__summary-val" t-esc="averages.lead"/>
+                    <span class="o-adv-report__summary-lbl">Avg Lead Time (days)</span>
+                </div>
+                <div class="o-adv-report__summary-card">
+                    <span class="o-adv-report__summary-val" t-esc="averages.cycle"/>
+                    <span class="o-adv-report__summary-lbl">Avg Cycle Time (days)</span>
+                </div>
+                <div class="o-adv-report__summary-card">
+                    <span class="o-adv-report__summary-val" t-esc="taskCount"/>
+                    <span class="o-adv-report__summary-lbl">Completed Tasks</span>
+                </div>
+            </div>
+            <div class="o-adv-report__chart-wrap">
+                <canvas t-ref="lctCanvas" height="350"/>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="o-adv-report__empty">No completed tasks to analyze.</div>
+        </t>
+    </div>
+</t>
+
+</templates>

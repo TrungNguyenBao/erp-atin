@@ -53,3 +53,46 @@ class ProjectEpic(models.Model):
             epic.completed_points = completed
             epic.progress_percentage = (
                 round(completed / total * 100, 1) if total else 0)
+
+    @api.model
+    def get_roadmap_data(self, project_id):
+        """Return timeline data for OWL RoadmapTimeline component."""
+        epics = self.search([('project_id', '=', project_id)], order='sequence asc')
+        sprints = self.env['project.sprint'].search([
+            ('project_id', '=', project_id),
+            ('state', 'not in', ['cancelled']),
+        ], order='start_date asc')
+
+        epic_data = []
+        for epic in epics:
+            task_sprints = epic.task_ids.mapped('sprint_id').filtered(
+                lambda s: s.start_date and s.end_date)
+            start = min(task_sprints.mapped('start_date')) if task_sprints else None
+            end = max(task_sprints.mapped('end_date')) if task_sprints else None
+            epic_data.append({
+                'id': epic.id,
+                'name': epic.name,
+                'color': epic.color,
+                'task_count': epic.task_count,
+                'progress': epic.progress_percentage,
+                'total_points': epic.total_points,
+                'start_date': start.isoformat() if start else '',
+                'end_date': end.isoformat() if end else '',
+            })
+
+        sprint_data = [{
+            'id': s.id, 'name': s.name, 'state': s.state,
+            'start_date': s.start_date.isoformat(),
+            'end_date': s.end_date.isoformat(),
+        } for s in sprints if s.start_date and s.end_date]
+
+        all_dates = ([s.start_date for s in sprints if s.start_date] +
+                     [s.end_date for s in sprints if s.end_date])
+        return {
+            'epics': epic_data,
+            'sprints': sprint_data,
+            'date_range': {
+                'start': min(all_dates).isoformat() if all_dates else '',
+                'end': max(all_dates).isoformat() if all_dates else '',
+            },
+        }

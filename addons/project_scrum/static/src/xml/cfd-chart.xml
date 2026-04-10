@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="project_scrum.CfdChart">
+    <div class="o-adv-report">
+        <div class="o-adv-report__topbar">
+            <span class="o-adv-report__title">Cumulative Flow Diagram</span>
+            <select class="o-adv-report__selector" t-on-change="onSprintChange">
+                <t t-foreach="state.sprints" t-as="sprint" t-key="sprint.id">
+                    <option t-att-value="sprint.id"
+                            t-att-selected="sprint.id === state.sprintId"
+                            t-esc="sprint.name"/>
+                </t>
+            </select>
+        </div>
+        <t t-if="state.loading">
+            <div class="o-adv-report__loading">Loading...</div>
+        </t>
+        <t t-elif="state.data and state.data.datasets.length > 0">
+            <div class="o-adv-report__chart-wrap">
+                <canvas t-ref="cfdCanvas" height="350"/>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="o-adv-report__empty">No data available for this sprint.</div>
+        </t>
+    </div>
+</t>
+
+</templates>
