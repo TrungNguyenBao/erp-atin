@@ -43,7 +43,7 @@
         name="Product Backlog"
         id="menu_product_backlog"
         parent="menu_project_scrum"
-        action="action_product_backlog"
+        action="action_backlog_page_owl"
         sequence="3"
     />
 

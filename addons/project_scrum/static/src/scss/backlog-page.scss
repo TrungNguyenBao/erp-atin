@@ -1,0 +1,180 @@
+// Backlog Full Page SCSS
+@import "scrum-design-tokens";
+
+.o-backlog-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: $bg;
+    padding: $gap-lg;
+}
+
+.o-backlog-page__topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $gap-md;
+}
+
+.o-backlog-page__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: $text;
+}
+
+.o-backlog-page__project-selector {
+    border: 1px solid $border-color;
+    border-radius: $btn-radius;
+    padding: 4px 12px;
+    font-size: 13px;
+}
+
+// ── Stats bar ────────────────────────────────────────────────────────────────
+.o-backlog-page__stats {
+    display: flex;
+    gap: $gap-lg;
+    margin-bottom: $gap-md;
+    font-size: 13px;
+    color: $text-muted;
+}
+
+.o-backlog-page__stat--warn strong {
+    color: $scrum-warning;
+}
+
+// ── Toolbar ──────────────────────────────────────────────────────────────────
+.o-backlog-page__toolbar {
+    display: flex;
+    gap: $gap-sm;
+    margin-bottom: $gap-md;
+    align-items: center;
+}
+
+.o-backlog-page__search {
+    border: 1px solid $border-color;
+    border-radius: $btn-radius;
+    padding: 4px 12px;
+    font-size: 13px;
+    flex: 1;
+    max-width: 300px;
+}
+
+// ── Group header ─────────────────────────────────────────────────────────────
+.o-backlog-page__group-header {
+    display: flex;
+    align-items: center;
+    gap: $gap-sm;
+    padding: $gap-sm $gap-md;
+    background: $scrum-primary-lt;
+    border-radius: $card-radius;
+    margin-bottom: $gap-xs;
+    font-size: 13px;
+}
+
+.o-backlog-page__group-count {
+    color: $text-muted;
+    font-size: 12px;
+}
+
+// ── Table ────────────────────────────────────────────────────────────────────
+.o-backlog-page__table {
+    width: 100%;
+    border-collapse: collapse;
+    background: $surface;
+    border-radius: $card-radius;
+    overflow: hidden;
+    box-shadow: $card-shadow;
+    margin-bottom: $gap-md;
+
+    th {
+        background: $bg;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: $text-muted;
+        padding: $gap-sm $gap-md;
+        border-bottom: 1px solid $border-color;
+        position: sticky;
+        top: 0;
+    }
+
+    td {
+        padding: $gap-xs $gap-md;
+        border-bottom: 1px solid $border-color;
+        font-size: 13px;
+        vertical-align: middle;
+    }
+}
+
+.o-backlog-page__th--id { width: 50px; }
+.o-backlog-page__th--sp { width: 60px; }
+
+.o-backlog-page__row:hover {
+    background: rgba($scrum-primary, 0.04);
+}
+
+.o-backlog-page__cell--id {
+    color: $text-muted;
+    font-size: 12px;
+}
+
+.o-backlog-page__cell--title {
+    cursor: pointer;
+    font-weight: 500;
+    &:hover { color: $scrum-primary; text-decoration: underline; }
+}
+
+.o-backlog-page__cell--sp {
+    cursor: pointer;
+    text-align: center;
+}
+
+.o-backlog-page__sp-badge {
+    display: inline-block;
+    background: $scrum-primary-lt;
+    color: $scrum-primary;
+    border-radius: 12px;
+    padding: 1px 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.o-backlog-page__sp-input {
+    width: 50px;
+    border: 1px solid $scrum-primary;
+    border-radius: $btn-radius;
+    padding: 2px 6px;
+    font-size: 13px;
+    text-align: center;
+}
+
+// ── Type badge ───────────────────────────────────────────────────────────────
+.o-backlog-page__type-badge {
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+
+    &--story { background: #e8f4fd; color: #1976d2; }
+    &--task { background: #e8f5e9; color: #388e3c; }
+    &--bug { background: #fce4ec; color: #d32f2f; }
+    &--improvement { background: #fff3e0; color: #f57c00; }
+}
+
+// ── Sprint select ────────────────────────────────────────────────────────────
+.o-backlog-page__sprint-select {
+    border: 1px solid $border-color;
+    border-radius: $btn-radius;
+    padding: 2px 6px;
+    font-size: 12px;
+    background: transparent;
+}
+
+// ── Empty / Loading ──────────────────────────────────────────────────────────
+.o-backlog-page__empty,
+.o-backlog-page__loading {
+    text-align: center;
+    color: $text-muted;
+    padding: $gap-xl;
+    font-size: 14px;
+}

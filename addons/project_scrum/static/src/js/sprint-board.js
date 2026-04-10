@@ -10,7 +10,8 @@
  *  - Story points totals, task counts, blocked indicators
  */
 
-import { Component, useState, onWillStart, onMounted } from "@odoo/owl";
+import { Component, useState, onWillStart } from "@odoo/owl";
+import { SprintBoardQuickEdit } from "./sprint-board-quick-edit";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 
@@ -27,6 +28,7 @@ const TASK_TYPE_ICON = {
 class SprintBoard extends Component {
     static template = "project_scrum.SprintBoard";
     static props = { action: Object };
+    static components = { SprintBoardQuickEdit };
 
     setup() {
         this.orm         = useService("orm");
@@ -43,6 +45,7 @@ class SprintBoard extends Component {
             showQuickCreate: false,
             quickCreateName: '',
             quickCreateSP: 0,
+            modalTaskId: null,
         });
 
         onWillStart(() => this._loadSprints());
@@ -173,11 +176,25 @@ class SprintBoard extends Component {
         }
     }
 
-    // ── Task form open ────────────────────────────────────────────────────────
+    // ── Task quick edit modal ────────────────────────────────────────────────
 
     onTaskClick(ev, taskId) {
-        // Only open form if not starting a drag (mousedown vs click distinction)
-        if (ev.defaultPrevented) return;
+        if (ev.defaultPrevented || this.state.dragging) return;
+        this.state.modalTaskId = taskId;
+    }
+
+    async onModalSave() {
+        this.state.modalTaskId = null;
+        await this._loadBoardData(this.state.sprintId);
+    }
+
+    onModalClose() {
+        this.state.modalTaskId = null;
+    }
+
+    onOpenFullForm() {
+        const taskId = this.state.modalTaskId;
+        this.state.modalTaskId = null;
         this.env.services.action.doAction({
             type: "ir.actions.act_window",
             res_model: "project.task",

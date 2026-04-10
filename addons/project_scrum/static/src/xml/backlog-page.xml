@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="project_scrum.BacklogPage">
+    <div class="o-backlog-page">
+
+        <!-- Topbar -->
+        <div class="o-backlog-page__topbar">
+            <span class="o-backlog-page__title">Product Backlog</span>
+            <select class="o-backlog-page__project-selector" t-on-change="onProjectChange">
+                <t t-foreach="state.projects" t-as="project" t-key="project.id">
+                    <option t-att-value="project.id"
+                            t-att-selected="project.id === state.projectId"
+                            t-esc="project.name"/>
+                </t>
+            </select>
+        </div>
+
+        <t t-if="state.loading">
+            <div class="o-backlog-page__loading">Loading...</div>
+        </t>
+
+        <t t-elif="state.data">
+            <!-- Stats bar -->
+            <div class="o-backlog-page__stats">
+                <span class="o-backlog-page__stat">
+                    <strong t-esc="stats.total"/> items
+                </span>
+                <span class="o-backlog-page__stat o-backlog-page__stat--warn">
+                    <strong t-esc="stats.unestimated"/> unestimated
+                </span>
+                <span class="o-backlog-page__stat">
+                    <strong t-esc="stats.total_sp"/> SP total
+                </span>
+            </div>
+
+            <!-- Toolbar -->
+            <div class="o-backlog-page__toolbar">
+                <input type="text" class="o-backlog-page__search"
+                       placeholder="Search tasks..."
+                       t-on-input="onSearchInput"/>
+                <button t-attf-class="btn btn-sm {{state.groupByEpic ? 'btn-primary' : 'btn-outline-secondary'}}"
+                        t-on-click="toggleGroupByEpic">
+                    Group by Epic
+                </button>
+            </div>
+
+            <!-- Grouped view -->
+            <t t-if="state.groupByEpic and groupedTasks">
+                <t t-foreach="groupedTasks" t-as="group" t-key="group.epic_name">
+                    <div class="o-backlog-page__group-header">
+                        <strong t-esc="group.epic_name"/>
+                        <span class="o-backlog-page__group-count">
+                            <t t-esc="group.tasks.length"/> tasks
+                        </span>
+                    </div>
+                    <t t-call="project_scrum.BacklogTable">
+                        <t t-set="tasks" t-value="group.tasks"/>
+                    </t>
+                </t>
+            </t>
+
+            <!-- Flat view -->
+            <t t-else="">
+                <t t-call="project_scrum.BacklogTable">
+                    <t t-set="tasks" t-value="filteredTasks"/>
+                </t>
+            </t>
+
+            <!-- Empty state -->
+            <t t-if="filteredTasks.length === 0">
+                <div class="o-backlog-page__empty">
+                    No backlog items found.
+                </div>
+            </t>
+        </t>
+    </div>
+</t>
+
+<!-- Backlog Table sub-template -->
+<t t-name="project_scrum.BacklogTable">
+    <table class="o-backlog-page__table">
+        <thead>
+            <tr>
+                <th class="o-backlog-page__th--id">#</th>
+                <th>Type</th>
+                <th>Title</th>
+                <th class="o-backlog-page__th--sp">SP</th>
+                <th>Assignee</th>
+                <th>Stage</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <t t-foreach="tasks" t-as="task" t-key="task.id">
+                <tr class="o-backlog-page__row">
+                    <td class="o-backlog-page__cell--id" t-esc="task.id"/>
+                    <td>
+                        <span t-attf-class="o-backlog-page__type-badge o-backlog-page__type-badge--{{task.task_type}}"
+                              t-esc="taskTypeLabel[task.task_type] || task.task_type"/>
+                    </td>
+                    <td class="o-backlog-page__cell--title"
+                        t-on-click="() => onTaskClick(task.id)">
+                        <span t-esc="task.name"/>
+                    </td>
+                    <td class="o-backlog-page__cell--sp"
+                        t-on-click="() => onEditSP(task.id, task.story_points)">
+                        <t t-if="state.editingTaskId === task.id">
+                            <input type="number" class="o-backlog-page__sp-input"
+                                   t-att-value="state.editingSP" min="0" max="100"
+                                   t-on-input="onEditSPChange"
+                                   t-on-blur="() => onEditSPBlur(task.id)"
+                                   t-ref="'spInput'"/>
+                        </t>
+                        <t t-else="">
+                            <span class="o-backlog-page__sp-badge"
+                                  t-esc="task.story_points || '?'"/>
+                        </t>
+                    </td>
+                    <td>
+                        <t t-if="task.user_name" t-esc="task.user_name"/>
+                        <t t-else=""><span class="text-muted">—</span></t>
+                    </td>
+                    <td t-esc="task.stage_name"/>
+                    <td>
+                        <t t-if="state.sprints.length > 0">
+                            <select class="o-backlog-page__sprint-select"
+                                    t-on-change="(ev) => onAddToSprint(task.id, parseInt(ev.target.value))">
+                                <option value="">+ Sprint</option>
+                                <t t-foreach="state.sprints" t-as="sprint" t-key="sprint.id">
+                                    <option t-att-value="sprint.id" t-esc="sprint.name"/>
+                                </t>
+                            </select>
+                        </t>
+                    </td>
+                </tr>
+            </t>
+        </tbody>
+    </table>
+</t>
+
+</templates>

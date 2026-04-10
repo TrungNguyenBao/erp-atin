@@ -271,6 +271,8 @@ class ProjectSprint(models.Model):
                     'task_type': t.task_type or 'task',
                     'is_blocked': t.is_blocked,
                     'blocker_description': t.blocker_description or '',
+                    'date_deadline': t.date_deadline.isoformat() if t.date_deadline else '',
+                    'priority': t.priority or '0',
                 })
             task_count = len(task_data)
             result.append({

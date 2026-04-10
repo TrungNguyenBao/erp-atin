@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="project_scrum.SprintBoardQuickEdit">
+    <div class="o-sprint-board__modal-overlay" t-on-click="onOverlayClick">
+        <div class="o-sprint-board__modal">
+            <!-- Header -->
+            <div class="o-sprint-board__modal-header">
+                <span class="o-sprint-board__modal-title">
+                    Quick Edit #<t t-esc="props.taskId"/>
+                </span>
+                <div class="o-sprint-board__modal-header-actions">
+                    <button class="btn btn-sm btn-link" t-on-click="props.onOpenFull">
+                        Open Full
+                    </button>
+                    <button class="o-sprint-board__modal-close" t-on-click="props.onClose">
+                        ✕
+                    </button>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <t t-if="state.loading">
+                <div class="o-sprint-board__modal-body text-center p-4">Loading...</div>
+            </t>
+            <t t-else="">
+                <div class="o-sprint-board__modal-body">
+                    <!-- Title -->
+                    <div class="o-sprint-board__modal-field">
+                        <label>Title</label>
+                        <input type="text" t-att-value="state.name"
+                               t-on-input="(ev) => this.onFieldChange('name', ev)"/>
+                    </div>
+                    <!-- Row: SP + Priority + Due Date -->
+                    <div class="o-sprint-board__modal-row">
+                        <div class="o-sprint-board__modal-field o-sprint-board__modal-field--sm">
+                            <label>Story Points</label>
+                            <input type="number" min="0" max="100"
+                                   t-att-value="state.story_points"
+                                   t-on-input="(ev) => this.onFieldChange('story_points', ev)"/>
+                        </div>
+                        <div class="o-sprint-board__modal-field o-sprint-board__modal-field--sm">
+                            <label>Priority</label>
+                            <select t-on-change="(ev) => this.onFieldChange('priority', ev)">
+                                <option value="0" t-att-selected="state.priority === '0'">Normal</option>
+                                <option value="1" t-att-selected="state.priority === '1'">Urgent</option>
+                            </select>
+                        </div>
+                        <div class="o-sprint-board__modal-field o-sprint-board__modal-field--sm">
+                            <label>Due Date</label>
+                            <input type="date" t-att-value="state.date_deadline"
+                                   t-on-input="(ev) => this.onFieldChange('date_deadline', ev)"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="o-sprint-board__modal-footer">
+                    <button class="btn btn-primary btn-sm" t-on-click="onSave"
+                            t-att-disabled="state.saving">
+                        <t t-if="state.saving">Saving...</t>
+                        <t t-else="">Save</t>
+                    </button>
+                    <button class="btn btn-sm btn-light" t-on-click="props.onClose">Cancel</button>
+                </div>
+            </t>
+        </div>
+    </div>
+</t>
+
+</templates>

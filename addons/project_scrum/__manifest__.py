@@ -61,6 +61,8 @@
             'project_scrum/static/src/scss/scrum-design-tokens.scss',
             'project_scrum/static/src/scss/sprint-board.scss',
             'project_scrum/static/src/xml/sprint-board.xml',
+            'project_scrum/static/src/js/sprint-board-quick-edit.js',
+            'project_scrum/static/src/xml/sprint-board-quick-edit.xml',
             'project_scrum/static/src/js/sprint-board.js',
             # Burndown + Velocity Charts (Phase 4)
             'project_scrum/static/src/scss/charts.scss',
@@ -73,6 +75,10 @@
             'project_scrum/static/src/scss/agile-dashboard.scss',
             'project_scrum/static/src/xml/agile-dashboard.xml',
             'project_scrum/static/src/js/agile-dashboard.js',
+            # Backlog Page OWL component
+            'project_scrum/static/src/scss/backlog-page.scss',
+            'project_scrum/static/src/xml/backlog-page.xml',
+            'project_scrum/static/src/js/backlog-page.js',
         ],
     },
     'application': False,

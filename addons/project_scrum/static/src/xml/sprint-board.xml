@@ -249,6 +249,15 @@
                 </t>
 
             </div><!-- /.o-sprint-board__body -->
+
+            <!-- Quick Edit Modal -->
+            <t t-if="state.modalTaskId">
+                <SprintBoardQuickEdit
+                    taskId="state.modalTaskId"
+                    onSave.bind="onModalSave"
+                    onClose.bind="onModalClose"
+                    onOpenFull.bind="onOpenFullForm"/>
+            </t>
         </t>
     </div>
 </t>
@@ -277,6 +286,11 @@
 
         <!-- Card title -->
         <div class="o-sprint-board__card-title" t-esc="task.name"/>
+
+        <!-- Due date badge -->
+        <t t-if="task.date_deadline">
+            <span class="o-sprint-board__due-badge" t-esc="task.date_deadline"/>
+        </t>
 
         <!-- Blocked badge -->
         <t t-if="task.is_blocked">

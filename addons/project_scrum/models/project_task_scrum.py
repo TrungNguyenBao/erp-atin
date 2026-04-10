@@ -61,3 +61,46 @@ class ProjectTaskScrum(models.Model):
     def _compute_is_in_backlog(self):
         for task in self:
             task.is_in_backlog = not task.sprint_id
+
+    @api.model
+    def get_backlog_page_data(self, project_id):
+        """Return backlog data for OWL BacklogPage component."""
+        domain = [
+            ('project_id', '=', project_id),
+            ('sprint_id', '=', False),
+            ('child_ids', '=', False),
+        ]
+        tasks = self.search(domain, order='sequence asc, priority desc, id desc', limit=200)
+        tasks.mapped('user_ids')  # prefetch
+
+        task_list = []
+        for t in tasks:
+            assignee = t.user_ids[:1]
+            task_list.append({
+                'id': t.id,
+                'name': t.name,
+                'priority': t.priority,
+                'story_points': t.story_points,
+                'user_id': assignee.id if assignee else False,
+                'user_name': assignee.name if assignee else '',
+                'stage_name': t.stage_id.name,
+                'task_type': t.task_type or 'task',
+                'epic_id': t.epic_id.id if t.epic_id else False,
+                'epic_name': t.epic_id.name if t.epic_id else 'No Epic',
+            })
+
+        epics = self.env['project.epic'].search_read(
+            [('project_id', '=', project_id)],
+            ['id', 'name'],
+            order='sequence asc',
+        )
+
+        return {
+            'tasks': task_list,
+            'epics': epics,
+            'stats': {
+                'total': len(task_list),
+                'unestimated': sum(1 for t in task_list if not t['story_points']),
+                'total_sp': sum(t['story_points'] for t in task_list),
+            },
+        }

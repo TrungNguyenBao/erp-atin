@@ -490,6 +490,112 @@
     }
 }
 
+// ── Due date badge ───────────────────────────────────────────────────────────
+.o-sprint-board__due-badge {
+    display: inline-block;
+    font-size: 10px;
+    color: $text-muted;
+    padding: 1px 6px;
+    border-radius: 8px;
+    background: rgba($border-color, 0.5);
+    margin-bottom: 4px;
+}
+
+// ── Quick Edit Modal ─────────────────────────────────────────────────────────
+.o-sprint-board__modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.o-sprint-board__modal {
+    background: $surface;
+    border-radius: $card-radius;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 480px;
+    overflow: hidden;
+}
+
+.o-sprint-board__modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $gap-md;
+    border-bottom: 1px solid $border-color;
+}
+
+.o-sprint-board__modal-title {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.o-sprint-board__modal-header-actions {
+    display: flex;
+    align-items: center;
+    gap: $gap-xs;
+}
+
+.o-sprint-board__modal-close {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: $text-muted;
+    padding: 2px 6px;
+    &:hover { color: $text; }
+}
+
+.o-sprint-board__modal-body {
+    padding: $gap-md;
+    display: flex;
+    flex-direction: column;
+    gap: $gap-sm;
+}
+
+.o-sprint-board__modal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    label {
+        font-size: 11px;
+        text-transform: uppercase;
+        color: $text-muted;
+        letter-spacing: 0.3px;
+    }
+
+    input, select, textarea {
+        border: 1px solid $border-color;
+        border-radius: $btn-radius;
+        padding: 6px 10px;
+        font-size: 13px;
+        &:focus { border-color: $scrum-primary; outline: none; }
+    }
+}
+
+.o-sprint-board__modal-field--sm {
+    flex: 1;
+    min-width: 0;
+}
+
+.o-sprint-board__modal-row {
+    display: flex;
+    gap: $gap-sm;
+}
+
+.o-sprint-board__modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: $gap-xs;
+    padding: $gap-sm $gap-md;
+    border-top: 1px solid $border-color;
+}
+
 // ── Backlog reorder buttons ──────────────────────────────────────────────────
 .o-sprint-board__reorder-btns {
     display: flex;

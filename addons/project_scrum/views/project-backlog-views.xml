@@ -83,4 +83,10 @@
         <field name="act_window_id" ref="action_product_backlog"/>
     </record>
 
+    <!-- OWL Backlog Page (full-page interactive table) -->
+    <record id="action_backlog_page_owl" model="ir.actions.client">
+        <field name="name">Backlog</field>
+        <field name="tag">backlog_page_action</field>
+    </record>
+
 </odoo>
