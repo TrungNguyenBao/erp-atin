@@ -13,6 +13,11 @@ METHODOLOGY_SELECTION = [
 class ProjectProjectScrum(models.Model):
     _inherit = 'project.project'
 
+    project_code = fields.Char(
+        string='Project Code',
+        tracking=True, index=True, copy=False,
+        help='Unique project reference code (e.g. 2026_SCB_HH)')
+
     methodology = fields.Selection(
         METHODOLOGY_SELECTION, default='default', required=True,
         tracking=True,

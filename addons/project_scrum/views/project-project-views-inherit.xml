@@ -7,6 +7,14 @@
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.edit_project"/>
         <field name="arch" type="xml">
+            <!-- Add project code after project name -->
+            <xpath expr="//div[hasclass('oe_title')]" position="inside">
+                <div class="d-flex gap-2 mb-2">
+                    <label for="project_code" string="Mã dự án"/>
+                    <field name="project_code" placeholder="VD: 2026_SCB_HH"/>
+                </div>
+            </xpath>
+
             <!-- Add methodology selector + standup digest after allow_milestones -->
             <xpath expr="//setting[@id='project_milestone_setting']" position="after">
                 <setting class="col-lg-12" id="project_methodology_setting"
