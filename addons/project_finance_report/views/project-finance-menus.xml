@@ -34,6 +34,25 @@
               action="action_project_finance_wizard"
               sequence="40"/>
 
+    <!-- Partner Balance -->
+    <menuitem id="menu_partner_balance"
+              name="Partner Balance (Dư nợ/có)"
+              parent="menu_project_finance_root"
+              action="action_partner_balance_all"
+              sequence="35"/>
+
+    <menuitem id="menu_receivable_balance"
+              name="Customer Balance (KH)"
+              parent="menu_project_finance_root"
+              action="action_receivable_balance"
+              sequence="36"/>
+
+    <menuitem id="menu_payable_balance"
+              name="Supplier Balance (NCC)"
+              parent="menu_project_finance_root"
+              action="action_payable_balance"
+              sequence="37"/>
+
     <!-- Dashboard -->
     <menuitem id="menu_finance_dashboard"
               name="Financial Dashboard"

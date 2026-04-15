@@ -21,6 +21,7 @@
         'views/project-revenue-report-views.xml',
         'views/project-receivable-report-views.xml',
         'views/project-payable-report-views.xml',
+        'views/partner-balance-report-views.xml',
         'views/project-finance-dashboard-action.xml',
         'views/project-finance-menus.xml',
     ],
