@@ -1,0 +1,380 @@
+# Vietnamese translation for project_finance_report
+# Copyright (C) 2026 VisionAI/ATIN
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-15 00:00+0000\n"
+"PO-Revision-Date: 2026-04-15 00:00+0700\n"
+"Last-Translator: VisionAI\n"
+"Language-Team: Vietnamese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi_VN\n"
+
+#. module: project_finance_report
+#: model_terms:ir.ui.view,arch_db:project_finance_report.revenue_report_tree
+msgid "Revenue by Project"
+msgstr "Doanh thu theo Dự án"
+
+#. module: project_finance_report
+#: model:ir.model,name:project_finance_report.model_project_revenue_report
+msgid "Project Revenue Report"
+msgstr "Báo cáo Doanh thu Dự án"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_revenue_report__revenue
+msgid "Revenue"
+msgstr "Doanh thu"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_revenue_report__purchase_cost
+msgid "Purchase Cost"
+msgstr "Chi phí mua"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_revenue_report__gross_profit
+msgid "Gross Profit"
+msgstr "Lãi gộp"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_revenue_report__margin_pct
+msgid "Margin %"
+msgstr "Biên lợi nhuận %"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_revenue_report__invoiced
+msgid "Invoiced"
+msgstr "Đã xuất HĐ"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_revenue_report__paid
+msgid "Paid"
+msgstr "Đã thu"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_revenue_report__residual
+msgid "Outstanding"
+msgstr "Còn nợ"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_revenue_report__sale_order_id
+msgid "Sales Order"
+msgstr "Đơn bán hàng"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_revenue_report__partner_id
+msgid "Customer"
+msgstr "Khách hàng"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_revenue_report__user_id
+msgid "Salesperson"
+msgstr "Nhân viên bán hàng"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_revenue_report__date_order
+msgid "Order Date"
+msgstr "Ngày đặt hàng"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_revenue_report__project_id
+msgid "Project"
+msgstr "Dự án"
+
+#. module: project_finance_report
+#: model:ir.model,name:project_finance_report.model_project_receivable_report
+msgid "Project Accounts Receivable Report"
+msgstr "Báo cáo Công nợ Phải thu"
+
+#. module: project_finance_report
+#: model_terms:ir.ui.view,arch_db:project_finance_report.receivable_report_tree
+msgid "Receivable by Project"
+msgstr "Công nợ phải thu theo Dự án"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_receivable_report__invoice_number
+msgid "Invoice"
+msgstr "Số hoá đơn"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_receivable_report__invoice_origin
+msgid "Source"
+msgstr "Chứng từ gốc"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_receivable_report__invoice_date_due
+msgid "Due Date"
+msgstr "Ngày đến hạn"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_receivable_report__amount_total
+msgid "Invoice Total"
+msgstr "Tổng hoá đơn"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_receivable_report__amount_paid
+msgid "Amount Paid"
+msgstr "Đã thanh toán"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_receivable_report__amount_residual
+msgid "Amount Due"
+msgstr "Còn nợ"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_receivable_report__payment_state
+msgid "Payment Status"
+msgstr "Trạng thái thanh toán"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_receivable_report__days_overdue
+msgid "Days Overdue"
+msgstr "Số ngày quá hạn"
+
+#. module: project_finance_report
+#: model:ir.model.fields,field_description:project_finance_report.field_project_receivable_report__not_due
+msgid "Not Due"
+msgstr "Chưa đến hạn"
+
+#. module: project_finance_report
+msgid "1-30 Days"
+msgstr "1-30 ngày"
+
+#. module: project_finance_report
+msgid "31-60 Days"
+msgstr "31-60 ngày"
+
+#. module: project_finance_report
+msgid "61-90 Days"
+msgstr "61-90 ngày"
+
+#. module: project_finance_report
+msgid "91+ Days"
+msgstr "Trên 90 ngày"
+
+#. module: project_finance_report
+#: model:ir.model,name:project_finance_report.model_project_payable_report
+msgid "Project Accounts Payable Report"
+msgstr "Báo cáo Công nợ Phải trả"
+
+#. module: project_finance_report
+#: model_terms:ir.ui.view,arch_db:project_finance_report.payable_report_tree
+msgid "Payable by Project"
+msgstr "Công nợ phải trả theo Dự án"
+
+#. module: project_finance_report
+msgid "Bill Number"
+msgstr "Số hoá đơn mua"
+
+#. module: project_finance_report
+msgid "Bill Total"
+msgstr "Tổng hoá đơn mua"
+
+#. module: project_finance_report
+msgid "Supplier"
+msgstr "Nhà cung cấp"
+
+#. module: project_finance_report
+#: model:ir.model,name:project_finance_report.model_partner_balance_report
+msgid "Partner Balance by Project"
+msgstr "Dư nợ/Dư có theo Dự án"
+
+#. module: project_finance_report
+msgid "Partner Balance"
+msgstr "Dư nợ/Dư có"
+
+#. module: project_finance_report
+msgid "Receivable (KH)"
+msgstr "Phải thu (KH)"
+
+#. module: project_finance_report
+msgid "Payable (NCC)"
+msgstr "Phải trả (NCC)"
+
+#. module: project_finance_report
+msgid "Total Invoiced"
+msgstr "Tổng hoá đơn"
+
+#. module: project_finance_report
+msgid "Total Paid"
+msgstr "Đã thanh toán"
+
+#. module: project_finance_report
+msgid "Balance"
+msgstr "Số dư"
+
+#. module: project_finance_report
+msgid "Debit (Nợ)"
+msgstr "Nợ (Debit)"
+
+#. module: project_finance_report
+msgid "Credit (Có)"
+msgstr "Có (Credit)"
+
+#. module: project_finance_report
+msgid "Invoices"
+msgstr "Số hoá đơn"
+
+#. module: project_finance_report
+msgid "Partner"
+msgstr "Đối tác"
+
+#. module: project_finance_report
+msgid "Type"
+msgstr "Loại"
+
+#. module: project_finance_report
+msgid "Has Amount Due"
+msgstr "Có công nợ"
+
+#. module: project_finance_report
+msgid "Type (KH/NCC)"
+msgstr "Loại (KH/NCC)"
+
+#. module: project_finance_report
+msgid "Group By"
+msgstr "Nhóm theo"
+
+#. module: project_finance_report
+msgid "This Month"
+msgstr "Tháng này"
+
+#. module: project_finance_report
+msgid "This Quarter"
+msgstr "Quý này"
+
+#. module: project_finance_report
+msgid "This Year"
+msgstr "Năm nay"
+
+#. module: project_finance_report
+msgid "Month"
+msgstr "Tháng"
+
+#. module: project_finance_report
+msgid "Quarter"
+msgstr "Quý"
+
+#. module: project_finance_report
+msgid "Year"
+msgstr "Năm"
+
+#. module: project_finance_report
+msgid "Overdue"
+msgstr "Quá hạn"
+
+#. module: project_finance_report
+msgid "Overdue > 60 days"
+msgstr "Quá hạn > 60 ngày"
+
+#. module: project_finance_report
+msgid "Due Month"
+msgstr "Tháng đến hạn"
+
+#. module: project_finance_report
+msgid "Receivable Aging"
+msgstr "Tuổi nợ Phải thu"
+
+#. module: project_finance_report
+msgid "Payable Aging"
+msgstr "Tuổi nợ Phải trả"
+
+#. module: project_finance_report
+msgid "Revenue Report"
+msgstr "Báo cáo Doanh thu"
+
+#. module: project_finance_report
+msgid "Receivable Report"
+msgstr "Báo cáo Công nợ Phải thu"
+
+#. module: project_finance_report
+msgid "Payable Report"
+msgstr "Báo cáo Công nợ Phải trả"
+
+#. module: project_finance_report
+msgid "Receivable by Customer"
+msgstr "Công nợ theo Khách hàng"
+
+#. module: project_finance_report
+msgid "Payable by Supplier"
+msgstr "Công nợ theo Nhà cung cấp"
+
+#. module: project_finance_report
+#: model:ir.actions.act_window,name:project_finance_report.action_receivable_balance
+msgid "Customer Balance (Dư nợ KH)"
+msgstr "Dư nợ Khách hàng"
+
+#. module: project_finance_report
+#: model:ir.actions.act_window,name:project_finance_report.action_payable_balance
+msgid "Supplier Balance (Dư nợ NCC)"
+msgstr "Dư nợ Nhà cung cấp"
+
+#. module: project_finance_report
+#: model:ir.actions.client,name:project_finance_report.action_finance_dashboard
+msgid "Financial Dashboard"
+msgstr "Bảng điều khiển Tài chính"
+
+#. module: project_finance_report
+msgid "Project Finance"
+msgstr "Tài chính Dự án"
+
+#. module: project_finance_report
+msgid "Report Filter"
+msgstr "Bộ lọc Báo cáo"
+
+#. module: project_finance_report
+msgid "From"
+msgstr "Từ ngày"
+
+#. module: project_finance_report
+msgid "To"
+msgstr "Đến ngày"
+
+#. module: project_finance_report
+msgid "Projects"
+msgstr "Dự án"
+
+#. module: project_finance_report
+msgid "Partners"
+msgstr "Đối tác"
+
+#. module: project_finance_report
+msgid "Report Type"
+msgstr "Loại báo cáo"
+
+#. module: project_finance_report
+msgid "Company"
+msgstr "Công ty"
+
+#. module: project_finance_report
+msgid "SO"
+msgstr "ĐBH"
+
+#. module: project_finance_report
+msgid "PO"
+msgstr "ĐMH"
+
+#. module: project_finance_report
+msgid "Source SO"
+msgstr "ĐBH gốc"
+
+#. module: project_finance_report
+msgid "Source PO"
+msgstr "ĐMH gốc"
+
+#. module: project_finance_report
+#: model:ir.ui.menu,name:project_finance_report.menu_partner_balance
+msgid "Partner Balance (Dư nợ/có)"
+msgstr "Dư nợ/Dư có"
+
+#. module: project_finance_report
+#: model:ir.ui.menu,name:project_finance_report.menu_receivable_balance
+msgid "Customer Balance (KH)"
+msgstr "Dư nợ KH"
+
+#. module: project_finance_report
+#: model:ir.ui.menu,name:project_finance_report.menu_payable_balance
+msgid "Supplier Balance (NCC)"
+msgstr "Dư nợ NCC"
